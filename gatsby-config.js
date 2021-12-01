@@ -21,6 +21,12 @@ module.exports = {
       },
     },
     {
+        resolve: `gatsby-plugin-s3`,
+        options: {
+            bucketName: 'seanwade.com',
+        },
+    },
+    {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/content/resume`,
