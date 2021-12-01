@@ -1,0 +1,80 @@
+name: Sean Wade
+email: seanwademail@gmail.com
+phone: (480) 633-1500
+
+experience:
+  items:
+    - 
+      name: Apple
+      title: Senior Data Scientist
+      location: Cupertino, CA
+      dates:
+        start: 2019-12-09
+        end: null
+      description:
+        - Health strategic initiatives group, working with Apple watch, phone, and claims data
+        - Modeled behavior change and the impact of programs on health / wellbeing (LumiHealth, Heartline, Intuition)
+        - Presented data driven insights and closely collaborated with many internal and external partners
+      image: logo-apple
+    - 
+      name: Microsoft
+      title: AI Platform Engineer
+      location: Seattle, WA
+      dates:
+        start: 2019-06-01
+        end: 2019-09-01
+      description:
+        - Developed enterprise solutions for ML development lifecycle (development, production, monitor)
+        - Extended Azure SDK to incorporate open source MLflow projects to pipelines
+      image: logo-disney
+    - 
+      name: Disney
+      title: Data Scientist
+      location: Orlando, FL
+      dates:
+        start: 2018-01-01
+        end: 2019-05-01
+      description:
+        - Lead research and development of recommender system for Disney World
+        - Integrated many big data and real time processing tools like Hadoop, Spark, Kafka and NiFi
+        - Created live dashboards to monitor and visualize large data pipelines and algorithms
+      image: logo-disney
+
+education:
+  items:
+    - 
+      name: MS Computer Science
+      location: Brigham Young University
+      dates:
+        start: 2017-12-09
+        end: 2019-12-01
+    - 
+      name: BS Applied and Compuatational Mathematics
+      location: Brigham Young University
+      dates:
+        start: 2014-12-09
+        end: 2017-05-14
+  description:
+    - "National Merit Scholar"
+    - "2015 & 2017 Distinguished Undergraduate in Mathematics"
+    - "Data science course instructor in South Africa and Portugal"
+    - "MIT Lincoln Labs"
+
+research:
+  description: >
+    Researched machine learning techniques in healthcare for survival analysis, disease prediction, and cost analysis.  Applied new methods for training gradient boosted trees and recurrent neural networks to large healthcare datasets. Also developed high dimensional disease embeddings based on the field of natural language processing.
+  publications:
+    - "Code2Vec: Embedding and Clustering Medical Diagnosis Data"
+    - "MediAug, toolkit for semi supervised synthetic cancer cell image generation and data augmentation"
+    - "Forward Thinking: Building and Training Neural Networks One Layer at a Time"
+
+skills:
+  - "Python, C++, JS, Java"
+  - "Machine learning pipelines"
+  - "Data science and algorithm design"
+  - "Optimization and numerical methods"
+  - "Deep neural networks (Tensorflow, Keras)"
+  - "Computer vision algorithms and tools (OpenCV, PCL)"
+  - "Large data systems (Spark, Hadoop, SQL)"
+  - "Data visualization (dashboards, Jupyter notebooks)"
+

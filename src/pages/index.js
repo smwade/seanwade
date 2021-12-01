@@ -1,88 +1,103 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
 
-import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
-const BlogIndex = ({ data, location }) => {
+import YAMLData from "../../content/resume/resume.yaml"
+import { StaticImage } from "gatsby-plugin-image"
+
+
+
+const Experience = (props) => {
+	return (
+		<div className='resume-section experience'>
+			<div className="resume-section-column">
+				<StaticImage src="../images/logo-apple.jpeg" alt="Apple logo" />
+			</div>
+			<div className="resume-section-column">
+				<h1>{props.item.name}</h1>
+				<h2>{props.item.title}</h2>
+			</div>
+			<div className="resume-section-column">
+				<ul>
+					{props.item.description.map((x, i) => <li>{x}</li>)}
+				</ul>
+			</div>
+		</div>
+	)
+}
+
+const Education = (props) => {
+	return (
+		<div className='resume-section education'>
+			<h1>{props.item.name}</h1>
+			<h2>{props.item.location}</h2>
+		</div>
+	)
+}
+
+const Research = (props) => {
+	return (
+		<div className='resume-section research'>
+			<p>{props.data.description}</p>
+			<ul>
+				{props.data.publications.map((x, i) => <li key={i}>{x}</li>)}
+			</ul>
+		</div>
+	)
+}
+
+const Card = () => (
+	<div className="card" style={{width: '18rem'}}>
+		<div className="card-body">
+			<h5 className="card-title">Card title</h5>
+			<p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+			<a href="#" className="btn btn-primary">Go somewhere</a>
+		</div>
+	</div>
+)
+
+
+const IndexPage = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
-  const posts = data.allMarkdownRemark.nodes
-
-  if (posts.length === 0) {
-    return (
-      <Layout location={location} title={siteTitle}>
-        <Seo title="All posts" />
-        <Bio />
-        <p>
-          No blog posts found. Add markdown posts to "content/blog" (or the
-          directory you specified for the "gatsby-source-filesystem" plugin in
-          gatsby-config.js).
-        </p>
-      </Layout>
-    )
-  }
-
   return (
     <Layout location={location} title={siteTitle}>
-      <Seo title="All posts" />
-      <Bio />
-      <ol style={{ listStyle: `none` }}>
-        {posts.map(post => {
-          const title = post.frontmatter.title || post.fields.slug
+      <Seo title="Resume" />
+			<h2>Profesional Experience</h2>
+			{YAMLData.experience.items.map(function(object, i){
+					return <Experience item={object} key={i} />;
+			})}
 
-          return (
-            <li key={post.fields.slug}>
-              <article
-                className="post-list-item"
-                itemScope
-                itemType="http://schema.org/Article"
-              >
-                <header>
-                  <h2>
-                    <Link to={post.fields.slug} itemProp="url">
-                      <span itemProp="headline">{title}</span>
-                    </Link>
-                  </h2>
-                  <small>{post.frontmatter.date}</small>
-                </header>
-                <section>
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: post.frontmatter.description || post.excerpt,
-                    }}
-                    itemProp="description"
-                  />
-                </section>
-              </article>
-            </li>
-          )
-        })}
-      </ol>
+			<h2>Education</h2>
+			{YAMLData.education.items.map(function(object, i){
+					return <Education item={object} key={i} />;
+			})}
+
+			<h3>Research</h3>
+			<Research data={YAMLData.research} />
+
+			<h2>Skills</h2>
+			{YAMLData.skills.map((x, i) => <li key={i}>{x}</li>)}
+
+			<h2>Side Projects</h2>
+			<div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+			<Card/>
+			<Card/>
+			<Card/>
+			<Card/>
+			</div>
     </Layout>
   )
 }
 
-export default BlogIndex
+export default IndexPage
 
 export const pageQuery = graphql`
   query {
     site {
       siteMetadata {
         title
-      }
-    }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
-      nodes {
-        excerpt
-        fields {
-          slug
-        }
-        frontmatter {
-          date(formatString: "MMMM DD, YYYY")
-          title
-          description
-        }
       }
     }
   }
