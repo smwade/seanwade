@@ -7,14 +7,20 @@ const Layout = ({ location, title, children }) => {
       <nav id="navbar">
         <h2>Sean Wade</h2>
         <ul>
-          <li><Link to="/">Projects</Link></li>
-          <li><Link to="/blog">Blog</Link></li>
-          <li><Link to="/blog">About Me</Link></li>
+          <li>
+            <Link to="/">Projects</Link>
+          </li>
+          <li>
+            <Link to="/blog">Blog</Link>
+          </li>
+          <li>
+            <Link to="/blog">About Me</Link>
+          </li>
         </ul>
       </nav>
-    <div className="global-wrapper">
-      <main>{children}</main>
-    </div>
+      <div className="global-wrapper">
+        <main>{children}</main>
+      </div>
     </div>
   )
 }
