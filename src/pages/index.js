@@ -95,6 +95,13 @@ const IndexPage = ({ data, location }) => {
     <Layout location={location} title={siteTitle}>
       <Seo title="Resume" />
       <h1>Hi, my name is Sean</h1>
+      <p>
+        I’m a data scientist working on improving peoples health and driving behavior change.
+        I love asking interesting questions and using math to find impactful solutions.
+        Most my days are made up wrangling, exploring, and modeling data in python.
+        The tools I use range from deep learning to causal inference.
+
+      </p>
       <div className="resume-section">
         <h2>Experience</h2>
         {YAMLData.experience.items.map(function (object, i) {
