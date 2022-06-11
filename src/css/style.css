@@ -72,6 +72,10 @@ html {
   width: 100%;
 }
 
+* {
+  list-style-position: inside;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -135,6 +139,9 @@ a {
 
 
 .resume-card {
+  display: flex;
+  flex-direction: column;
+  margin: var(--spacing-6) 0;
   padding: 2em;
   margin: var(--spacing-2);
   align-items: center;
@@ -143,14 +150,9 @@ a {
   box-shadow:  -1px -1px 0 0 var(--tertiary),inset 1px 1px 0 0 #fff,5px 5px 0 rgba(0,0,0,.2);
 }
 
+
 .card-title-text {
   padding-bottom: var(--spacing-2);
-}
-
-.resume-card {
-  display: flex;
-  flex-direction: column;
-  margin: var(--spacing-6) 0;
 }
 
 .card-header {
@@ -215,4 +217,54 @@ a {
 
 .research-link {
   margin: var(--spacing-2);
+}
+
+.window {
+  display: flex;
+  flex-direction: column;
+  box-shadow:  -1px -1px 0 0 var(--tertiary),inset 1px 1px 0 0 #fff,5px 5px 0 rgba(0,0,0,.2);
+  border: 1px solid black;
+}
+
+.window {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2em 0em;
+}
+
+.window-bar-button {
+  width: 15px;
+  margin: 3px 5px 0px 5px;
+  border: 1px solid black;
+}
+
+.window-bar {
+  display: flex;
+  height: 15px;
+  width: 100%;
+}
+
+.window-bar-middle > hr {
+  margin: 0;
+  padding: 1.5px;
+  border: none;
+  border-bottom: 1px solid black;
+}
+
+.window-bar-middle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 2;
+}
+
+.window-inner {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin: 5px;
+  width: calc(100% - 10px);
+  border: 1px solid black;
+  padding: 1em;
 }

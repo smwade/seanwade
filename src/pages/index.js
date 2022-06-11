@@ -19,9 +19,9 @@ const Experience = ({ item, data }) => {
   let endDate =  new Date(item.dates.end).toLocaleDateString('en-US', { year: 'numeric', month: 'short'})
 
   endDate = item.dates.end ? endDate : 'Current' 
-  
-  return (
-    <div className="resume-card experience">
+
+  const inside = (
+      <>
       <div className="card-header">
         <div className="card-image">
           <GatsbyImage image={image} width={10} alt='copany logo' />
@@ -43,13 +43,18 @@ const Experience = ({ item, data }) => {
             ))}
           </ul>
         </div>
-    </div>
+        </>
+        )
+  
+  return (
+      <Window children={inside} />
   )
 }
 
 const Research = props => {
   return (
-    <div className="resume-card research">
+    <Window children={
+      <>
       <p>{props.data.description}</p>
       <ul className="card-body-list">
         {props.data.publications.items.map((x, i) => (
@@ -58,6 +63,27 @@ const Research = props => {
           </Link>
         ))}
       </ul>
+  </>
+    }
+    />
+  )
+}
+
+const Window = ({ children }) => {
+  return (
+    <div className="window">
+      <div className="window-bar">
+        <div className="window-bar-button"></div>
+        <div className="window-bar-middle">
+          <hr/>
+          <hr/>
+          <hr/>
+        </div>
+        <div className="window-bar-button"></div>
+      </div>
+      <div className="window-inner">
+          {children}
+        </div>
     </div>
   )
 }
