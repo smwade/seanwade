@@ -6,7 +6,9 @@ const Layout = ({ location, title, children }) => {
     <div className="app">
       <div className="outer-nav">
         <nav id="navbar">
-          <h2>Sean Wade</h2>
+          <Link to={'/'}> 
+            <h2 className="logo">Sean Wade</h2>
+          </Link>
           <ul>
             <li>
               <Link to="/">Work</Link>

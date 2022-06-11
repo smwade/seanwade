@@ -12,9 +12,9 @@ experience:
         start: 2019-12-09
         end: null
       description:
-        - Health strategic initiatives group, working with Apple watch, phone, and claims data
-        - Modeled behavior change and the impact of programs on health / wellbeing (LumiHealth, Heartline, Intuition)
-        - Presented data driven insights and closely collaborated with many internal and external partners
+        - Health initiatives R&D, working with Apple watch, phone, claims data, and medical surveys
+        - Drove product improvements using observational casual analysis techniques and experimentation
+        - Modeled behavior change and the impact of programs on health / wellbeing
       image: apple-logo
     - 
       name: Microsoft
@@ -24,27 +24,40 @@ experience:
         start: 2019-06-01
         end: 2019-09-01
       description:
-        - Developed enterprise solutions for ML development lifecycle (development, production, monitor)
         - Extended Azure SDK to incorporate open source MLflow projects to pipelines
+        - Developed solutions for ML development lifecycle (development, production, monitor)
+        - HoloLens 2 NLP virtual assistant at hackathon
       image: microsoft-logo
     - 
       name: Disney
       title: Data Scientist
       location: Orlando, FL
       dates:
-        start: 2018-01-01
-        end: 2019-05-01
+        start: 2018-01-02
+        end: 2018-06-01
       description:
-        - Lead research and development of recommender system for Disney World
+        - Lead research and development of recommender system for Disney World app in park experience 
         - Integrated many big data and real time processing tools like Hadoop, Spark, Kafka and NiFi
         - Created live dashboards to monitor and visualize large data pipelines and algorithms
       image: disney-logo
+    - 
+      name: Loveland Innovations
+      title: ML Engineer
+      location: Alpine, UT
+      dates:
+        start: 2017-03-01
+        end: 2018-02-01
+      description:
+        - Used drone imaging to construct 3D models of buildings
+        - Built production algorithms to segment 3D models, detect damage, and identify roof features
+        - Applied and scaled machine learning research to industry
+      image: loveland-logo
 
 education:
   items:
     - 
       name: Brigham Young University 
-      title: Masters Computer Science, BS Applied Math
+      title: MS Computer Science, BS Applied Math
       location: Provo, UT
       dates:
         start: 2017-12-09

@@ -92,6 +92,10 @@ html {
   border-bottom: 1px solid black;
 }
 
+.logo {
+  cursor: pointer;
+}
+
 nav > * {
   margin: 0;
   padding: 0;
@@ -139,6 +143,10 @@ a {
   box-shadow:  -1px -1px 0 0 var(--tertiary),inset 1px 1px 0 0 #fff,5px 5px 0 rgba(0,0,0,.2);
 }
 
+.card-title-text {
+  padding-bottom: var(--spacing-2);
+}
+
 .resume-card {
   display: flex;
   flex-direction: column;
@@ -153,12 +161,22 @@ a {
 }
 
 .card-title {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: top;
   margin-left: 2em;
 }
 
-.card-title > h1, h2{
+.card-title-text h1, h2, h3{
   padding: 0;
   margin: 0;
+}
+
+.card-title-date {
+  color: rgb(62, 62, 62);
 }
 
 .card-body {
@@ -191,3 +209,10 @@ a {
   list-style: none;
 }
 
+.research {
+  line-height: var(--lineHeight-normal);
+}
+
+.research-link {
+  margin: var(--spacing-2);
+}

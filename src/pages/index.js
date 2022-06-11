@@ -6,7 +6,6 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 import YAMLData from "../../content/resume/resume.yaml"
-import { StaticImage } from "gatsby-plugin-image"
 
 const Experience = ({ item, data }) => {
   const images = data.allImageSharp.edges
@@ -16,6 +15,10 @@ const Experience = ({ item, data }) => {
       image = getImage(i.node.gatsbyImageData)
     }
   }
+  const startDate =  new Date(item.dates.start).toLocaleDateString('en-US', { year: 'numeric', month: 'short'})
+  let endDate =  new Date(item.dates.end).toLocaleDateString('en-US', { year: 'numeric', month: 'short'})
+
+  endDate = item.dates.end ? endDate : 'Current' 
   
   return (
     <div className="resume-card experience">
@@ -24,8 +27,13 @@ const Experience = ({ item, data }) => {
           <GatsbyImage image={image} width={10} alt='copany logo' />
         </div>
         <div className="card-title">
-          <h1>{item.name}</h1>
-          <h2>{item.title}</h2>
+          <div className="card-title-text">
+            <h1>{item.name}</h1>
+            <h2>{item.title}</h2>
+          </div>
+          <div className="card-title-date">
+            <h3>{startDate} - {endDate}</h3>
+          </div>
         </div>
       </div>
         <div className="card-body">
@@ -39,15 +47,6 @@ const Experience = ({ item, data }) => {
   )
 }
 
-const Education = props => {
-  return (
-    <div className="resume-card education">
-      <h1>{props.item.name}</h1>
-      <h2>{props.item.location}</h2>
-    </div>
-  )
-}
-
 const Research = props => {
   return (
     <div className="resume-card research">
@@ -55,7 +54,7 @@ const Research = props => {
       <ul className="card-body-list">
         {props.data.publications.items.map((x, i) => (
           <Link to={x.url} className="body-link">
-            <li key={i}>{x.name}</li>
+            <li className="research-link" key={i}>{x.name}</li>
           </Link>
         ))}
       </ul>
@@ -63,20 +62,9 @@ const Research = props => {
   )
 }
 
-const Card = () => (
-  <div className="card" style={{ width: "18rem" }}>
-    <div className="card-body">
-      <h5 className="card-title">Card title</h5>
-      <p className="card-text">
-        Some quick example text to build on the card title and make up the bulk
-        of the card's content.
-      </p>
-    </div>
-  </div>
-)
-
 const IndexPage = ({ data, location }) => {
-  const siteTitle = data.site.siteMetadata?.title || `Title`
+  // const siteTitle = data.site.siteMetadata?.title || `Title`
+  const siteTitle = 'Sean Wade'
   return (
     <Layout location={location} title={siteTitle}>
       <Seo title="Resume" />
