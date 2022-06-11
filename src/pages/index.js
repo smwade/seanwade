@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
-import { GatsbyImage, getImage } from "gatsby-plugin-image"
+import { GatsbyImage, getImage, StaticImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -88,12 +88,55 @@ const Window = ({ children }) => {
   )
 }
 
+
+const ComputerIcon = ({ name, image}) => {
+  return (
+    <div className="computer-icon">
+      <GatsbyImage image={image} width={28} alt='copany logo' />
+      <p>{name}</p>
+    </div>
+  )
+}
+
 const IndexPage = ({ data, location }) => {
-  // const siteTitle = data.site.siteMetadata?.title || `Title`
   const siteTitle = 'Sean Wade'
+
+  const skills = [
+    ['Python', 'python'],
+    ['Spark', 'spark'],
+    ['Deep Learning', 'tensorflow'],
+    ['ML', 'sklearn'],
+    ['Stats', 'skill-r'],
+    ['Big Data', 'hadoop'],
+    ['Data Engineering', 'airflow'],
+    ['Bayesian Inference', 'baysain'],
+    ['SQL', 'sql'],
+    ['Computer Vision', 'opencv'],
+    ['Data Viz', 'matplotlib'],
+    ['Jupyter', 'jupyter'],
+    ['Linux', 'linux'],
+    ['JS', 'js'],
+    ['Web Dev', 'internet'],
+  ]
+
+  let iconSkills = []
+  for (const x of skills) {
+    const [name, refName] = x
+    for (const x of data.skills.edges) {
+      if (x.node.original.src.includes(refName)) {
+        const imageData = x.node.gatsbyImageData
+        const image = getImage(imageData)
+        iconSkills.push(<ComputerIcon name={name} image={image}/>)
+      }
+
+    }
+  }
+  
+
+
   return (
     <Layout location={location} title={siteTitle}>
-      <Seo title="Resume" />
+      <Seo title="Sean Wade"/>
       <h1>Hi, my name is Sean</h1>
       <p>
         I’m a data scientist working on improving peoples health and driving behavior change.
@@ -121,11 +164,9 @@ const IndexPage = ({ data, location }) => {
         </div>
 
       <h2>Skills</h2>
-      <ul className="card-body-list">
-      {YAMLData.skills.map((x, i) => (
-        <li key={i}>{x}</li>
-      ))}
-      </ul>
+      <div className="skill-section">
+        {iconSkills}
+      </div>
     </Layout>
   )
 }
@@ -143,6 +184,16 @@ export const pageQuery = graphql`
     edges {
       node {
         gatsbyImageData(width: 60)
+        original {
+          src
+        }
+      }
+    }
+  }
+    skills: allImageSharp(filter: {original: {src: {regex: "/skill/"}}}) {
+    edges {
+      node {
+        gatsbyImageData(width: 25)
         original {
           src
         }

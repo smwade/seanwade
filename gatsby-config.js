@@ -35,6 +35,13 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: `${__dirname}/src/images/skills`,
+      },
+    },
+    {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
@@ -138,5 +145,14 @@ module.exports = {
          },
      },
     `gatsby-plugin-react-helmet`,
+    {
+      resolve: `gatsby-plugin-google-gtag`,
+      options: {
+        trackingIds: [
+          "G-82TGJ7K92V", // Google Analytics / GA
+        ],
+      },
+    },
+
   ],
 }

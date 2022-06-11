@@ -29,6 +29,7 @@ const Seo = ({ description, lang, meta, title }) => {
 
   const metaDescription = description || site.siteMetadata.description
   const defaultTitle = site.siteMetadata?.title
+	const titleTemplate = title !== defaultTitle ? `%s | ${defaultTitle}` : null
 
   return (
     <Helmet
@@ -36,7 +37,7 @@ const Seo = ({ description, lang, meta, title }) => {
         lang,
       }}
       title={title}
-      titleTemplate={defaultTitle ? `%s | ${defaultTitle}` : null}
+      titleTemplate={titleTemplate}
       meta={[
         {
           name: `description`,
