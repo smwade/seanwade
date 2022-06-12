@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
-import { GatsbyImage, getImage, StaticImage } from "gatsby-plugin-image"
+import { GatsbyImage, getImage } from "gatsby-plugin-image"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -58,9 +58,7 @@ const Research = props => {
       <p>{props.data.description}</p>
       <ul className="card-body-list">
         {props.data.publications.items.map((x, i) => (
-          <Link to={x.url} className="body-link">
-            <li className="research-link" key={i}>{x.name}</li>
-          </Link>
+            <li className="research-link" key={i}><Link to={x.url} className="body-link">{x.name}</Link></li>
         ))}
       </ul>
   </>
