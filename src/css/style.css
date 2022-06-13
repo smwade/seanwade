@@ -26,10 +26,10 @@
   --spacing-20: 5rem;
   --spacing-24: 6rem;
   --spacing-32: 8rem;
-  --fontFamily-sans: Chicago;
-  --fontFamily-serif: Chicago;
-  --font-body: var(--fontFamily-serif);
-  --font-heading: var(--fontFamily-sans);
+  --fontFamily-primary: Chicago;
+  --fontFamily-secondary: 'Courier New', monospace;
+  --font-body: var(--fontFamily-secondary);
+  --font-heading: var(--fontFamily-primary);
   --fontWeight-normal: 400;
   --fontWeight-medium: 500;
   --fontWeight-semibold: 600;
@@ -62,14 +62,15 @@
   --primary: #f9efe4;
   --secondary: #f9efe4;
   --tertiary: #c2b9b1;
+  --color-background: #f9efe4;
 }
 
-* {
-  list-style-position: inside;
-}
-
-p {
-  line-height: 1.1rem;
+body,
+html {
+  font-family: var(--font-body);
+  line-height: var(--lineHeight-normal);
+  background: var(--color-background); 
+  width: 100%;
 }
 
 a {
@@ -77,11 +78,8 @@ a {
   text-decoration: none;
 }
 
-body,
-html {
-  font-family: Chicago;
-  background: #f9efe4;
-  width: 100%;
+h1,h2,h3,h4,h5 {
+  font-family: var(--font-heading);
 }
 
 .app {
@@ -94,7 +92,7 @@ html {
 .global-wrapper {
   max-width: var(--maxWidth-3xl);
   width: 100%;
-  background-color: var(--primary);
+  background-color: var(--color-background);
   padding: 0em 2em;
   cursor:default;
 }
@@ -114,8 +112,9 @@ nav {
   justify-content: space-between;
   width: 100%;
   max-width: var(--maxWidth-5xl);
-  background-color: var(--primary);
+  background-color: var(--color-background);
   margin: var(--spacing-1) var(--spacing-5);
+  font-family: var(--fontFamily-primary);
 }
 
 nav > * {
@@ -186,12 +185,14 @@ nav > ul > li {
 
 .card-body-list {
   padding-inline-start: 0;
-  list-style: disc;
+  list-style: square;
   line-height: var(--lineHeight-normal);
+  list-style-position: outside;
 }
 
 .card-body>ul>li {
   margin-top: var(--spacing-1);
+  margin-left: 2ch;
 }
 
 .blog-post {
@@ -200,20 +201,11 @@ nav > ul > li {
 
 .body-link {
   color: var(--color-primary);
-  text-decoration: underline;
-}
-
-.research > ul {
-  list-style: none;
-}
-
-.research {
-  line-height: var(--lineHeight-normal);
 }
 
 .research-link {
-  margin: var(--spacing-2);
-  list-style: none;
+  list-style:decimal;
+  margin-left: 3ch;
 }
 
 .window {
@@ -228,7 +220,6 @@ nav > ul > li {
   width: 15px;
   margin: 3px 5px 0px 5px;
   border: 1px solid black;
-  background-color: var(--ti);
 }
 
 .window-bar {
@@ -259,7 +250,7 @@ nav > ul > li {
   width: calc(100% - 10px);
   border: 1px solid black;
   padding: 1em;
-  background-color: var(--primary)
+  background-color: var(--color-background);
 }
 
 .skill-section {
@@ -281,7 +272,13 @@ nav > ul > li {
 
 .computer-icon > p {
   margin: var(--spacing-2);
+  font-family: var(--fontFamily-primary);
   padding: 0;
   text-align: center;
   max-width: 10ch;
+}
+
+ul {
+  display: grid;
+  gap: var(--spacing-2);
 }

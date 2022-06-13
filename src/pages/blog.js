@@ -11,7 +11,7 @@ const BlogHomePage = ({ data, location }) => {
   return (
     <Layout location={location} title={siteTitle}>
       <Seo title="All posts" />
-      <h1>Comming soon!</h1>
+      <h1>Coming soon!</h1>
       {/* <ol style={{ listStyle: `none` }}>
         {posts.map(post => {
           const title = post.frontmatter.title || post.fields.slug
