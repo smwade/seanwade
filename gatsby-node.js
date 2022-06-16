@@ -89,7 +89,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         context: {
           id: post.id,
           previousPostId,
-          nextPostId,
+          nextPostId
         },
       })
     })

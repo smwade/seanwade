@@ -53,6 +53,7 @@ async function onCreateNode({
   const newObj = {
     ...ipynb,
     name: node.name,
+    url: `/${node.name}/`,
     ext: node.ext,
   }
 

@@ -33,6 +33,8 @@ export default NotebookPostTemplate
 export const query = graphql`
   query JupyterBlogPostByName(
     $id: String!
+    $previousPostId: String
+    $nextPostId: String
   ) {
     site {
       siteMetadata {
@@ -46,6 +48,18 @@ export const query = graphql`
       metadata {
         title
         description
+      }
+    }
+    previous: jupyter(id: { eq: $previousPostId }) {
+      url
+      metadata {
+        title
+      }
+    }
+    next: jupyter(id: { eq: $nextPostId }) {
+      url
+      metadata {
+        title
       }
     }
   }
