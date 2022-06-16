@@ -42,6 +42,14 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `notebooks`,
+        path: `${__dirname}/content/notebooks`,
+        ignore: [`**/.ipynb_checkpoints`],
+      },
+    },
+    {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
@@ -65,12 +73,6 @@ module.exports = {
     },
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
-    // {
-    //   resolve: `gatsby-plugin-google-analytics`,
-    //   options: {
-    //     trackingId: `ADD YOUR TRACKING ID HERE`,
-    //   },
-    // },
     {
       resolve: `gatsby-plugin-feed`,
       options: {
@@ -154,6 +156,6 @@ module.exports = {
         ],
       },
     },
-
+    `gatsby-transformer-jupyter`,
   ],
 }

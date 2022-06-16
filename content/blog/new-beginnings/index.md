@@ -97,7 +97,7 @@ Alphabet Village and the subline of her own road, the Line Lane. Pityful a
 rhetoric question ran over her cheek, then she continued her way. On her way she
 met a copy.
 
-###### Slapped cozy a that lightheartedly and far
+###### S"lapped cozy a that lightheartedly and far
 
 The copy warned the Little Blind Text, that where it came from it would have
 been rewritten a thousand times and everything that was left from its origin

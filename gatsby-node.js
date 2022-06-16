@@ -6,19 +6,30 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   // Define a template for blog post
   const blogPost = path.resolve(`./src/templates/blog-post.js`)
+  const jupyterPost = path.resolve(`./src/templates/jupyter-post.js`)
 
-  // Get all markdown blog posts sorted by date
   const result = await graphql(
     `
       {
-        allMarkdownRemark(
-          sort: { fields: [frontmatter___date], order: ASC }
-          limit: 1000
-        ) {
+        allMarkdownRemark {
           nodes {
             id
             fields {
               slug
+            }
+            frontmatter {
+              date
+            }
+          }
+        }
+        allJupyter {
+          edges {
+            node {
+              id
+              name
+              metadata {
+                date
+              }
             }
           }
         }
@@ -34,11 +45,38 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     return
   }
 
-  const posts = result.data.allMarkdownRemark.nodes
+  result.data.allJupyter.edges.forEach(edge => {
+    const slug = edge.node.name
+    actions.createPage({
+      path: slug,
+      component: require.resolve(`./src/templates/jupyter-post.js`),
+      context: { id: edge.node.id },
+    })
+  })
 
-  // Create blog posts pages
-  // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
-  // `context` is available in the template as a prop and as a variable in GraphQL
+  // get all types of posts 
+  let mdPosts = result.data.allMarkdownRemark.nodes
+  let jupyterPosts = result.data.allJupyter.edges
+
+  // standardize format
+  mdPosts = mdPosts.map(x => {
+    return {
+      url: x.fields.slug,
+      id: x.id,
+      date: x.frontmatter.date,
+      postType: 'md'
+    }
+  })
+  jupyterPosts = jupyterPosts.map(x => {
+    x = x.node
+    return {
+      url: `/${x.name}/`,
+      id: x.id,
+      date: x.metadata.date,
+      postType: 'jupyter'
+    }
+  })
+  const posts = [...mdPosts, ...jupyterPosts].sort((a,b) => a.date < b.date)
 
   if (posts.length > 0) {
     posts.forEach((post, index) => {
@@ -46,8 +84,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       const nextPostId = index === posts.length - 1 ? null : posts[index + 1].id
 
       createPage({
-        path: post.fields.slug,
-        component: blogPost,
+        path: post.url,
+        component: (post.postType === 'md') ? blogPost : jupyterPost,
         context: {
           id: post.id,
           previousPostId,
@@ -62,6 +100,16 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
   if (node.internal.type === `MarkdownRemark`) {
+    const value = createFilePath({ node, getNode })
+
+    createNodeField({
+      name: `slug`,
+      node,
+      value,
+    })
+  }
+
+  if (node.internal.type === `Jupyter`) {
     const value = createFilePath({ node, getNode })
 
     createNodeField({

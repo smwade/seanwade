@@ -1,23 +1,43 @@
 import * as React from "react"
-import { graphql } from "gatsby"
+import { graphql, Link } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 const BlogHomePage = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
-  //const posts = data.allMarkdownRemark.nodes
+  let mdPosts = data.allMarkdownRemark.nodes
+  let jupyterPosts = data.allJupyter.edges
+
+  // standardize format
+  mdPosts = mdPosts.map(x => {
+    return {
+      url: x.fields.slug,
+      title: x.frontmatter.title,
+      date: x.frontmatter.date,
+      description: x.frontmatter.description,
+      tags: []
+    }
+  })
+  jupyterPosts = jupyterPosts.map(x => {
+    x = x.node
+    return {
+      url: `/${x.name}/`,
+      title: x.metadata.title,
+      date: x.metadata.date,
+      description: x.metadata.description,
+      tags: x.metadata.tags || []
+    }
+  })
+  const posts = [...mdPosts, ...jupyterPosts].sort((a,b) => a > b)
 
   return (
     <Layout location={location} title={siteTitle}>
       <Seo title="All posts" />
-      <h1>Coming soon!</h1>
-      {/* <ol style={{ listStyle: `none` }}>
+      <ol style={{ listStyle: `none` }}>
         {posts.map(post => {
-          const title = post.frontmatter.title || post.fields.slug
-
           return (
-            <li key={post.fields.slug}>
+            <li key={post.url}>
               <article
                 className="post-list-item"
                 itemScope
@@ -25,16 +45,16 @@ const BlogHomePage = ({ data, location }) => {
               >
                 <header>
                   <h2>
-                    <Link to={post.fields.slug} itemProp="url">
-                      <span itemProp="headline">{title}</span>
+                    <Link to={post.url} itemProp="url">
+                      <span itemProp="headline">{post.title}</span>
                     </Link>
                   </h2>
-                  <small>{post.frontmatter.date}</small>
+                  <small>{post.date}</small>
                 </header>
                 <section>
                   <p
                     dangerouslySetInnerHTML={{
-                      __html: post.frontmatter.description || post.excerpt,
+                      __html: post.description
                     }}
                     itemProp="description"
                   />
@@ -43,7 +63,7 @@ const BlogHomePage = ({ data, location }) => {
             </li>
           )
         })}
-      </ol> */}
+      </ol>
     </Layout>
   )
 }
@@ -57,7 +77,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+    allMarkdownRemark {
       nodes {
         excerpt
         fields {
@@ -70,5 +90,20 @@ export const pageQuery = graphql`
         }
       }
     }
+    allJupyter {
+    edges {
+      node {
+        id
+        html
+        name
+        metadata {
+          title
+          description
+          date(formatString: "MMMM DD, YYYY")
+          tags
+        }
+      }
+    }
+  }
   }
 `
