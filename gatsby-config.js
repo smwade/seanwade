@@ -157,5 +157,6 @@ module.exports = {
       },
     },
     `gatsby-transformer-jupyter`,
+    `gatsby-plugin-sass`,
   ],
 }

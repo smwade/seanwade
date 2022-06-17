@@ -22,6 +22,7 @@ const NotebookPostTemplate = ({ data, location }) => {
         <section
           dangerouslySetInnerHTML={{ __html: post.html }}
           itemProp="articleBody"
+          className="jupyter"
         />
       </article>
     </Layout>

@@ -76,7 +76,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       postType: 'jupyter'
     }
   })
-  const posts = [...mdPosts, ...jupyterPosts].sort((a,b) => a.date < b.date)
+  const posts = [...mdPosts, ...jupyterPosts].sort((a,b) => a.date > b.date ? 1 : -1)
 
   if (posts.length > 0) {
     posts.forEach((post, index) => {

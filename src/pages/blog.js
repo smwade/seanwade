@@ -29,7 +29,7 @@ const BlogHomePage = ({ data, location }) => {
       tags: x.metadata.tags || []
     }
   })
-  const posts = [...mdPosts, ...jupyterPosts].sort((a,b) => a > b)
+  let posts = [...jupyterPosts, ...mdPosts].sort((a,b) => a.date > b.date ? 1 : -1)
 
   return (
     <Layout location={location} title={siteTitle}>
