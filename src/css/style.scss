@@ -291,11 +291,30 @@ ul {
   gap: var(--spacing-2);
 }
 
+button.jupyter-code-toggle {
+  text-transform: none;
+  border: 1px double black;
+  background-color: --var(--color-background);
+}
+
+.blog-post {
+  h1,h2,h3,h4,h5,h6 {
+    font-family: 'Courier New', Courier, monospace;
+  }
+  * {
+    line-height: 2rem;
+  }
+
+}
 
 .jupyter {
   img {
     width: 100%;
     height: auto;
+  }
+
+  .anchor-link {
+    display: none;
   }
   .cell {
     margin: 1.5rem 0;
