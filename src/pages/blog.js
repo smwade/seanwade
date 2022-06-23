@@ -34,6 +34,7 @@ const BlogHomePage = ({ data, location }) => {
   return (
     <Layout location={location} title={siteTitle}>
       <Seo title="All posts" />
+      <div className="blog-page">
       <ol style={{ listStyle: `none` }}>
         {posts.map(post => {
           return (
@@ -60,10 +61,12 @@ const BlogHomePage = ({ data, location }) => {
                   />
                 </section>
               </article>
+              {/* <hr/> */}
             </li>
           )
         })}
       </ol>
+</div>
     </Layout>
   )
 }

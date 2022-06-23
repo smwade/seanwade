@@ -9,7 +9,9 @@ description: "Healthcare data"
 ## Background
 
 How hosipals and insurance worked in the dark days and how it does now
-
+$$
+\sigma_i = \theta
+$$
 
 
 A centeral challenge for healthcare standards is how to handle the wide variability cased by diverse healthcare processes. Over time more fields and specifctions are added 
