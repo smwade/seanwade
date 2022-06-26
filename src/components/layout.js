@@ -1,9 +1,16 @@
 import * as React from "react"
 import { Link } from "gatsby"
 
+const toggleDarkMode = () => {
+  console.log('clicked');
+  const app = document.querySelector(".app")
+  app.classList.toggle("dark")
+}
+
 const Layout = ({ location, title, children }) => {
   return (
     <div className="app">
+      {/* <p class="forhire">Available for <a href="mailto:sean@pulshealth.com">freelance &amp; speaking</a> opportunities</p> */}
       <div className="outer-nav">
         <nav id="navbar">
           <Link to={'/'}> 
@@ -15,6 +22,9 @@ const Layout = ({ location, title, children }) => {
             </li>
             <li>
               <Link to="/blog">Blog</Link>
+            </li>
+            <li>
+              <button onClick={toggleDarkMode}>Mode</button>
             </li>
           </ul>
         </nav>

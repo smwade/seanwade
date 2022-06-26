@@ -2,6 +2,7 @@
 title: FHIR Festival
 date: "2022-01-27"
 description: "Healthcare data"
+tags: ["health", "code"]
 ---
 
 [HL7 FHIR](http://hl7.org/fhir/summary.html) is an interoperability standard for healhcare data

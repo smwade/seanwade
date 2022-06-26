@@ -65,6 +65,7 @@
   --color-heading-black: black;
   --color-accent: #d1dce5;
   --color-link: #005b99;
+  --color-line: black;
 
 
   --app-height: 557px;
@@ -79,8 +80,6 @@ body,
 html {
   font-family: var(--font-body);
   line-height: var(--lineHeight-relaxed);
-  background: var(--color-background); 
-  width: 100%;
 }
 
 nav {
@@ -99,17 +98,29 @@ h1,h2,h3,h4,h5 {
   font-family: var(--font-heading);
 }
 
+.dark {
+  --color-background: rgb(0, 6, 49);
+  --color-line: white;
+  --color-text: white;
+}
+
+
 .app {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 2em;
+  background: var(--color-background); 
+  color: var(--color-text);
+  overflow: hidden;
 }
+
 
 .global-wrapper {
   max-width: var(--maxWidth-3xl);
   width: 100%;
-  background-color: var(--color-background);
+  background-color: inherit;
   padding: 0em 2em;
   cursor:default;
 }
@@ -118,7 +129,7 @@ h1,h2,h3,h4,h5 {
   width: 100%;
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--color-line);
 }
 
 
@@ -129,7 +140,7 @@ nav {
   justify-content: space-between;
   width: 100%;
   max-width: var(--maxWidth-5xl);
-  background-color: var(--color-background);
+  background-color: inherit;
   margin: var(--spacing-1) var(--spacing-5);
   font-family: var(--fontFamily-primary);
 }
@@ -159,7 +170,7 @@ nav > ul > li {
   margin: var(--spacing-2);
   align-items: center;
 
-  border: 1px solid #000;
+  border: 1px solid var(--color-line);
   box-shadow:  -1px -1px 0 0 var(--tertiary),inset 1px 1px 0 0 #fff,5px 5px 0 rgba(0,0,0,.2);
 }
 
@@ -232,14 +243,14 @@ nav > ul > li {
   display: flex;
   flex-direction: column;
   box-shadow:  -1px -1px 0 0 var(--tertiary),inset 1px 1px 0 0 #fff,5px 5px 0 rgba(0,0,0,.2);
-  border: 1px solid black;
+  border: 1px solid var(--color-line);
   margin: 2em 0em;
 }
 
 .window-bar-button {
   width: 15px;
   margin: 3px 5px 0px 5px;
-  border: 1px solid black;
+  border: 1px solid var(--color-line);
 }
 
 .window-bar {
@@ -259,7 +270,7 @@ nav > ul > li {
   margin: 0;
   padding: 1.5px;
   border: none;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--color-line);
 }
 
 .window-inner {
@@ -268,9 +279,9 @@ nav > ul > li {
   flex-grow: 1;
   margin: 5px;
   width: calc(100% - 10px);
-  border: 1px solid black;
+  border: 1px solid var(--color-line);
   padding: 1em;
-  background-color: var(--color-background);
+  background-color: inherit;
 }
 
 .skill-section {
@@ -306,7 +317,7 @@ ul {
 button.jupyter-code-toggle {
   text-transform: none;
   border: 1px double black;
-  background-color: --var(--color-background);
+  background-color: inherit;
 }
 
 
@@ -372,4 +383,69 @@ button.jupyter-code-toggle {
 
 pre[class*=language-] {
   border-radius: var(--radius-normal);
+}
+
+.forhire {
+  margin-top: .5rem;
+  background-color: #FDE9A2;
+  border-radius: var(--radius-normal);
+  border: 1px solid #b59b3e;
+  text-align: center;
+  padding: .5rem;
+  width: calc(100vw - 1rem)
+}
+
+.ctg {
+  --color-cta-bg: #FFAAD3;
+  --color-cta-text: #760039;
+
+  font-family: var(--font-heading);
+  font-size: var(--fontSize-1);
+
+  background-color: var(--color-cta-bg);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: 30rem;
+  border: 2px solid var(--color-cta-text);
+
+  a {
+    color: var(--color-cta-text);
+  }
+
+  ::before {
+    content: "";
+    margin-right: 0.25rem;
+  }
+
+ 
+}
+
+ .ctg:hover {
+    filter: brightness(150%);
+  }
+
+
+.dot-card {
+    --color-accent: var(--color-line);
+    display: flex;
+    margin: var(--spacing-4);
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--color-accent);
+    border-radius: 3px;
+    background-size: 5px 5px;
+    background-image: radial-gradient(circle at top left,var(--color-accent) 0 13%,transparent 10%),radial-gradient(circle at top right,var(--color-accent) 0 13%,transparent 10%),radial-gradient(circle at bottom left,var(--color-accent) 0 13%,transparent 10%),radial-gradient(circle at bottom right,var(--color-accent) 0 13%,transparent 10%),radial-gradient(var(--color-accent) 0 26%,transparent 20%);
+
+  .dot-card-inside {
+    height: 100%;
+    width: 100%;
+    margin: 1rem;
+    padding: .5rem;
+    background-color: var(--color-background);
+  }
+}
+
+
+.card-bodyblo {
+  background-color: linear-gradient(90deg, #FFAAD3, #FF9D7A, #FFDE69, #A4E8A3, #8AE6FB, #E2D4FF);
 }

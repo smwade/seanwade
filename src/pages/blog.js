@@ -3,6 +3,16 @@ import { graphql, Link } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import { tagColors, colors } from "../resources/colors"
+
+const Tag = ({ name }) => {
+  let { primary, secondary } = tagColors[name]
+  return (
+    <div className="ctg" style={{"--color-cta-bg": primary, "--color-cta-text": secondary}}>
+      <Link to={`/tags/${name}`}>{name}</Link>
+    </div>
+  )
+}
 
 const BlogHomePage = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
@@ -16,7 +26,7 @@ const BlogHomePage = ({ data, location }) => {
       title: x.frontmatter.title,
       date: x.frontmatter.date,
       description: x.frontmatter.description,
-      tags: []
+      tags: x.frontmatter.tags || []
     }
   })
   jupyterPosts = jupyterPosts.map(x => {
@@ -59,9 +69,13 @@ const BlogHomePage = ({ data, location }) => {
                     }}
                     itemProp="description"
                   />
+                  <div style={{display: 'flex', flexDirection: 'row', gap: '1rem', marginTop: '.7rem'}}>
+                  {post.tags.map((x, i) => {return (
+                    <Tag name={x} />
+                  )})}
+                  </div>
                 </section>
               </article>
-              {/* <hr/> */}
             </li>
           )
         })}
@@ -90,6 +104,7 @@ export const pageQuery = graphql`
           date(formatString: "MMMM DD, YYYY")
           title
           description
+          tags
         }
       }
     }
