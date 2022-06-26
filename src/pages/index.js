@@ -7,7 +7,28 @@ import Seo from "../components/seo"
 
 import YAMLData from "../../content/resume/resume.yaml"
 
-const Experience = ({ item, data }) => {
+
+// window wrapper for cards
+const Window = ({ children }) => {
+  return (
+    <div className="window">
+      <div className="window-bar">
+        <div className="window-bar-button"></div>
+        <div className="window-bar-middle">
+          <hr/>
+          <hr/>
+          <hr/>
+        </div>
+        <div className="window-bar-button"></div>
+      </div>
+      <div className="window-inner">
+          {children}
+        </div>
+    </div>
+  )
+}
+
+const ResumeCard = ({ item, data }) => {
   const images = data.allImageSharp.edges
   let image
   for (const i of images) {
@@ -31,9 +52,7 @@ const Experience = ({ item, data }) => {
             <h1>{item.name}</h1>
             <h2>{item.title}</h2>
           </div>
-          <div className="card-title-date">
-            <h3>{startDate} - {endDate}</h3>
-          </div>
+          <h3 className="card-title-date">{startDate} - {endDate}</h3>
         </div>
       </div>
         <div className="card-body">
@@ -67,24 +86,6 @@ const Research = props => {
   )
 }
 
-const Window = ({ children }) => {
-  return (
-    <div className="window">
-      <div className="window-bar">
-        <div className="window-bar-button"></div>
-        <div className="window-bar-middle">
-          <hr/>
-          <hr/>
-          <hr/>
-        </div>
-        <div className="window-bar-button"></div>
-      </div>
-      <div className="window-inner">
-          {children}
-        </div>
-    </div>
-  )
-}
 
 
 const ComputerIcon = ({ name, image}) => {
@@ -146,13 +147,13 @@ const IndexPage = ({ data, location }) => {
       <div className="resume-section">
         <h2>Experience</h2>
         {YAMLData.experience.items.map(function (object, i) {
-            return <Experience item={object} data={data} key={i} />
+            return <ResumeCard item={object} data={data} key={i} />
           })}
       </div>
       <div className="resume-section">
         <h2>Education</h2>
         {YAMLData.education.items.map(function (object, i) {
-          return <Experience item={object} data={data} key={i} />
+          return <ResumeCard item={object} data={data} key={i} />
         })}
         </div>
 

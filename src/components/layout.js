@@ -1,5 +1,7 @@
 import * as React from "react"
+import { useState, useEffect } from "react"
 import { Link } from "gatsby"
+import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs"
 
 const toggleDarkMode = () => {
   console.log('clicked');
@@ -7,7 +9,37 @@ const toggleDarkMode = () => {
   app.classList.toggle("dark")
 }
 
+const enableDarkMode = () => {
+  const app = document.querySelector(".app")
+  app.classList.add("dark")
+  localStorage.setItem("colorMode", "dark")
+}
+
+const disableDarkMode = () => {
+  const app = document.querySelector(".app")
+  app.classList.remove("dark")
+  localStorage.setItem("colorMode", "light")
+}
+
+
+
 const Layout = ({ location, title, children }) => {
+
+  useEffect(() => {
+    localStorage.getItem("colorMode") === "dark" ? enableDarkMode() : disableDarkMode()
+  }, [])
+  
+  const [colorMode, setColorMode] = useState(localStorage.getItem("colorMode"))
+
+  const toggleColorMode = () => {
+    setColorMode(colorMode === "light" ? "dark" : "light")
+    if (colorMode === "light") {
+      enableDarkMode()
+    }
+    else if (colorMode === "dark") {
+      disableDarkMode()
+    }
+  }
   return (
     <div className="app">
       {/* <p class="forhire">Available for <a href="mailto:sean@pulshealth.com">freelance &amp; speaking</a> opportunities</p> */}
@@ -23,8 +55,8 @@ const Layout = ({ location, title, children }) => {
             <li>
               <Link to="/blog">Blog</Link>
             </li>
-            <li>
-              <button onClick={toggleDarkMode}>Mode</button>
+            <li style={{display: 'flex'}}>
+              {colorMode === "light" ?  <BsFillMoonFill onClick={toggleColorMode} /> : <BsFillSunFill onClick={toggleColorMode} />}
             </li>
           </ul>
         </nav>
