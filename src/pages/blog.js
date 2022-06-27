@@ -3,7 +3,7 @@ import { graphql, Link } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import { tagColors, colors } from "../resources/colors"
+import { tagColors } from "../resources/colors"
 
 const Tag = ({ name }) => {
   let { primary, secondary } = tagColors[name]
@@ -40,6 +40,8 @@ const BlogHomePage = ({ data, location }) => {
     }
   })
   let posts = [...jupyterPosts, ...mdPosts].sort((a,b) => a.date > b.date ? 1 : -1)
+
+  posts = []
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -80,6 +82,7 @@ const BlogHomePage = ({ data, location }) => {
           )
         })}
       </ol>
+      {posts.length === 0 && <h1>Coming soon!</h1>}
 </div>
     </Layout>
   )

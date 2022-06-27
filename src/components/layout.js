@@ -1,48 +1,24 @@
 import * as React from "react"
-import { useState, useEffect } from "react"
+import { useContext } from "react"
 import { Link } from "gatsby"
 import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs"
 
-const toggleDarkMode = () => {
-  console.log('clicked');
-  const app = document.querySelector(".app")
-  app.classList.toggle("dark")
-}
+import ThemeContext from "../context/ThemeContext"
 
-const enableDarkMode = () => {
-  const app = document.querySelector(".app")
-  app.classList.add("dark")
-  localStorage.setItem("colorMode", "dark")
-}
-
-const disableDarkMode = () => {
-  const app = document.querySelector(".app")
-  app.classList.remove("dark")
-  localStorage.setItem("colorMode", "light")
-}
-
+// const changeSVGBackgrounds = (color) => {
+//   const figures = document.querySelectorAll("article svg")
+//   figures.forEach(figure => {
+//     figure.style.background = color
+//   })
+// }
 
 
 const Layout = ({ location, title, children }) => {
 
-  useEffect(() => {
-    localStorage.getItem("colorMode") === "dark" ? enableDarkMode() : disableDarkMode()
-  }, [])
-  
-  const [colorMode, setColorMode] = useState(localStorage.getItem("colorMode"))
+  let { colorScheme, setColorScheme } = useContext(ThemeContext)
 
-  const toggleColorMode = () => {
-    setColorMode(colorMode === "light" ? "dark" : "light")
-    if (colorMode === "light") {
-      enableDarkMode()
-    }
-    else if (colorMode === "dark") {
-      disableDarkMode()
-    }
-  }
   return (
     <div className="app">
-      {/* <p class="forhire">Available for <a href="mailto:sean@pulshealth.com">freelance &amp; speaking</a> opportunities</p> */}
       <div className="outer-nav">
         <nav id="navbar">
           <Link to={'/'}> 
@@ -56,7 +32,7 @@ const Layout = ({ location, title, children }) => {
               <Link to="/blog">Blog</Link>
             </li>
             <li style={{display: 'flex'}}>
-              {colorMode === "light" ?  <BsFillMoonFill onClick={toggleColorMode} /> : <BsFillSunFill onClick={toggleColorMode} />}
+              {colorScheme === "light" ?  <BsFillMoonFill onClick={() => setColorScheme('dark')} /> : <BsFillSunFill onClick={() => setColorScheme('light')} />}
             </li>
           </ul>
         </nav>

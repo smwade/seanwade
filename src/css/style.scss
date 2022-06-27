@@ -35,7 +35,7 @@
   --spacing-32: 8rem;
   --fontFamily-primary: Chicago;
   --fontFamily-secondary: 'Courier New', monospace;
-  --fontFamily-secondary: 'Roboto', sans-serif; 
+  // --fontFamily-secondary: 'Roboto', sans-serif; 
   --font-body: var(--fontFamily-secondary);
   --font-heading: var(--fontFamily-primary);
   --fontWeight-normal: 400;
@@ -110,7 +110,7 @@ h1,h2,h3,h4,h5 {
   --color-line: var(--color-text-light);
   --color-primary-700: rgb(52,70,99);
   --color-shadow: rgb(67, 79, 98);
-
+  --color-link: #a9cef9;
 }
 
 
@@ -184,7 +184,7 @@ nav > ul > li {
 }
 
 .body-link {
-  color: var(--color-primary);
+  color: var(--color-link);
 }
 
 .research-link {
@@ -442,9 +442,10 @@ pre[class*=language-] {
     background-image: radial-gradient(circle at top left,var(--color-accent) 0 13%,transparent 10%),radial-gradient(circle at top right,var(--color-accent) 0 13%,transparent 10%),radial-gradient(circle at bottom left,var(--color-accent) 0 13%,transparent 10%),radial-gradient(circle at bottom right,var(--color-accent) 0 13%,transparent 10%),radial-gradient(var(--color-accent) 0 26%,transparent 20%);
 
   .dot-card-inside {
-    height: 100%;
-    width: 100%;
+    --internal-margin: 1rem;
     margin: 1rem;
+    height: calc(100% - (var(--internal-margin) * 2));
+    width: 100%;
     padding: .5rem;
     background-color: var(--color-background);
   }

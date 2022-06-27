@@ -45,15 +45,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     return
   }
 
-  result.data.allJupyter.edges.forEach(edge => {
-    const slug = edge.node.name
-    actions.createPage({
-      path: slug,
-      component: require.resolve(`./src/templates/jupyter-post.js`),
-      context: { id: edge.node.id },
-    })
-  })
-
   // get all types of posts 
   let mdPosts = result.data.allMarkdownRemark.nodes
   let jupyterPosts = result.data.allJupyter.edges
@@ -91,7 +82,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
           previousPostId,
           nextPostId
         },
-      })
+      })  
     })
   }
 }
