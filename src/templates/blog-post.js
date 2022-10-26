@@ -8,26 +8,37 @@ const BlogPostTemplate = ({ data, location }) => {
   const post = data.markdownRemark
   const siteTitle = data.site.siteMetadata?.title || `Title`
 
+  const toc = (
+    <div className="toc">
+    <aside
+          dangerouslySetInnerHTML={{ __html: data.markdownRemark.tableOfContents }}
+      />
+    </div>
+  )
+
   return (
     <Layout location={location} title={siteTitle}>
       <Seo
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
       />
+      <div className="blog-post-wrapper">
       <article
         className="blog-post"
         itemScope
         itemType="http://schema.org/Article"
       >
         <header>
-          <h1 itemProp="headline">{post.frontmatter.title}</h1>
-          <p>{post.frontmatter.date}</p>
+          <h1 itemProp="headline" className="blog-post-title">{post.frontmatter.title}</h1>
+          <p className="blog-post-info">{post.frontmatter.date}</p>
         </header>
         <section
           dangerouslySetInnerHTML={{ __html: post.html }}
           itemProp="articleBody"
         />
       </article>
+      {toc}
+      </div>
     </Layout>
   )
 }
@@ -49,6 +60,7 @@ export const pageQuery = graphql`
       id
       excerpt(pruneLength: 160)
       html
+      tableOfContents(maxDepth: 2)
       frontmatter {
         title
         date(formatString: "MMMM DD, YYYY")

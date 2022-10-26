@@ -5,13 +5,6 @@ import { BsFillMoonFill, BsFillSunFill } from "react-icons/bs"
 
 import ThemeContext from "../context/ThemeContext"
 
-// const changeSVGBackgrounds = (color) => {
-//   const figures = document.querySelectorAll("article svg")
-//   figures.forEach(figure => {
-//     figure.style.background = color
-//   })
-// }
-
 
 const Layout = ({ location, title, children }) => {
 

@@ -1,3 +1,5 @@
+const rainbowGradient = "linear-gradient(90deg, #FFAAD3, #FF9D7A, #FFDE69, #A4E8A)"
+
 const colors = [
   {'primary': '#A4E8A3', 'secondary': '#004012'},
   {'primary': '#FFDE69', 'secondary': '#594600'},
@@ -8,10 +10,11 @@ const colors = [
   {'primary': '#F9B0FF', 'secondary': '#6C044F'},
 ]
 
+
 const tagColors = {
   'code': colors[0],
   'health': colors[2],
   'jupyter': colors[4],
 }
 
-export  {tagColors, colors};
+export  {tagColors, colors, rainbowGradient};

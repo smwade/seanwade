@@ -3,13 +3,14 @@ import { graphql, Link } from "gatsby"
 
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import { tagColors } from "../resources/colors"
+import { tagColors, colors } from "../resources/colors"
 
 const Tag = ({ name }) => {
-  let { primary, secondary } = tagColors[name]
+  let { primary, secondary } = tagColors[name] || colors.slice(-1)
   return (
     <div className="ctg" style={{"--color-cta-bg": primary, "--color-cta-text": secondary}}>
-      <Link to={`/tags/${name}`}>{name}</Link>
+      <Link>{name}</Link>
+      {/* <Link to={`/tags/${name}`}>{name}</Link> */}
     </div>
   )
 }
@@ -40,8 +41,6 @@ const BlogHomePage = ({ data, location }) => {
     }
   })
   let posts = [...jupyterPosts, ...mdPosts].sort((a,b) => a.date > b.date ? 1 : -1)
-
-  posts = []
 
   return (
     <Layout location={location} title={siteTitle}>

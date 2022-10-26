@@ -9,11 +9,6 @@ tags: ["health", "code"]
 
 ## Background
 
-How hosipals and insurance worked in the dark days and how it does now
-$$
-\sigma_i = \theta
-$$
-
 
 A centeral challenge for healthcare standards is how to handle the wide variability cased by diverse healthcare processes. Over time more fields and specifctions are added 
 
@@ -27,7 +22,7 @@ Has a strong foundation in web standars
 
 Human-readable serilizaion format
 
-![img](/Users/seanwade/projects/PulsHealth/pulshealth/content/blog/FHIR/example_fhir_resource.png)
+![img](example_fhir_resource.png)
 
 and example in JSON
 

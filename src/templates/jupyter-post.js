@@ -12,8 +12,7 @@ export default class NotebookPostTemplate extends Component {
     }
 
   toggleCode() {
-      console.log('clicked!');
-      let inputs = document.querySelectorAll('.cell > .input');
+      let inputs = document.querySelectorAll('.code_cell > .input');
       inputs.forEach(this.toggleDiv);
       // let div = document.querySelector('.celltag_show > .jp-Cell-inputWrapper')
       // toggleDiv(div)
@@ -34,6 +33,7 @@ export default class NotebookPostTemplate extends Component {
           title={post.metadata.title}
           description={post.metadata.description}
         />
+        <button onClick={this.toggleCode.bind(this)} className="jupyter-code-toggle">Toggle Code</button>
         <article
           className="blog-post"
           itemScope
@@ -44,7 +44,6 @@ export default class NotebookPostTemplate extends Component {
             itemProp="articleBody"
             className="jupyter"
           />
-          <button onClick={this.toggleCode.bind(this)} className="jupyter-code-toggle">Toggle Code</button>
         </article>
       </Layout>
     )

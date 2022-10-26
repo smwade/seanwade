@@ -16,7 +16,7 @@ class ThemeProvider extends React.Component {
     document.body.classList = []
     document.body.classList.add(colorScheme)
     localStorage.setItem("colorScheme", colorScheme)
-    this.setState({ colorScheme })``
+    this.setState({ colorScheme })
   }
 
   componentDidMount() {

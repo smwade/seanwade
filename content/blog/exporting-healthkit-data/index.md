@@ -2,11 +2,11 @@
 title: Exporting Apple HealthKit Data
 date: "2022-01-27"
 description: "Methods for how to get health data from Apple watch and iPhone"
+tags: ["health", "data"]
 ---
 
-[HealthKit](https://developer.apple.com/documentation/healthkit) is the api for working with health data 
-
-You are able to export all your health data from the Health app. To do so
+[HealthKit](https://developer.apple.com/documentation/healthkit) is the api for working with health data from Apple. However, this requires building an app to get the data and convert it to the format you want. In another post we show how to do this, however the quickest way
+to get all you data is to export it from the Health app. To do so:
 
 1. Open the app
 2. Go to profile
