@@ -8,13 +8,13 @@ const BlogPostTemplate = ({ data, location }) => {
   const post = data.markdownRemark
   const siteTitle = data.site.siteMetadata?.title || `Title`
 
-  const toc = (
-    <div className="toc">
-    <aside
-          dangerouslySetInnerHTML={{ __html: data.markdownRemark.tableOfContents }}
-      />
-    </div>
-  )
+  //const toc = (
+    //<div className="toc">
+    //<aside
+          //dangerouslySetInnerHTML={{ __html: data.markdownRemark.tableOfContents }}
+      ///>
+    //</div>
+  //)
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -37,7 +37,6 @@ const BlogPostTemplate = ({ data, location }) => {
           itemProp="articleBody"
         />
       </article>
-      {toc}
       </div>
     </Layout>
   )

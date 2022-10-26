@@ -6,7 +6,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   // Define a template for blog post
   const blogPost = path.resolve(`./src/templates/blog-post.js`)
-  const jupyterPost = path.resolve(`./src/templates/jupyter-post.js`)
 
   const result = await graphql(
     `
@@ -19,17 +18,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
             }
             frontmatter {
               date
-            }
-          }
-        }
-        allJupyter {
-          edges {
-            node {
-              id
-              name
-              metadata {
-                date
-              }
             }
           }
         }
@@ -47,7 +35,6 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
   // get all types of posts 
   let mdPosts = result.data.allMarkdownRemark.nodes
-  let jupyterPosts = result.data.allJupyter.edges
 
   // standardize format
   mdPosts = mdPosts.map(x => {
@@ -58,16 +45,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
       postType: 'md'
     }
   })
-  jupyterPosts = jupyterPosts.map(x => {
-    x = x.node
-    return {
-      url: `/${x.name}/`,
-      id: x.id,
-      date: x.metadata.date,
-      postType: 'jupyter'
-    }
-  })
-  const posts = [...mdPosts, ...jupyterPosts].sort((a,b) => a.date > b.date ? 1 : -1)
+  const posts = mdPosts.sort((a,b) => a.date > b.date ? 1 : -1)
 
   if (posts.length > 0) {
     posts.forEach((post, index) => {
@@ -76,7 +54,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
 
       createPage({
         path: post.url,
-        component: (post.postType === 'md') ? blogPost : jupyterPost,
+        component: blogPost,
         context: {
           id: post.id,
           previousPostId,
@@ -91,16 +69,6 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
 
   if (node.internal.type === `MarkdownRemark`) {
-    const value = createFilePath({ node, getNode })
-
-    createNodeField({
-      name: `slug`,
-      node,
-      value,
-    })
-  }
-
-  if (node.internal.type === `Jupyter`) {
     const value = createFilePath({ node, getNode })
 
     createNodeField({

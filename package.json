@@ -8,6 +8,8 @@
     "url": "https://github.com/gatsbyjs/gatsby/issues"
   },
   "dependencies": {
+    "@gatsby-contrib/gatsby-transformer-ipynb": "^0.5.8",
+    "@nteract/gatsby-transformer-ipynb": "^3.0.4-alpha.0",
     "gatsby": "^4.0.2",
     "gatsby-plugin-feed": "^4.0.0",
     "gatsby-plugin-gatsby-cloud": "^4.0.0",

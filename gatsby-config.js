@@ -1,3 +1,10 @@
+//import * as dotenv from 'dotenv';
+require('dotenv').config()
+
+//dotenv.config()
+
+//console.log(process.env.BLOG_CONTENT_DIR)
+
 module.exports = {
   siteMetadata: {
     title: `Sean Wade`,
@@ -16,7 +23,7 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/content/blog`,
+        path: `${process.env.BLOG_CONTENT_DIR}/blog`,
         name: `blog`,
       },
     },
@@ -45,7 +52,7 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `notebooks`,
-        path: `${__dirname}/content/notebooks`,
+        path: `${process.env.BLOG_CONTENT_DIR}/notebooks`,
         ignore: [`**/.ipynb_checkpoints`],
       },
     },
@@ -156,7 +163,6 @@ module.exports = {
         ],
       },
     },
-    `gatsby-transformer-jupyter`,
-    `gatsby-plugin-sass`,
+    `gatsby-plugin-sass`
   ],
 }

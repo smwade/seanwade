@@ -18,7 +18,6 @@ const Tag = ({ name }) => {
 const BlogHomePage = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
   let mdPosts = data.allMarkdownRemark.nodes
-  let jupyterPosts = data.allJupyter.edges
 
   // standardize format
   mdPosts = mdPosts.map(x => {
@@ -30,17 +29,7 @@ const BlogHomePage = ({ data, location }) => {
       tags: x.frontmatter.tags || []
     }
   })
-  jupyterPosts = jupyterPosts.map(x => {
-    x = x.node
-    return {
-      url: `/${x.name}/`,
-      title: x.metadata.title,
-      date: x.metadata.date,
-      description: x.metadata.description,
-      tags: x.metadata.tags || []
-    }
-  })
-  let posts = [...jupyterPosts, ...mdPosts].sort((a,b) => a.date > b.date ? 1 : -1)
+  let posts = mdPosts.sort((a,b) => a.date > b.date ? 1 : -1)
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -110,20 +99,5 @@ export const pageQuery = graphql`
         }
       }
     }
-    allJupyter {
-    edges {
-      node {
-        id
-        html
-        name
-        metadata {
-          title
-          description
-          date(formatString: "MMMM DD, YYYY")
-          tags
-        }
-      }
-    }
-  }
   }
 `

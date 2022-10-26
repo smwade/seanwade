@@ -4,7 +4,7 @@ const { spawn } = require('node:child_process');
 
 
 let nbconvert = async (nbPath) => {
-  const child = spawn('jupyter', ['nbconvert', nbPath,'--to', 'html', '--stdout', '--template', 'blog', '--TagRemovePreprocessor.enabled=True', '--TagRemovePreprocessor.remove_cell_tags', 'metadata'])
+  const child = spawn('jupyter', ['nbconvert', nbPath,'--to', 'html', '--stdout', '--template', 'basic', '--TagRemovePreprocessor.enabled=True', '--TagRemovePreprocessor.remove_cell_tags', 'metadata'])
   let data = ""
   for await (const chunk of child.stdout) {
     data += chunk
