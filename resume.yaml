@@ -1,0 +1,69 @@
+contact:
+  name: "SEAN WADE"
+  email: "seanwademail@gmail.com"
+  phone: "(480) 633-1500"
+  website: "seanwade.com"
+
+work_experience:
+  - company: "Apple"
+    title: "Senior Machine Learning Engineer / Data Scientist"
+    location: "Cupertino, CA"
+    period: "Dec 2019 / Current"
+    responsibilities:
+      - "Architected data schema and privacy preserving data collection framework for launch of multiple health related programs with Apple Health R&D (Lumihealth, Heartline, Attain)"
+      - "Led cross-functional team in developing, shipping and maintaining core on-device ML algorithms to 200k+ users:"
+      - details:
+          - "Personalized workout challenge recommender system using a multi objective loss function and Thompson sampling to continuously learn user behavior"
+          - "Unsupervised walk detection algorithm from steps data"
+          - "User routine identification (commute to work, typical workout time, etc) for sending contextual notifications"
+          - "Photo food logging with automatic food classification"
+      - "Evaluated performance of ML models and features by defining metrics, causal inference analysis on user behavior and designing effective experiments"
+      - "Built data pipelines to process petabytes of complex data (Apple Watch sensors, app logs, medical claims)"
+      - "Created dashboards and alerting to monitor KPIs and releases"
+
+  - company: "Microsoft"
+    title: "AI Platform Engineer Intern"
+    location: "Seattle, WA"
+    period: "Jun 2019 / Sep 2019"
+    responsibilities:
+      - "Created tools to improve deploying, evaluating, and retraining ML models on Azure"
+      - "Extended Azure SDK to incorporate open source projects like MLflow into Azure pipelines"
+
+  - company: "Disney"
+    title: "Machine Learning Resident"
+    location: "Orlando, FL"
+    period: "Jan 2018 / May 2018"
+    responsibilities:
+      - "Developed recommender system for rides/attractions in Disney World Park app. Used multi objective optimization to balance recommendations with data we have on the user, location in the park, line length, etc"
+      - "Created realtime pipelines and dashboards to monitor and visualize model performance"
+
+  - company: "Loveland Innovations"
+    title: "Computer Vision Engineer"
+    location: "Alpine, UT"
+    period: "Mar 2017 / Aug 2018"
+    responsibilities:
+      - "Used drone imaging and photogametry to construct 3D models of buildings"
+      - "Built production algorithms to segment facets of the roof from 3D models and use convolutional neural networks to identify and classify damage"
+
+education:
+  institution: "Brigham Young University"
+  degrees:
+    - "Master of Science, Computer Science"
+    - "Bachelor of Science, Applied Mathematics"
+  graduation: "Dec 2017"
+  research: "Researched synthetic cancer cell image generation using conditional adversarial neural networks and wrote a python library to distribute it. Created novel methods for representing medical claims history with vector embeddings and training neural networks by incrementally freezing layers"
+
+publications:
+  - "MediAug, Toolkit for Semi Supervised Synthetic Cancer Cell Image Generation"
+  - "Forward Thinking: Building and Training Neural Networks One Layer at a Time"
+  - "Code2Vec: Embedding and Clustering Medical Diagnosis Data"
+
+skills:
+  - "Python, Swift, SQL, C++"
+  - "Distributed systems (Spark, Hadoop, etc)"
+  - "Deep learning (Tensorflow, PyTorch)"
+  - "Experiment design and evaluation"
+  - "Bayesian modeling"
+  - "CV algorithms and tools (OpenCV, PCL)"
+  - "Privacy preserving ML"
+  - "Numerical methods and mathematical modeling"

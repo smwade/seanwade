@@ -3,16 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sean Wade - Senior ML Engineer</title>
+    <meta name="description" content="Sean Wade's personal website. Senior Machine Learning Engineer at Apple with expertise in data science, engineering, and machine learning.">
+    <meta name="keywords" content="Sean Wade, Machine Learning Engineer, Data Scientist, Apple, Python, Bayesian modeling, TensorFlow, Engineer, Deep Learning">
+    <meta name="author" content="Sean Wade">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:title" content="Sean Wade">
+    <meta property="og:description" content="Sean Wade's Resume">
+    <meta property="og:image" content="https://seanwade.com/images/sean-wade.jpeg">
+    <meta property="og:url" content="https://seanwade.com">
+    <meta property="og:type" content="website">
+
+    <title>Sean Wade</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
 </head>
 <body>
     <header>
         <h1>Sean Wade</h1>
+        <div class="intro">
+        <p>
+            Experienced machine learning engineer and scientist. I love solving complex problems and taking algorithms all the way from research to production. Currently creating the future of personalized health.
+            Check out my <a href="assets/sean_wade_resume_2024.pdf" download="sean_wade_resume.pdf">resume</a> for more details.
+        </p>
+        <p style="padding-top: .5rem;">Want to connect? Feel free to reach out at <a href="mailto:hello@seanwade.com">hello@seanwade.com</a></p>
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum perspiciatis et aperiam nulla autem earum sed, ipsam facere fuga assumenda, corporis, unde commodi nisi odio cupiditate temporibus? Atque, quia maiores?i</p>
-        <div class="contact">
-            <a href="mailto:hello@seanwade.com">Contact Me</a>
         </div>
     </header>
 
@@ -31,14 +47,13 @@
                 </div>
 
                 <ul>
-                    <li>Architected data schema and privacy preserving data collection framework for launch of multiple health related programs with Apple Health R&D (Lumihealth, Heartline, Attain)</<li>
+                    <li>Architected data schema and privacy preserving data collection framework for launch of multiple health related programs (Lumihealth, Heartline, Attain)</<li>
                     <li>Led cross-functional team in developing, shipping and maintaining core on-device ML algorithms to 200k+ users:</li>
-                    <ul>
-                        <li>Personalized workout challenge recommender system using a multi objective loss function and Thompson sampling to continuously learn user behavior</li>
-                        <li>Unsupervised walk detection algorithm from steps data</li>
-                        <li>User routine identification (commute to work, typical workout time, etc) for sending contextual notifications</li>
-                        <li>Photo food logging with automatic food classification</li>
-
+                    <ul style="padding-left: 1.5rem;">
+                        <li>Personalized exercise plan recommender system</li>
+                        <li>Unsupervised walk detection algorithm</li>
+                        <li>Contextual notification engine using routine identification (commute to work, typical workout time, etc)</li>
+                        <li>Meal logging  tool with food image classification</li>
                     </ul>
                     <li>Evaluated performance of ML models and features by defining metrics, causal inference analysis on user behavior and designing effective experiments</li>
                     <li>Built data pipelines to process petabytes of complex data (Apple Watch sensors, app logs, medical claims)</li>
@@ -94,14 +109,14 @@
                 </div>
                 <ul>
                     <li>Used drone imaging and photogametry to construct 3D models of buildings</li>
-                    <li>Built algorithms to identify and classify roof damage using CNNs</li>
+                    <li>Built convolutional neural network to identify and classify roof damage</li>
                 </ul>
             </div>
         </div>
     </section>
 
     <section>
-        <div class="section-title">Education</div>
+        <div class="section-title">Research</div>
         <div class="experience-item">
             <img src="images/byu-logo.webp" alt="BYU logo" class="company-logo">
             <div class="job-content">
@@ -116,33 +131,40 @@
                 <p style="color: #555; margin-top: 0.5rem;">
                     Researched synthetic cancer cell image generation using conditional adversarial neural networks and wrote a python library to distribute it. Created novel methods for representing medical claims history with vector embeddings.
                 </p>
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="section-title">Publications</div>
         <div class="publication-list">
             <a href="https://ieeexplore.ieee.org/document/8031179" class="body-link">Code2Vec: Embedding and Clustering Medical Diagnosis Data</a>
             <a href="https://github.com/smwade/MediAug" class="body-link">MediAug, Toolkit for Semi Supervised Synthetic Cancer Cell Image Generation</a>
             <a href="https://arxiv.org/abs/1706.02480" class="body-link">Forward Thinking: Building and Training Neural Networks One Layer at a Time</a>
+        </div>
+            </div>
         </div>
     </section>
 
     <section>
         <div class="section-title">Skills</div>
         <div class="skills">
-            <span class="skill">Python</span>
-            <span class="skill">Swift</span>
-            <span class="skill">SQL</span>
-            <span class="skill">C++</span>
-            <span class="skill">Distributed Systems</span>
-            <span class="skill">Deep Learning</span>
-            <span class="skill">Experiment Design</span>
-            <span class="skill">Bayesian Modeling</span>
-            <span class="skill">Computer Vision</span>
-            <span class="skill">Privacy ML</span>
+            <span class="skill">Python, Swift, SQL, C++</span>
+            <span class="skill">Distributed systems (Spark, Hadoop, etc)</span>
+            <span class="skill">Deep learning (Tensorflow, PyTorch)</span>
+            <span class="skill">Experiment design and evaluation</span>
+            <span class="skill">Bayesian modeling</span>
+            <span class="skill">CV algorithms and tools (OpenCV, PCL)</span>
+            <span class="skill">Privacy preserving ML</span>
+            <span class="skill">Numerical methods and mathematical modeling</span>
         </div>
     </section>
 </body>
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Sean Wade",
+        "jobTitle": "Machine Learning Engineer",
+        "email": "hello@seanwade.com",
+        "url": "https://seanwade.com",
+        "sameAs": [
+            "https://www.linkedin.com/in/sean-wade-linked/"
+        ]
+    }
+</script>
 </html>
