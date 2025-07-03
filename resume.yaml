@@ -5,6 +5,13 @@ contact:
   website: "seanwade.com"
 
 work_experience:
+  - company: "Google"
+    title: "Senior Data Scientist"
+    location: "Mountain View, CA"
+    period: "July 2025 / Current"
+    responsibilities:
+      - "Working on Search and Discover"
+
   - company: "Apple"
     title: "Senior Machine Learning Engineer / Data Scientist"
     location: "Cupertino, CA"
