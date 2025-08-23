@@ -14,3 +14,14 @@ else
   echo "S3 deployment failed."
   exit 1
 fi
+
+echo "Creating CloudFront invalidation..."
+
+# Invalidate CloudFront cache
+aws cloudfront create-invalidation --distribution-id E20VQTC0TY7DFQ --paths "/*"
+
+if [ $? -eq 0 ]; then
+  echo "CloudFront invalidation completed successfully."
+else
+  echo "CloudFront invalidation failed."
+fi
