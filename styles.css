@@ -170,3 +170,9 @@ li {
         margin-top: 0.25rem;
     }
 }
+
+footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+}
