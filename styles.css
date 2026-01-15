@@ -39,8 +39,14 @@ h2 {
     margin-right: 1.5rem;
 }
 
-.contact a:hover {
+.contact a:hover,
+.contact a:focus {
     text-decoration: underline;
+}
+
+a:focus {
+    outline: 2px solid #0066cc;
+    outline-offset: 2px;
 }
 
 .intro {
@@ -106,7 +112,7 @@ section {
 }
 
 .job-period {
-    color: #888;
+    color: #666;
     font-size: 0.9rem;
     white-space: nowrap;
     margin-left: 1rem;
@@ -148,6 +154,16 @@ li {
 
 .publication-list > a {
     margin: .5rem;
+}
+
+.body-link {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.body-link:hover,
+.body-link:focus {
+    text-decoration: underline;
 }
 
 @media (max-width: 600px) {
