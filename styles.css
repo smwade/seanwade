@@ -17,10 +17,10 @@
     --text-primary: #ededed;
     --text-secondary: #a1a1a1;
     --text-tertiary: #6b6b6b;
-    --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-    --accent-blue: #3b82f6;
-    --accent-purple: #8b5cf6;
-    --glow-color: rgba(139, 92, 246, 0.15);
+	--accent-color: #3b82f6;
+	--accent-color: #8b5cf6;
+	--accent-color: #f59e0b;
+    --accent-color: #3ecf8e;
 }
 
 body {
@@ -32,6 +32,8 @@ body {
     padding: 2.5rem 2rem 4rem;
     background-color: var(--bg-primary);
     min-height: 100vh;
+    cursor: default;
+    user-select: none;
 }
 
 /* Subtle grid background */
@@ -52,13 +54,13 @@ body::before {
 
 /* Header styles */
 header {
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
 }
 
 h1 {
     font-size: 3rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
     color: var(--text-primary);
     letter-spacing: -0.02em;
 }
@@ -71,25 +73,25 @@ h1 {
 
 .intro p {
     color: var(--text-secondary);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.8;
 }
 
 .intro a {
-    color: var(--text-primary);
+    color: var(--accent-color);
     text-decoration: none;
-    border-bottom: 1px solid var(--border-color-hover);
+    border-bottom: 1px solid transparent;
     transition: all 0.2s ease;
 }
 
 .intro a:hover {
     color: #fff;
-    border-bottom-color: var(--accent-purple);
+    border-bottom-color: var(--accent-color);
 }
 
 /* Section styles */
 section {
-    margin-bottom: 4rem;
+    margin-bottom: 2.5rem;
 }
 
 .section-title {
@@ -116,12 +118,6 @@ section {
     transition: all 0.3s ease;
 }
 
-.experience-item:hover {
-    background: var(--bg-card-hover);
-    border-color: var(--border-color-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-}
 
 .company-logo {
     width: 32px;
@@ -131,9 +127,6 @@ section {
     transition: opacity 0.2s ease;
 }
 
-.experience-item:hover .company-logo {
-    opacity: 1;
-}
 
 /* Invert dark logos for visibility */
 .company-logo[alt="Apple logo"],
@@ -185,17 +178,17 @@ ul {
 li {
     margin-bottom: 0.5rem;
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 1rem;
     position: relative;
     padding-left: 1rem;
 }
 
 li::before {
-    content: '→';
+    content: '•';
     position: absolute;
     left: 0;
     color: var(--text-tertiary);
-    font-size: 0.8rem;
+    font-size: 0.9rem;
 }
 
 /* Nested lists */
@@ -205,7 +198,7 @@ li ul {
 }
 
 li ul li {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
 }
 
 /* Skills section */
@@ -244,9 +237,9 @@ li ul li {
 }
 
 .body-link {
-    color: var(--text-secondary);
+    color: var(--accent-color);
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 1rem;
     transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
@@ -256,21 +249,22 @@ li ul li {
 .body-link::before {
     content: '↗';
     font-size: 0.8rem;
-    color: var(--text-tertiary);
+    color: var(--accent-color);
     transition: transform 0.2s ease;
 }
 
 .body-link:hover {
-    color: var(--text-primary);
+    color: #fff;
 }
 
 .body-link:hover::before {
     transform: translate(2px, -2px);
+    color: #fff;
 }
 
 /* Focus styles */
 a:focus {
-    outline: 2px solid var(--accent-purple);
+    outline: 2px solid var(--accent-color);
     outline-offset: 4px;
     border-radius: 4px;
 }
@@ -290,7 +284,7 @@ footer p {
 /* Description text */
 .job-content > p {
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-top: 0.5rem;
 }
 
@@ -305,7 +299,7 @@ footer p {
     }
 
     .intro p {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 
     .experience-item {
@@ -344,8 +338,8 @@ html {
     scroll-behavior: smooth;
 }
 
-/* Selection styling */
+/* Selection styling - update rgba to match accent-color */
 ::selection {
-    background: rgba(139, 92, 246, 0.3);
+    background: color-mix(in srgb, var(--accent-color) 30%, transparent);
     color: #fff;
 }
