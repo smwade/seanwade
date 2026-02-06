@@ -1,12 +1,18 @@
 #!/bin/bash
 
+echo "Building Next.js static export..."
+
+bun run build
+
+if [ $? -ne 0 ]; then
+  echo "Build failed."
+  exit 1
+fi
+
 echo "Starting S3 deployment..."
 
-# Sync current directory to S3 bucket, excluding unnecessary files and deleting old ones
-aws s3 sync . s3://seanwade.com --delete \
-  --exclude ".git/*" \
-  --exclude ".DS_Store" \
-  --exclude "*.swp"
+aws s3 sync out/ s3://seanwade.com --delete \
+  --exclude ".DS_Store"
 
 if [ $? -eq 0 ]; then
   echo "S3 deployment completed successfully."
@@ -17,7 +23,6 @@ fi
 
 echo "Creating CloudFront invalidation..."
 
-# Invalidate CloudFront cache
 aws cloudfront create-invalidation --distribution-id E20VQTC0TY7DFQ --paths "/*"
 
 if [ $? -eq 0 ]; then
