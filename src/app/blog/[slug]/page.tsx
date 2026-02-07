@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import rehypePrettyCode from "rehype-pretty-code";
 import { getAllPosts, getPostBySlug } from "@/lib/blog";
 
 export function generateStaticParams() {
@@ -38,8 +39,23 @@ export default async function BlogPostPage({
         </h1>
         <time className="text-sm text-text-tertiary">{post.date}</time>
       </header>
-      <div className="text-text-secondary leading-[1.8] [&_h2]:mt-8 [&_h2]:mb-4 [&_h2]:text-xl [&_h2]:font-semibold [&_h2]:text-text-primary [&_p]:mb-4 [&_a]:text-accent [&_a]:no-underline hover:[&_a]:text-white [&_strong]:text-text-primary [&_code]:text-accent">
-        <MDXRemote source={post.content} />
+      <div className="prose-custom">
+        <MDXRemote
+          source={post.content}
+          options={{
+            mdxOptions: {
+              rehypePlugins: [
+                [
+                  rehypePrettyCode,
+                  {
+                    theme: "github-dark-default",
+                    keepBackground: false,
+                  },
+                ],
+              ],
+            },
+          }}
+        />
       </div>
     </article>
   );

@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/projects", label: "Projects" },
+  { href: "/pulshealth", label: "PulsHealth" },
   { href: "/blog", label: "Blog" },
 ];
 
@@ -15,11 +15,11 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border-subtle bg-nav-bg backdrop-blur-md">
+    <nav className="border-b border-border-subtle bg-nav-bg">
       <div className="mx-auto flex max-w-[800px] items-center justify-between px-8 py-4 max-sm:px-5">
         <Link
           href="/"
-          className="text-lg font-semibold tracking-tight text-text-primary no-underline"
+          className="text-xl font-semibold tracking-tight text-text-primary no-underline"
         >
           Sean Wade
         </Link>

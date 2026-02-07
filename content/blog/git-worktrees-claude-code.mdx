@@ -1,0 +1,111 @@
+---
+title: "Git Worktrees + Claude Code"
+date: "2026-02-06"
+description: "How I use git worktrees to run parallel Claude Code sessions without the usual branch-switching pain."
+---
+
+I've been using Claude Code a lot. One friction point that kept bugging me: you're mid-session on a feature branch, Claude has a ton of context loaded, and then you need to switch branches. Maybe a bug came in, maybe you want to check something on main. So you stash, switch, lose all your context, and spend a few minutes getting back to where you were.
+
+Git worktrees fix this. A worktree is just a second (or third, or fourth) checkout of your repo, pointed at a different branch. They all share the same `.git` history. The nice part: each one can run its own Claude Code session independently.
+
+## Bare repo setup
+
+The trick is to use a bare repository as the base. Instead of one "real" checkout with worktrees hanging off it, you start bare and every branch is a worktree. You get a clean flat structure:
+
+```
+my-project/
+  .bare/          # shared git history
+  .git            # pointer to .bare
+  main/           # worktree
+  feature-auth/   # worktree
+  fix-bug-123/    # worktree
+```
+
+No branch is special. Every worktree is a peer.
+
+## Shell helpers
+
+I wrote a few functions to cut out the boilerplate. Drop this in `~/.git-worktree-tools.sh` and source it:
+
+```bash
+#!/bin/bash
+
+BARE_DIR=".bare"
+
+# Clone a repo using the bare strategy
+git-worktree-init() {
+  local url=$1 dir=$2
+  [[ -z "$url" || -z "$dir" ]] && echo "Usage: git-worktree-init <repo-url> <folder-name>" && return 1
+  mkdir -p "$dir" && cd "$dir"
+  git clone --bare "$url" "$BARE_DIR"
+  echo "gitdir: ./$BARE_DIR" > .git
+  git --git-dir="$BARE_DIR" config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+  git fetch origin
+  local main_branch=$(git --git-dir="$BARE_DIR" symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@')
+  git worktree add "$main_branch" "$main_branch"
+  cd "$main_branch"
+}
+
+# Create a worktree (tracks remote branch if it exists, otherwise creates new)
+gwa() {
+  local branch=$1
+  [[ -z "$branch" ]] && echo "Usage: gwa <branch-name>" && return 1
+  local project_root=$(git rev-parse --show-toplevel 2>/dev/null)
+  [[ -z "$project_root" ]] && echo "Not in a git repo" && return 1
+  local parent_dir=$(dirname "$project_root")
+  local target_path="$parent_dir/$branch"
+  if git rev-parse --verify "origin/$branch" >/dev/null 2>&1; then
+    git worktree add "$target_path" "$branch" && cd "$target_path"
+  else
+    git worktree add -b "$branch" "$target_path" && cd "$target_path"
+  fi
+}
+
+# Interactive switcher (needs fzf)
+gw() {
+  command -v fzf &>/dev/null || { echo "fzf required"; return 1; }
+  local selected=$(git worktree list | fzf --height 15% --reverse --header="Switch Worktree" | awk '{print $1}')
+  [[ -n "$selected" ]] && cd "$selected"
+}
+
+# Remove current worktree, optionally delete the branch
+gwr() {
+  local current_dir=$(basename "$PWD")
+  local branch_name=$(git rev-parse --abbrev-ref HEAD)
+  cd ..
+  git worktree remove "$current_dir"
+  echo -n "Delete branch '$branch_name'? (y/n): "
+  read -r answer
+  [[ "$answer" == [Yy]* ]] && git branch -D "$branch_name" && git push origin --delete "$branch_name" 2>/dev/null
+  git worktree prune
+}
+
+# Helpers
+alias gwe='[[ -f ../.env ]] && ln -s ../.env .env && echo "Linked .env" || echo "No .env in parent."'
+alias gmain='cd $(git worktree list | grep -E "\[(main|master)\]" | head -n 1 | awk "{print \$1}")'
+alias gwp='git worktree prune && echo "Pruned."'
+```
+
+Quick rundown:
+- `git-worktree-init <url> <name>` — sets up a new project with the bare repo pattern
+- `gwa <branch>` — creates a worktree (and branch if needed), cds into it
+- `gw` — fuzzy-find between your worktrees
+- `gwr` — tears down the current worktree and cleans up
+- `gmain` — jump to the main branch
+- `gwe` — symlink a shared `.env` from the parent directory
+
+## How I actually use this
+
+The day-to-day looks like: I `gwa feature-whatever`, open Claude Code, and start working. If something comes up — a bug, a PR review, whatever — I open another terminal, `gwa` into a new worktree, and spin up a second Claude Code session there. The first one keeps running untouched.
+
+During bigger projects I'll have three or four worktrees going. One for the API, one for the frontend, maybe one for tests. Each Claude session stays focused on its piece. When things are ready I merge them together.
+
+The thing that makes this actually worth doing vs. just switching branches: Claude Code's context stays intact. You don't lose the conversation, you don't have to re-explain what you're building. Each session just keeps going in its own directory.
+
+## Practical notes
+
+- **Install fzf** (`brew install fzf`) — the `gw` switcher is great
+- **Use tmux or terminal tabs** — one pane per worktree
+- **Different ports per worktree** if you run dev servers
+- **`gwe`** saves you from copying `.env` files around
+- **Don't hoard worktrees** — `gwr` cleans up fast, and branches are on the remote if you need them again

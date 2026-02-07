@@ -6,14 +6,11 @@ export default function Home() {
     <>
       {/* Hero */}
       <header className="mb-10">
-        <h1 className="mb-5 text-5xl font-bold tracking-tight text-text-primary max-sm:text-4xl">
-          Sean Wade
-        </h1>
         <div className="flex flex-col gap-4">
           <p className="text-[1.1rem] leading-[1.8] text-text-secondary">
-            Experienced machine learning engineer and scientist. I love solving
+            Experienced research scientist and engineer. I love solving
             complex problems and taking algorithms all the way from research to
-            production. Currently creating the future of personalized health.
+            production. Lots of experience in the generative AI and health.
             Check out my{" "}
             <a
               href="/assets/sean_wade_resume_2025_updated.pdf"
@@ -168,7 +165,10 @@ export default function Home() {
             it. Created novel methods for representing medical claims history
             with vector embeddings.
           </p>
-          <div className="mt-4 flex flex-col gap-2">
+          <div className="mt-4 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
+            Publications
+          </div>
+          <div className="mt-2 flex flex-col gap-2">
             <PublicationLink href="https://ieeexplore.ieee.org/document/8031179">
               Code2Vec: Embedding and Clustering Medical Diagnosis Data
             </PublicationLink>

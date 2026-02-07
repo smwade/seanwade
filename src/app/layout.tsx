@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import "./globals.css";
 
 const inter = Inter({
@@ -67,10 +66,9 @@ export default function RootLayout({
       </head>
       <body>
         <Navbar />
-        <main className="mx-auto max-w-[800px] px-8 pt-[6rem] pb-16 max-sm:px-5">
+        <main className="mx-auto max-w-[800px] px-8 pt-8 pb-16 max-sm:px-5">
           {children}
         </main>
-        <Footer />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
