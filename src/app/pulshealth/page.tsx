@@ -34,10 +34,13 @@ export default function ProjectsPage() {
         </div>
         <div className="space-y-4 text-[1.1rem] leading-[1.8] text-text-secondary">
           <p>
-            After years building health algorithms at Apple and pushing AI-powered search at Google, I kept running into the same gap: wearable health data is incredibly rich but stays siloed, inconsistent across devices, and largely unusable by the AI systems that could make it meaningful.
+            While working at Apple I saw firsthand the power of the health data the Apple Watch collects. Heart rate trends, blood oxygen, sleep stages, respiratory rate &mdash; it could catch early warning signs, personalize treatment plans, and fundamentally change how people understand their own health.
           </p>
           <p>
-            PulsHealth is the infrastructure layer that fixes this. It normalizes wearable data across platforms, enforces privacy at every step, and makes it all accessible to AI agents &mdash; so health insights can finally move from raw sensor readings to real, personalized guidance.
+            But almost none of that potential was being realized. The data stayed locked on-device, siloed across platforms, and difficult for AI systems to ingest.
+          </p>
+          <p>
+            I created PulsHealth to solve this. It unlocks the value of wearable health data by normalizing it across platforms, enforcing privacy at every step, and making it accessible to AI agents &mdash; turning raw sensor readings into real, personalized health guidance.
           </p>
         </div>
       </header>
@@ -45,7 +48,7 @@ export default function ProjectsPage() {
       {/* What I'm Building */}
       <section className="mb-10">
         <div className="mb-6 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
-          What I&apos;m Building
+          What It Does
         </div>
         <div className="space-y-6">
           <div className="rounded-xl border border-border-subtle bg-bg-card p-8 max-sm:p-5">
@@ -53,12 +56,9 @@ export default function ProjectsPage() {
               AI Health Agent
             </h2>
             <p className="text-base leading-relaxed text-text-secondary">
-              An on-device LLM identifies the minimum necessary personal health data
-              and queries only that.
-              When cloud models are needed, a privacy-preserving query layer
-              aggregates, filters, and anonymizes data. Responses are grounded
-              against the knowledge base and validated with an LLM-as-a-Judge
-              testing harness built on clinician-reviewed ground truth.
+              A general-purpose health agent that is deeply personalized to you.
+              It uses your wearable data, health history, and context to answer
+              questions, surface insights, and create personalized workout programs.
             </p>
           </div>
 

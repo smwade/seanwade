@@ -7,7 +7,6 @@ import { useState } from "react";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/pulshealth", label: "PulsHealth" },
-  { href: "/blog", label: "Blog" },
 ];
 
 export default function Navbar() {
