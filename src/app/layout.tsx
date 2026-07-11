@@ -35,6 +35,13 @@ export const metadata: Metadata = {
     url: "https://seanwade.com",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sean Wade - Research Engineer",
+    description:
+      "Sean Wade's personal portfolio website showcasing his experience as a Research Engineer in machine learning, deep learning, and computer vision.",
+    images: ["https://seanwade.com/images/sean-wade.jpeg"],
+  },
   metadataBase: new URL("https://seanwade.com"),
   icons: {
     icon: "/images/pulshealth-logo.png",

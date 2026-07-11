@@ -1,0 +1,2342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Investment Calculator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      flex: 1;
+    }
+
+    .share-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #1e2130;
+      border: 1px solid #2d3148;
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.45rem 0.85rem;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .share-btn:hover { border-color: #6366f1; color: #818cf8; }
+    .share-btn svg { width: 13px; height: 13px; }
+
+    .card {
+      background: #1e2130;
+      border: 1px solid #2d3148;
+      border-radius: 16px;
+      padding: 1.75rem;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    /* Mode toggle */
+    .mode-toggle {
+      display: flex;
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 10px;
+      padding: 3px;
+      margin-bottom: 1.75rem;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 0.45rem 0.5rem;
+      border: none;
+      border-radius: 7px;
+      background: transparent;
+      color: #64748b;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .mode-btn.active {
+      background: #2d3148;
+      color: #f1f5f9;
+    }
+
+    .field {
+      margin-bottom: 1.15rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #94a3b8;
+      margin-bottom: 0.45rem;
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .prefix {
+      position: absolute;
+      left: 14px;
+      color: #64748b;
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    .suffix {
+      position: absolute;
+      right: 14px;
+      color: #64748b;
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    input[type="number"],
+    input[type="date"] {
+      width: 100%;
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 10px;
+      color: #f1f5f9;
+      font-size: 1.05rem;
+      padding: 0.6rem 2.5rem 0.6rem 2.2rem;
+      outline: none;
+      transition: border-color 0.15s;
+      -moz-appearance: textfield;
+    }
+
+    input[type="date"] {
+      padding-left: 1rem;
+      color-scheme: dark;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    input[type="number"]:focus,
+    input[type="date"]:focus { border-color: #6366f1; }
+
+    input.no-prefix { padding-left: 1rem; }
+
+    select {
+      width: 100%;
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 10px;
+      color: #f1f5f9;
+      font-size: 1rem;
+      padding: 0.6rem 2.5rem 0.6rem 1rem;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      transition: border-color 0.15s;
+    }
+    select:focus { border-color: #6366f1; }
+
+    .hidden { display: none !important; }
+
+    /* Range slider */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .slider-val {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      min-width: 3.5rem;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      flex: 1;
+      height: 5px;
+      background: #2d3148;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: #818cf8;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    input[type="range"]:hover::-webkit-slider-thumb { background: #a5b4fc; }
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: #818cf8;
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+    }
+
+    /* Toggle switch */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .toggle {
+      position: relative;
+      display: inline-block;
+      width: 38px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    .toggle input { display: none; }
+    .toggle-knob {
+      position: absolute;
+      inset: 0;
+      background: #2d3148;
+      border-radius: 11px;
+      transition: background 0.2s;
+      cursor: pointer;
+    }
+    .toggle-knob::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 3px;
+      top: 3px;
+      background: #64748b;
+      border-radius: 50%;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .toggle input:checked + .toggle-knob { background: rgba(99, 102, 241, 0.3); }
+    .toggle input:checked + .toggle-knob::before { transform: translateX(16px); background: #818cf8; }
+    .toggle-label {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      cursor: pointer;
+    }
+
+    /* Options section */
+    .section-divider {
+      height: 1px;
+      background: #2d3148;
+      margin: 1.25rem 0;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #475569;
+      margin-bottom: 1rem;
+    }
+
+    /* Small buttons */
+    .small-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 6px;
+      color: #818cf8;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.3rem 0.65rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: background 0.15s;
+    }
+    .small-btn:hover { background: rgba(99, 102, 241, 0.2); }
+
+    /* Data note */
+    .data-note {
+      margin-top: 0.5rem;
+      font-size: 0.73rem;
+      color: #475569;
+      line-height: 1.5;
+    }
+    .data-note span { color: #f59e0b; }
+
+    /* Results */
+    .results {
+      margin-top: 1.5rem;
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 12px;
+      padding: 1.35rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .stat.full { grid-column: 1 / -1; }
+
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    .stat-value.highlight {
+      color: #818cf8;
+      font-size: 1.9rem;
+    }
+
+    .stat-value.positive { color: #4ade80; }
+    .stat-value.negative { color: #f87171; }
+    .stat-value.amber    { color: #fbbf24; }
+    .stat-value.orange   { color: #fb923c; }
+    .stat-value.red      { color: #f87171; }
+
+    .divider {
+      grid-column: 1 / -1;
+      height: 1px;
+      background: #2d3148;
+    }
+
+    /* Comparison results */
+    .compare-results {
+      margin-top: 1.5rem;
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .compare-header {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      background: #141726;
+      padding: 0.6rem 1rem;
+      gap: 0.5rem;
+    }
+
+    .compare-header span {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+    }
+
+    .compare-header span:nth-child(2) { color: #818cf8; }
+    .compare-header span:nth-child(3) { color: #4ade80; }
+    .compare-header span:nth-child(4) { color: #94a3b8; }
+
+    .compare-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      padding: 0.6rem 1rem;
+      gap: 0.5rem;
+      border-top: 1px solid #1e2130;
+    }
+
+    .compare-row span { font-size: 0.9rem; font-weight: 600; color: #e2e8f0; }
+    .compare-row span:first-child { color: #64748b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; display: flex; align-items: center; }
+    .compare-row .diff-pos { color: #4ade80; }
+    .compare-row .diff-neg { color: #f87171; }
+
+    /* Badge row */
+    .badge-row {
+      grid-column: 1 / -1;
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: 6px;
+      background: rgba(248, 113, 113, 0.12);
+      color: #f87171;
+    }
+
+    .badge.green {
+      background: rgba(74, 222, 128, 0.12);
+      color: #4ade80;
+    }
+
+    .badge.amber {
+      background: rgba(251, 191, 36, 0.12);
+      color: #fbbf24;
+    }
+
+    /* Scenario B card */
+    .scenario-toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 560px;
+      margin: 1rem 0 0.5rem;
+    }
+
+    .add-scenario-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(74, 222, 128, 0.08);
+      border: 1px dashed rgba(74, 222, 128, 0.3);
+      border-radius: 10px;
+      color: #4ade80;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.55rem 1rem;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      width: 100%;
+      max-width: 560px;
+      justify-content: center;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+    .add-scenario-btn:hover { background: rgba(74, 222, 128, 0.14); border-color: rgba(74, 222, 128, 0.5); }
+
+    .card.scenario-b {
+      border-color: rgba(74, 222, 128, 0.25);
+      margin-bottom: 0.5rem;
+    }
+
+    .scenario-card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .scenario-card-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #4ade80;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      flex: 1;
+    }
+
+    .close-btn {
+      background: none;
+      border: 1px solid #2d3148;
+      border-radius: 6px;
+      color: #64748b;
+      font-size: 0.8rem;
+      padding: 0.2rem 0.5rem;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .close-btn:hover { color: #f87171; border-color: rgba(248,113,113,0.3); }
+
+    /* Chart */
+    .chart-wrap {
+      margin-top: 1rem;
+      width: 100%;
+      max-width: 760px;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.2rem;
+      margin-bottom: 0.6rem;
+      padding: 0 4px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    .legend-swatch {
+      width: 20px;
+      height: 3px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .legend-swatch.dashed {
+      background: repeating-linear-gradient(90deg, currentColor 0, currentColor 5px, transparent 5px, transparent 9px);
+      height: 2px;
+    }
+
+    canvas {
+      width: 100%;
+      border-radius: 12px;
+      background: #1e2130;
+      border: 1px solid #2d3148;
+      display: block;
+    }
+
+    /* Goal planner */
+    .goal-result-box {
+      margin-top: 1.5rem;
+      background: #0f1117;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .goal-main {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #818cf8;
+      margin: 0.5rem 0;
+    }
+
+    .goal-sub {
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    .goal-alts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .goal-alt {
+      background: #1e2130;
+      border-radius: 10px;
+      padding: 0.85rem;
+    }
+
+    .goal-alt-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #475569;
+      margin-bottom: 0.3rem;
+    }
+
+    .goal-alt-value {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    /* Table section */
+    .table-control-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 760px;
+      margin-top: 0.75rem;
+    }
+
+    .toggle-table-btn {
+      background: none;
+      border: 1px solid #2d3148;
+      border-radius: 8px;
+      color: #64748b;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .toggle-table-btn:hover { color: #94a3b8; border-color: #475569; }
+
+    .csv-btn {
+      background: none;
+      border: 1px solid #2d3148;
+      border-radius: 8px;
+      color: #4ade80;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      text-decoration: none;
+    }
+    .csv-btn:hover { background: rgba(74, 222, 128, 0.08); }
+
+    .table-section {
+      width: 100%;
+      max-width: 760px;
+      margin-top: 0.5rem;
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid #2d3148;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    thead th {
+      background: #141726;
+      color: #64748b;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.6rem 0.85rem;
+      text-align: right;
+      white-space: nowrap;
+    }
+    thead th:first-child { text-align: left; }
+
+    tbody tr { border-top: 1px solid #1a1e2e; }
+    tbody tr:hover { background: rgba(255,255,255,0.02); }
+
+    tbody td {
+      padding: 0.5rem 0.85rem;
+      text-align: right;
+      color: #e2e8f0;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    tbody td:first-child { text-align: left; color: #94a3b8; }
+
+    .ret-pos { color: #4ade80; }
+    .ret-neg { color: #f87171; }
+    .ret-neutral { color: #94a3b8; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(4rem);
+      background: #818cf8;
+      color: #0f1117;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.6rem 1.4rem;
+      border-radius: 8px;
+      opacity: 0;
+      transition: transform 0.25s, opacity 0.25s;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* Monte Carlo note */
+    .mc-note {
+      font-size: 0.72rem;
+      color: #475569;
+      margin-top: 0.4rem;
+    }
+
+    /* Milestone popup (hidden, used via canvas) */
+    .milestone-tooltip {
+      position: fixed;
+      background: #1e2130;
+      border: 1px solid #fbbf24;
+      border-radius: 6px;
+      padding: 0.35rem 0.65rem;
+      font-size: 0.75rem;
+      color: #fbbf24;
+      font-weight: 700;
+      pointer-events: none;
+      z-index: 50;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Investment Calculator</h1>
+  <button class="share-btn" id="shareBtn">
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 2L14 6L10 10M14 6H6C4.89 6 4 6.89 4 8V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Copy Link
+  </button>
+</div>
+
+<!-- Main Card -->
+<div class="card" id="mainCard">
+  <div class="mode-toggle">
+    <button class="mode-btn active" data-mode="fixed">Fixed Rate</button>
+    <button class="mode-btn" data-mode="historical">Historical</button>
+    <button class="mode-btn" data-mode="goal">Goal Planner</button>
+  </div>
+
+  <!-- Shared inputs (principal + monthly) -->
+  <div class="field" id="sharedPrincipalField">
+    <label>Initial Investment</label>
+    <div class="input-wrap">
+      <span class="prefix">$</span>
+      <input type="number" id="principal" value="10000" min="0" step="1000" />
+    </div>
+  </div>
+
+  <div class="field" id="sharedMonthlyField">
+    <label>Monthly Contribution</label>
+    <div class="input-wrap">
+      <span class="prefix">$</span>
+      <input type="number" id="monthly" value="500" min="0" step="100" />
+    </div>
+  </div>
+
+  <!-- Fixed rate inputs -->
+  <div id="fixed-inputs">
+    <div class="field">
+      <label>Annual Rate of Return</label>
+      <div class="input-wrap">
+        <input type="number" id="rate" class="no-prefix" value="7" min="-50" max="100" step="0.5" />
+        <span class="suffix">%</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>Years</label>
+      <div class="input-wrap">
+        <input type="number" id="years" class="no-prefix" value="20" min="1" max="100" step="1" />
+      </div>
+    </div>
+  </div>
+
+  <!-- Historical inputs -->
+  <div id="historical-inputs" class="hidden">
+    <div class="field">
+      <label>Start Date</label>
+      <div class="input-wrap">
+        <input type="date" id="startDate" value="2000-01-01" min="1928-01-01" max="2025-12-31" />
+      </div>
+      <p class="data-note">S&amp;P 500 annual total returns 1928–2024. <span>2025+ uses historical avg (~10.5%/yr).</span></p>
+    </div>
+    <div class="field">
+      <label>Asset Class</label>
+      <select id="assetClass">
+        <option value="sp500">S&amp;P 500 (1928–2024)</option>
+        <option value="nasdaq">Nasdaq 100 (1985–2024)</option>
+        <option value="bonds">10yr Treasury Bonds (1928–2024)</option>
+        <option value="mixed6040">60/40 Portfolio (1928–2024)</option>
+        <option value="gold">Gold (1971–2024)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Goal planner inputs -->
+  <div id="goal-inputs" class="hidden">
+    <div class="field">
+      <label>Target Balance</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="goalTarget" value="1000000" min="1" step="10000" />
+      </div>
+    </div>
+    <div class="field">
+      <label>Years to Reach Goal</label>
+      <div class="input-wrap">
+        <input type="number" id="goalYears" class="no-prefix" value="30" min="1" max="100" step="1" />
+      </div>
+    </div>
+    <div class="field">
+      <label>Expected Annual Return</label>
+      <div class="input-wrap">
+        <input type="number" id="goalRate" class="no-prefix" value="7" min="0" max="50" step="0.5" />
+        <span class="suffix">%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Expense Ratio -->
+  <div class="section-divider"></div>
+  <div class="field">
+    <label>Expense Ratio / Annual Fee</label>
+    <div class="slider-row">
+      <span class="slider-val" id="feeDisplay">0.03%</span>
+      <input type="range" id="fee" min="0" max="200" step="1" value="3" title="Expense ratio in basis points (1 bp = 0.01%)" />
+    </div>
+    <p class="data-note">Index funds: ~0.03%. Actively managed: 0.5–1.5%. Advisors: +0.5–1%.</p>
+  </div>
+
+  <!-- Inflation toggle -->
+  <div class="toggle-row">
+    <label class="toggle" for="inflToggle">
+      <input type="checkbox" id="inflToggle" />
+      <span class="toggle-knob"></span>
+    </label>
+    <span class="toggle-label" id="inflLabel">Show Real (Inflation-Adjusted) Returns</span>
+  </div>
+
+  <div id="cpi-row" class="hidden field">
+    <label id="cpiLabel">CPI / Inflation Rate</label>
+    <div class="slider-row">
+      <span class="slider-val" id="cpiDisplay">3.0%</span>
+      <input type="range" id="cpiRate" min="0" max="150" step="5" value="30" title="Annual inflation rate (÷10 = %)" />
+    </div>
+    <p class="data-note" id="cpiNote">Using ~3%/yr assumption. In Historical mode, actual CPI data is used.</p>
+  </div>
+
+  <!-- Monte Carlo (fixed mode only) -->
+  <div class="toggle-row" id="mc-toggle-row" style="display:none">
+    <label class="toggle" for="mcToggle">
+      <input type="checkbox" id="mcToggle" />
+      <span class="toggle-knob"></span>
+    </label>
+    <span class="toggle-label">Monte Carlo Simulation (1,000 runs)</span>
+  </div>
+
+  <!-- Withdrawal phase -->
+  <div class="toggle-row">
+    <label class="toggle" for="wdToggle">
+      <input type="checkbox" id="wdToggle" />
+      <span class="toggle-knob"></span>
+    </label>
+    <span class="toggle-label">Add Retirement / Withdrawal Phase</span>
+  </div>
+
+  <div id="wd-inputs" class="hidden">
+    <div class="field">
+      <label>Monthly Withdrawal Amount</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="wdMonthly" value="4000" min="0" step="100" />
+      </div>
+    </div>
+    <div class="field">
+      <label>Years in Retirement to Model</label>
+      <div class="input-wrap">
+        <input type="number" id="wdYears" class="no-prefix" value="25" min="1" max="60" step="1" />
+      </div>
+    </div>
+    <button class="small-btn" id="fourPctBtn">⚡ Use 4% Rule</button>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results"></div>
+</div>
+
+<!-- Scenario B toggle & card -->
+<button class="add-scenario-btn hidden" id="addScenarioBtn">+ Add Scenario B</button>
+
+<div class="card scenario-b hidden" id="scenarioBCard">
+  <div class="scenario-card-header">
+    <span class="scenario-card-title">Scenario B</span>
+    <button class="close-btn" id="closeBBtn">✕ Remove</button>
+  </div>
+
+  <div class="field">
+    <label>Initial Investment</label>
+    <div class="input-wrap">
+      <span class="prefix">$</span>
+      <input type="number" id="b_principal" value="10000" min="0" step="1000" />
+    </div>
+  </div>
+  <div class="field">
+    <label>Monthly Contribution</label>
+    <div class="input-wrap">
+      <span class="prefix">$</span>
+      <input type="number" id="b_monthly" value="1000" min="0" step="100" />
+    </div>
+  </div>
+  <!-- Fixed B -->
+  <div id="b_fixed_inputs">
+    <div class="field">
+      <label>Annual Rate of Return</label>
+      <div class="input-wrap">
+        <input type="number" id="b_rate" class="no-prefix" value="7" min="-50" max="100" step="0.5" />
+        <span class="suffix">%</span>
+      </div>
+    </div>
+    <div class="field">
+      <label>Years</label>
+      <div class="input-wrap">
+        <input type="number" id="b_years" class="no-prefix" value="20" min="1" max="100" step="1" />
+      </div>
+    </div>
+  </div>
+  <!-- Historical B -->
+  <div id="b_historical_inputs" class="hidden">
+    <div class="field">
+      <label>Start Date</label>
+      <div class="input-wrap">
+        <input type="date" id="b_startDate" value="2000-01-01" min="1928-01-01" max="2025-12-31" />
+      </div>
+    </div>
+    <div class="field">
+      <label>Asset Class</label>
+      <select id="b_assetClass">
+        <option value="sp500">S&amp;P 500 (1928–2024)</option>
+        <option value="nasdaq">Nasdaq 100 (1985–2024)</option>
+        <option value="bonds">10yr Treasury Bonds (1928–2024)</option>
+        <option value="mixed6040">60/40 Portfolio (1928–2024)</option>
+        <option value="gold">Gold (1971–2024)</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- Chart -->
+<div class="chart-wrap">
+  <div class="chart-legend" id="chartLegend"></div>
+  <canvas id="chart" height="280"></canvas>
+</div>
+
+<!-- Table controls -->
+<div class="table-control-row" id="tableControlRow" style="display:none">
+  <button class="toggle-table-btn" id="tableToggleBtn">▶ Year-by-Year Breakdown</button>
+  <a class="csv-btn hidden" id="csvBtn" download="investment-data.csv">↓ CSV</a>
+</div>
+<div class="table-section hidden" id="tableSection">
+  <table id="breakdownTable"><thead></thead><tbody></tbody></table>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">Link copied!</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// HISTORICAL DATA
+// ─────────────────────────────────────────────────────────────────────────────
+
+const SP500 = {
+  1928:43.61,1929:-8.42,1930:-24.90,1931:-43.34,1932:-8.19,
+  1933:53.99,1934:-1.44,1935:47.67,1936:33.92,1937:-35.03,
+  1938:31.12,1939:-0.41,1940:-9.78,1941:-11.59,1942:20.34,
+  1943:25.90,1944:19.75,1945:36.44,1946:-8.07,1947:5.71,
+  1948:5.50,1949:18.79,1950:31.71,1951:24.02,1952:18.37,
+  1953:-0.99,1954:52.62,1955:31.56,1956:6.56,1957:-10.78,
+  1958:43.36,1959:11.96,1960:0.47,1961:26.89,1962:-8.73,
+  1963:22.80,1964:16.48,1965:12.45,1966:-10.06,1967:23.98,
+  1968:11.06,1969:-8.50,1970:4.01,1971:14.31,1972:18.98,
+  1973:-14.66,1974:-26.47,1975:37.20,1976:23.83,1977:-7.18,
+  1978:6.56,1979:18.44,1980:32.42,1981:-4.91,1982:21.41,
+  1983:22.51,1984:6.27,1985:32.16,1986:18.47,1987:5.23,
+  1988:16.81,1989:31.49,1990:-3.10,1991:30.47,1992:7.62,
+  1993:10.08,1994:1.32,1995:37.58,1996:22.96,1997:33.36,
+  1998:28.58,1999:21.04,2000:-9.10,2001:-11.89,2002:-22.10,
+  2003:28.69,2004:10.88,2005:4.91,2006:15.79,2007:5.49,
+  2008:-37.00,2009:26.46,2010:15.06,2011:2.11,2012:16.00,
+  2013:32.39,2014:13.69,2015:1.38,2016:11.96,2017:21.83,
+  2018:-4.38,2019:31.49,2020:18.40,2021:28.71,2022:-18.11,
+  2023:26.29,2024:25.02,
+};
+
+// Nasdaq 100 annual returns (QQQ proxy; pre-1985 uses S&P 500)
+const NASDAQ = {
+  1985:109.0,1986:6.2,1987:-10.5,1988:15.3,1989:27.7,
+  1990:-17.5,1991:61.8,1992:10.4,1993:11.1,1994:-4.1,
+  1995:48.2,1996:42.5,1997:20.6,1998:85.3,1999:101.7,
+  2000:-36.8,2001:-32.7,2002:-37.6,2003:49.1,2004:10.4,
+  2005:1.5,2006:6.8,2007:18.7,2008:-41.9,2009:53.5,
+  2010:19.2,2011:2.7,2012:16.8,2013:36.6,2014:17.9,
+  2015:9.5,2016:7.1,2017:31.5,2018:-1.0,2019:38.0,
+  2020:47.6,2021:27.3,2022:-32.6,2023:53.8,2024:24.9,
+};
+
+// 10yr US Treasury total returns (approximate, from Damodaran data)
+const BONDS = {
+  1928:0.84,1929:4.20,1930:4.54,1931:-2.56,1932:16.66,
+  1933:-0.07,1934:10.03,1935:4.98,1936:7.52,1937:0.23,
+  1938:5.53,1939:5.94,1940:6.09,1941:0.93,1942:3.22,
+  1943:2.08,1944:2.81,1945:10.73,1946:-0.10,1947:-2.62,
+  1948:3.40,1949:6.45,1950:0.06,1951:-3.93,1952:1.16,
+  1953:3.63,1954:7.19,1955:-1.30,1956:-5.59,1957:7.46,
+  1958:-6.09,1959:-2.26,1960:13.78,1961:0.97,1962:6.89,
+  1963:1.21,1964:3.51,1965:0.71,1966:3.65,1967:-9.18,
+  1968:-0.26,1969:-5.01,1970:16.75,1971:9.79,1972:2.82,
+  1973:3.66,1974:5.87,1975:5.19,1976:16.75,1977:-0.69,
+  1978:-1.18,1979:0.67,1980:-2.99,1981:1.85,1982:40.36,
+  1983:0.65,1984:15.48,1985:30.97,1986:24.53,1987:-4.96,
+  1988:8.22,1989:17.69,1990:6.24,1991:19.36,1992:6.77,
+  1993:18.24,1994:-7.77,1995:31.67,1996:-0.93,1997:11.16,
+  1998:14.92,1999:-8.25,2000:16.66,2001:5.57,2002:15.12,
+  2003:0.38,2004:4.49,2005:2.87,2006:1.96,2007:10.21,
+  2008:25.87,2009:-11.12,2010:8.46,2011:16.04,2012:2.97,
+  2013:-9.10,2014:10.75,2015:1.28,2016:0.69,2017:2.80,
+  2018:0.86,2019:9.64,2020:11.33,2021:-4.42,2022:-17.83,
+  2023:3.88,2024:-1.64,
+};
+
+// Gold annual returns (pre-1971 uses 0% — price was fixed under Bretton Woods)
+const GOLD = {
+  1971:14.6,1972:43.3,1973:66.6,1974:72.8,1975:-24.7,
+  1976:-4.1,1977:22.6,1978:37.0,1979:126.5,1980:15.3,
+  1981:-32.6,1982:14.9,1983:-16.3,1984:-19.2,1985:6.8,
+  1986:21.3,1987:22.3,1988:-15.3,1989:-2.8,1990:-1.5,
+  1991:-10.1,1992:-5.7,1993:17.5,1994:-2.2,1995:0.9,
+  1996:-4.6,1997:-21.4,1998:-0.9,1999:-0.1,2000:-5.4,
+  2001:2.5,2002:25.6,2003:19.6,2004:5.5,2005:8.8,
+  2006:22.8,2007:31.4,2008:5.8,2009:24.3,2010:29.8,
+  2011:10.1,2012:7.1,2013:-28.3,2014:-1.5,2015:-10.4,
+  2016:8.1,2017:13.1,2018:-1.9,2019:18.3,2020:25.1,
+  2021:-3.6,2022:-0.3,2023:13.1,2024:27.2,
+};
+
+// Historical CPI annual rates (%)
+const CPI = {
+  1928:-1.7,1929:0.0,1930:-2.3,1931:-9.0,1932:-9.9,
+  1933:-5.1,1934:3.1,1935:2.2,1936:1.5,1937:3.6,
+  1938:-2.1,1939:-1.4,1940:0.7,1941:5.0,1942:10.9,
+  1943:6.1,1944:1.7,1945:2.3,1946:8.3,1947:14.4,
+  1948:8.1,1949:-1.2,1950:1.3,1951:7.9,1952:1.9,
+  1953:0.8,1954:0.7,1955:-0.4,1956:1.5,1957:3.3,
+  1958:2.8,1959:0.7,1960:1.7,1961:1.0,1962:1.0,
+  1963:1.3,1964:1.3,1965:1.6,1966:2.9,1967:3.1,
+  1968:4.2,1969:5.5,1970:5.7,1971:4.4,1972:3.2,
+  1973:6.2,1974:11.0,1975:9.1,1976:5.8,1977:6.5,
+  1978:7.6,1979:11.3,1980:13.5,1981:10.3,1982:6.2,
+  1983:3.2,1984:4.3,1985:3.6,1986:1.9,1987:3.6,
+  1988:4.1,1989:4.8,1990:5.4,1991:4.2,1992:3.0,
+  1993:3.0,1994:2.6,1995:2.8,1996:3.0,1997:2.3,
+  1998:1.6,1999:2.2,2000:3.4,2001:2.8,2002:1.6,
+  2003:2.3,2004:2.7,2005:3.4,2006:3.2,2007:2.8,
+  2008:3.8,2009:-0.4,2010:1.6,2011:3.2,2012:2.1,
+  2013:1.5,2014:1.6,2015:0.1,2016:1.3,2017:2.1,
+  2018:2.4,2019:2.3,2020:1.2,2021:4.7,2022:8.0,
+  2023:4.1,2024:2.9,
+};
+
+const HIST_AVG = 10.5;
+const BONDS_AVG = 3.5;
+const SP500_MEAN = 10.5;
+const SP500_STD = 19.5;
+
+// Asset class config
+const ASSET_DATA = {
+  sp500:   { data: SP500,  fallback: HIST_AVG,  name: 'S&P 500' },
+  nasdaq:  { data: NASDAQ, fallback: HIST_AVG,  name: 'Nasdaq 100', fallbackData: SP500 },
+  bonds:   { data: BONDS,  fallback: BONDS_AVG, name: '10yr Bonds' },
+  mixed6040: { data: null, fallback: HIST_AVG * 0.6 + BONDS_AVG * 0.4, name: '60/40 Portfolio' },
+  gold:    { data: GOLD,   fallback: 5.0,       name: 'Gold' },
+};
+
+function getAssetReturn(assetId, year) {
+  if (assetId === 'mixed6040') {
+    const sp = SP500[year] !== undefined ? SP500[year] : HIST_AVG;
+    const b  = BONDS[year]  !== undefined ? BONDS[year]  : BONDS_AVG;
+    return 0.6 * sp + 0.4 * b;
+  }
+  const asset = ASSET_DATA[assetId];
+  if (!asset) return HIST_AVG;
+  // For nasdaq, fall back to SP500 before 1985
+  if (assetId === 'nasdaq' && year < 1985) {
+    return SP500[year] !== undefined ? SP500[year] : HIST_AVG;
+  }
+  // For gold, 0% before 1971
+  if (assetId === 'gold' && year < 1971) return 0;
+  return asset.data[year] !== undefined ? asset.data[year] : asset.fallback;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+
+let mode = 'fixed';
+let showB = false;
+let showTable = false;
+let lastResult = null;
+let lastResultB = null;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// UTILITIES
+// ─────────────────────────────────────────────────────────────────────────────
+
+const fmt  = n => '$' + Math.round(n).toLocaleString('en-US');
+const pct  = n => (n >= 0 ? '+' : '') + n.toFixed(1) + '%';
+
+function abbr(n) {
+  if (n >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+  return '$' + Math.round(n);
+}
+
+function fmtDiff(n) {
+  const s = fmt(Math.abs(n));
+  return n >= 0 ? '+' + s : '-' + s.slice(1);
+}
+
+function monthlyRate(annualPct) {
+  return Math.pow(1 + annualPct / 100, 1 / 12) - 1;
+}
+
+// Box-Muller normal random
+function normalRandom(mean, std) {
+  let u, v;
+  do { u = Math.random(); } while (u === 0);
+  do { v = Math.random(); } while (v === 0);
+  return mean + std * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+function percentile(arr, p) {
+  const sorted = [...arr].sort((a, b) => a - b);
+  const idx = (p / 100) * (sorted.length - 1);
+  const lo = Math.floor(idx);
+  const hi = Math.ceil(idx);
+  if (lo === hi) return sorted[lo];
+  return sorted[lo] + (sorted[hi] - sorted[lo]) * (idx - lo);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INPUT READING
+// ─────────────────────────────────────────────────────────────────────────────
+
+function getInputs(prefix = '') {
+  const g = id => document.getElementById(prefix + id);
+  const n = id => parseFloat(g(id)?.value) || 0;
+
+  const inp = {
+    principal: n('principal'),
+    monthly:   n('monthly'),
+    fee:       (parseInt(g('fee')?.value) || 0) / 100,  // bp -> %
+    showInflation: document.getElementById('inflToggle')?.checked || false,
+    cpiRate:   (parseInt(document.getElementById('cpiRate')?.value) || 0) / 10,
+    showMC:    document.getElementById('mcToggle')?.checked || false,
+    showWD:    document.getElementById('wdToggle')?.checked || false,
+    wdMonthly: parseFloat(document.getElementById('wdMonthly')?.value) || 0,
+    wdYears:   parseInt(document.getElementById('wdYears')?.value) || 25,
+    mode,
+  };
+
+  if (mode === 'fixed' || prefix) {
+    inp.rate  = parseFloat(g('rate')?.value) || 0;
+    inp.years = parseInt(g('years')?.value) || 0;
+  }
+  if (mode === 'historical' || prefix) {
+    inp.startDate  = g('startDate')?.value || '';
+    inp.assetClass = g('assetClass')?.value || 'sp500';
+  }
+  if (mode === 'goal') {
+    inp.goalTarget = n('goalTarget');
+    inp.goalYears  = parseInt(g('goalYears')?.value) || 30;
+    inp.goalRate   = parseFloat(g('goalRate')?.value) || 7;
+  }
+  return inp;
+}
+
+function getInputsB() {
+  const g = id => document.getElementById('b_' + id);
+  const n = id => parseFloat(g(id)?.value) || 0;
+  return {
+    principal:  n('principal'),
+    monthly:    n('monthly'),
+    rate:       parseFloat(g('rate')?.value)   || 0,
+    years:      parseInt(g('years')?.value)    || 0,
+    startDate:  g('startDate')?.value || '',
+    assetClass: g('assetClass')?.value || 'sp500',
+    fee:        (parseInt(document.getElementById('fee')?.value) || 0) / 100,
+    showInflation: document.getElementById('inflToggle')?.checked || false,
+    cpiRate:   (parseInt(document.getElementById('cpiRate')?.value) || 0) / 10,
+    mode,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CALCULATIONS — FIXED MODE
+// ─────────────────────────────────────────────────────────────────────────────
+
+function runFixed(inp) {
+  const { principal, monthly, rate, years, fee, showInflation, cpiRate, showMC } = inp;
+  const effectiveRate = rate - fee;  // fee subtracts from annual return
+  const mRate = effectiveRate / 100 / 12;
+  const mRateReal = showInflation
+    ? ((1 + effectiveRate / 100) / (1 + cpiRate / 100) - 1) / 12
+    : null;
+  const mRateNoFee = rate / 100 / 12;
+  const months = years * 12;
+
+  let balance = principal;
+  let balanceReal = principal;
+  let balanceNoFee = principal;
+  let totalContributed = principal;
+
+  const data = [{
+    label: '0', balance, balanceReal: principal, balanceNoFee: principal,
+    contributed: principal, phase: 'accumulation'
+  }];
+
+  for (let m = 1; m <= months; m++) {
+    balance     = balance     * (1 + mRate)      + monthly;
+    balanceNoFee = balanceNoFee * (1 + mRateNoFee) + monthly;
+    if (mRateReal !== null) balanceReal = balanceReal * (1 + mRateReal) + monthly;
+    totalContributed += monthly;
+
+    if (m % 12 === 0) {
+      data.push({
+        label: String(m / 12),
+        balance, balanceReal, balanceNoFee,
+        contributed: totalContributed,
+        phase: 'accumulation'
+      });
+    }
+  }
+
+  const lostToFees = balanceNoFee - balance;
+
+  // Withdrawal phase
+  let depletedLabel = null;
+  if (inp.showWD && inp.wdMonthly > 0) {
+    let wdBal = balance;
+    let wdBalReal = balanceReal;
+    const wdMRate = effectiveRate / 100 / 12;
+    for (let wy = 1; wy <= inp.wdYears; wy++) {
+      for (let m = 0; m < 12; m++) {
+        wdBal = wdBal * (1 + wdMRate) - inp.wdMonthly;
+        if (mRateReal !== null) wdBalReal = wdBalReal * (1 + mRateReal) - inp.wdMonthly;
+      }
+      if (wdBal <= 0 && !depletedLabel) {
+        depletedLabel = String(years + wy);
+        wdBal = 0;
+      }
+      data.push({
+        label: String(years + wy),
+        balance: Math.max(0, wdBal),
+        balanceReal: Math.max(0, wdBalReal),
+        balanceNoFee: Math.max(0, wdBal),
+        contributed: totalContributed,
+        phase: 'withdrawal'
+      });
+      if (wdBal <= 0) break;
+    }
+  }
+
+  // Monte Carlo
+  let monteCarlo = null;
+  if (showMC && years > 0) {
+    const N = 1000;
+    // Track per-year bands: simulations[year][sim] = balance
+    const bands = Array.from({ length: years }, () => []);
+
+    for (let s = 0; s < N; s++) {
+      let bal = principal;
+      let tc = principal;
+      for (let y = 1; y <= years; y++) {
+        const annualRet = normalRandom(SP500_MEAN, SP500_STD);
+        const mr = annualRet / 100 / 12;
+        for (let m = 0; m < 12; m++) {
+          bal = bal * (1 + mr) + monthly;
+          tc += monthly;
+        }
+        bands[y - 1].push(bal);
+      }
+    }
+
+    monteCarlo = {
+      p10: bands.map(b => percentile(b, 10)),
+      p25: bands.map(b => percentile(b, 25)),
+      p50: bands.map(b => percentile(b, 50)),
+      p75: bands.map(b => percentile(b, 75)),
+      p90: bands.map(b => percentile(b, 90)),
+    };
+  }
+
+  return {
+    data, totalContributed,
+    finalBalance: balance,
+    finalBalanceReal: mRateReal !== null ? balanceReal : null,
+    finalBalanceNoFee: balanceNoFee,
+    lostToFees,
+    depletedLabel,
+    monteCarlo,
+    isHistorical: false,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CALCULATIONS — HISTORICAL MODE
+// ─────────────────────────────────────────────────────────────────────────────
+
+function runHistorical(inp) {
+  const { principal, monthly, fee, showInflation, cpiRate: fixedCpi, assetClass } = inp;
+  if (!inp.startDate) return null;
+  const startDate = new Date(inp.startDate + 'T00:00:00');
+  const today = new Date();
+  if (startDate >= today) return null;
+
+  let balance = principal;
+  let balanceReal = principal;
+  let balanceNoFee = principal;
+  let totalContributed = principal;
+  let deflator = 1;
+
+  const startYear  = startDate.getFullYear();
+  const startMonth = startDate.getMonth();
+  const endYear    = today.getFullYear();
+  const endMonth   = today.getMonth();
+
+  let worstYear = null, worstRet = Infinity;
+  let bestYear  = null, bestRet  = -Infinity;
+  let usedEstimate = false;
+
+  const data = [{
+    label: startYear.toString(),
+    balance, balanceReal: balance, balanceNoFee: balance,
+    contributed: principal, phase: 'accumulation'
+  }];
+
+  for (let y = startYear; y <= endYear; y++) {
+    const annualPct = getAssetReturn(assetClass, y);
+    if (annualPct === HIST_AVG || annualPct === BONDS_AVG || annualPct === 5.0) usedEstimate = true;
+
+    const effectivePct = annualPct - fee;
+    const mRate = monthlyRate(effectivePct);
+    const mRateNoFee = monthlyRate(annualPct);
+
+    // CPI for this year
+    const yearCpi = CPI[y] !== undefined ? CPI[y] : (fixedCpi || 3);
+    deflator *= (1 + yearCpi / 100);
+
+    const mFrom = (y === startYear) ? startMonth : 0;
+    const mTo   = (y === endYear)   ? endMonth   : 11;
+
+    for (let m = mFrom; m <= mTo; m++) {
+      const isFirst = (y === startYear && m === startMonth);
+      if (!isFirst) {
+        balance      = balance      * (1 + mRate)      + monthly;
+        balanceNoFee = balanceNoFee * (1 + mRateNoFee) + monthly;
+        balanceReal  = balanceReal  * (1 + mRate)      + monthly;
+        totalContributed += monthly;
+      } else {
+        balance      = balance      * (1 + mRate);
+        balanceNoFee = balanceNoFee * (1 + mRateNoFee);
+        balanceReal  = balanceReal  * (1 + mRate);
+      }
+    }
+
+    if (y !== endYear) {
+      data.push({
+        label: String(y + 1),
+        balance,
+        balanceReal: balance / deflator,
+        balanceNoFee,
+        contributed: totalContributed,
+        ret: annualPct,
+        year: y,
+        phase: 'accumulation'
+      });
+      if (annualPct < worstRet) { worstRet = annualPct; worstYear = y; }
+      if (annualPct > bestRet)  { bestRet  = annualPct; bestYear  = y; }
+    }
+  }
+
+  const lostToFees = balanceNoFee - balance;
+  const totalYears = (today - startDate) / (365.25 * 24 * 3600 * 1000);
+  const cagr = totalContributed > 0
+    ? (Math.pow(balance / totalContributed, 1 / totalYears) - 1) * 100
+    : 0;
+
+  // Withdrawal phase
+  let depletedLabel = null;
+  if (inp.showWD && inp.wdMonthly > 0) {
+    let wdBal = balance;
+    let wdBalReal = balance / deflator;
+    const avgRate = cagr;
+    const wdMRate = monthlyRate(avgRate - fee);
+    const wdDeflStep = Math.pow(1 + (fixedCpi || 3) / 100, 1 / 12);
+    let wdDeflator = deflator;
+    for (let wy = 1; wy <= inp.wdYears; wy++) {
+      for (let m = 0; m < 12; m++) {
+        wdBal = wdBal * (1 + wdMRate) - inp.wdMonthly;
+        wdDeflator *= wdDeflStep;
+        wdBalReal = wdBal / wdDeflator;
+      }
+      if (wdBal <= 0 && !depletedLabel) {
+        depletedLabel = `+${wy}yr`;
+        wdBal = 0;
+      }
+      const lastLabel = data[data.length - 1].label;
+      const lastLabelNum = parseInt(lastLabel);
+      data.push({
+        label: isNaN(lastLabelNum) ? '+' + wy : String(lastLabelNum + 1),
+        balance: Math.max(0, wdBal),
+        balanceReal: Math.max(0, wdBalReal),
+        balanceNoFee: Math.max(0, wdBal),
+        contributed: totalContributed,
+        phase: 'withdrawal'
+      });
+      if (wdBal <= 0) break;
+    }
+  }
+
+  return {
+    data, totalContributed,
+    finalBalance: balance,
+    finalBalanceReal: balance / deflator,
+    finalBalanceNoFee: balanceNoFee,
+    lostToFees,
+    depletedLabel,
+    monteCarlo: null,
+    isHistorical: true,
+    worstYear, worstRet,
+    bestYear, bestRet,
+    cagr, totalYears, usedEstimate,
+    assetName: ASSET_DATA[assetClass]?.name || assetClass,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CALCULATIONS — GOAL PLANNER
+// ─────────────────────────────────────────────────────────────────────────────
+
+function runGoal(inp) {
+  const { principal, goalTarget: T, goalYears: n, goalRate: r } = inp;
+  const mRate = r / 100 / 12;
+  const months = n * 12;
+  const fvPrincipal = principal * Math.pow(1 + mRate, months);
+
+  let monthly = 0;
+  if (mRate === 0) {
+    monthly = Math.max(0, (T - fvPrincipal) / months);
+  } else {
+    const fvFactor = (Math.pow(1 + mRate, months) - 1) / mRate;
+    monthly = Math.max(0, (T - fvPrincipal) / fvFactor);
+  }
+
+  // Lump sum needed if monthly = 0
+  const lumpSum = T / Math.pow(1 + mRate, months);
+
+  // Additional lump sum needed (above current principal)
+  const additionalLumpSum = Math.max(0, lumpSum - principal);
+
+  // Simulate the path for the chart with computed monthly
+  const data = [{ label: '0', balance: principal, contributed: principal }];
+  let bal = principal;
+  let tc  = principal;
+  for (let m = 1; m <= months; m++) {
+    bal = bal * (1 + mRate) + monthly;
+    tc += monthly;
+    if (m % 12 === 0) {
+      data.push({ label: String(m / 12), balance: bal, contributed: tc });
+    }
+  }
+
+  return { monthly, lumpSum, additionalLumpSum, data, finalBalance: bal, totalContributed: tc, n, r, T };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER RESULTS
+// ─────────────────────────────────────────────────────────────────────────────
+
+function renderResults(result, inp) {
+  const el = document.getElementById('results');
+  if (!result) { el.innerHTML = ''; return; }
+
+  if (inp.mode === 'goal') {
+    el.innerHTML = `
+      <div class="stat full">
+        <span class="stat-label">Required Monthly Contribution</span>
+        <span class="stat-value highlight">${result.monthly < 1 ? '$0' : fmt(result.monthly)}</span>
+      </div>
+      <div class="divider"></div>
+      <div class="stat">
+        <span class="stat-label">Lump Sum Instead</span>
+        <span class="stat-value">${fmt(result.lumpSum)}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Add'l Lump Sum Needed</span>
+        <span class="stat-value ${result.additionalLumpSum > 0 ? 'amber' : 'positive'}">
+          ${result.additionalLumpSum <= 0 ? 'Already there' : fmt(result.additionalLumpSum)}
+        </span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Target</span>
+        <span class="stat-value">${fmt(result.T)}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">In ${result.n} yrs at ${result.r}%</span>
+        <span class="stat-value">${fmt(result.finalBalance)}</span>
+      </div>
+    `;
+    return;
+  }
+
+  const { finalBalance, finalBalanceReal, finalBalanceNoFee, lostToFees,
+          totalContributed, isHistorical, worstYear, worstRet,
+          bestYear, bestRet, cagr, totalYears, usedEstimate, depletedLabel } = result;
+  const totalGain = finalBalance - totalContributed;
+  const showInflation = inp.showInflation;
+  const hasFee = inp.fee > 0;
+
+  const worstBadge = worstYear ? `<span class="badge">${worstYear}: ${pct(worstRet)}</span>` : '';
+  const bestBadge  = bestYear  ? `<span class="badge green">${bestYear}: ${pct(bestRet)}</span>` : '';
+  const estBadge   = usedEstimate ? `<span class="badge amber">Partial est.</span>` : '';
+  const depletedBadge = depletedLabel ? `<span class="badge">Depleted: yr ${depletedLabel}</span>` : '';
+
+  el.innerHTML = `
+    <div class="stat full">
+      <span class="stat-label">Final Balance (Nominal)</span>
+      <span class="stat-value highlight">${fmt(finalBalance)}</span>
+    </div>
+    ${showInflation && finalBalanceReal !== null ? `
+    <div class="stat full">
+      <span class="stat-label">Real Balance (${inp.cpiRate.toFixed(1)}% CPI) — Today's Dollars</span>
+      <span class="stat-value orange">${fmt(finalBalanceReal)}</span>
+    </div>
+    ` : ''}
+    <div class="divider"></div>
+    <div class="stat">
+      <span class="stat-label">Total Contributed</span>
+      <span class="stat-value">${fmt(totalContributed)}</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Total Growth</span>
+      <span class="stat-value ${totalGain >= 0 ? 'positive' : 'negative'}">${fmt(totalGain)}</span>
+    </div>
+    ${hasFee ? `
+    <div class="stat full">
+      <span class="stat-label">Lost to Fees (${inp.fee.toFixed(2)}%/yr)</span>
+      <span class="stat-value red">−${fmt(lostToFees)}</span>
+    </div>
+    ` : ''}
+    ${isHistorical ? `
+    <div class="stat">
+      <span class="stat-label">Period</span>
+      <span class="stat-value">${totalYears.toFixed(1)} yrs</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Effective CAGR</span>
+      <span class="stat-value ${cagr >= 0 ? 'positive' : 'negative'}">${cagr.toFixed(1)}%</span>
+    </div>
+    ` : ''}
+    ${result.monteCarlo ? `
+    <div class="divider"></div>
+    <div class="stat">
+      <span class="stat-label">Monte Carlo — 90th pct</span>
+      <span class="stat-value positive">${fmt(result.monteCarlo.p90[result.monteCarlo.p90.length - 1])}</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Monte Carlo — Median</span>
+      <span class="stat-value">${fmt(result.monteCarlo.p50[result.monteCarlo.p50.length - 1])}</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Monte Carlo — 10th pct</span>
+      <span class="stat-value amber">${fmt(result.monteCarlo.p10[result.monteCarlo.p10.length - 1])}</span>
+    </div>
+    ` : ''}
+    ${(worstYear || bestYear || usedEstimate || depletedLabel) ? `
+    <div class="divider"></div>
+    <div class="badge-row">${worstBadge}${bestBadge}${estBadge}${depletedBadge}</div>
+    ` : ''}
+  `;
+}
+
+function renderCompareResults(resultA, resultB, inpA, inpB) {
+  // Show scenario comparison below scenario B card
+  const existing = document.getElementById('compareResults');
+  if (existing) existing.remove();
+
+  if (!resultA || !resultB || resultA.data.length === 0 || resultB.data.length === 0) return;
+
+  const rows = [
+    { label: 'Final Balance', a: resultA.finalBalance, b: resultB.finalBalance, isMoney: true },
+    { label: 'Total Contributed', a: resultA.totalContributed, b: resultB.totalContributed, isMoney: true },
+    { label: 'Total Growth', a: resultA.finalBalance - resultA.totalContributed, b: resultB.finalBalance - resultB.totalContributed, isMoney: true },
+  ];
+  if (inpA.fee > 0 || inpB.fee > 0) {
+    rows.push({ label: 'Lost to Fees', a: -resultA.lostToFees, b: -resultB.lostToFees, isMoney: true, flipDiff: true });
+  }
+  if (resultA.isHistorical && resultB.isHistorical) {
+    rows.push({ label: 'CAGR', a: resultA.cagr, b: resultB.cagr, isPct: true });
+  }
+
+  let html = `<div class="compare-results" id="compareResults">
+    <div class="compare-header">
+      <span>Metric</span><span>Scenario A</span><span>Scenario B</span><span>Difference</span>
+    </div>`;
+  rows.forEach(r => {
+    const diff = r.b - r.a;
+    const betterB = r.flipDiff ? diff < 0 : diff > 0;
+    const diffClass = diff === 0 ? '' : (betterB ? 'diff-pos' : 'diff-neg');
+    const valA = r.isMoney ? fmt(r.a) : r.a.toFixed(1) + '%';
+    const valB = r.isMoney ? fmt(r.b) : r.b.toFixed(1) + '%';
+    const valDiff = r.isMoney ? fmtDiff(diff) : (diff >= 0 ? '+' : '') + diff.toFixed(1) + '%';
+    html += `<div class="compare-row">
+      <span>${r.label}</span>
+      <span>${valA}</span>
+      <span>${valB}</span>
+      <span class="${diffClass}">${valDiff}</span>
+    </div>`;
+  });
+  html += '</div>';
+
+  document.getElementById('scenarioBCard').insertAdjacentHTML('afterend', html);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CHART
+// ─────────────────────────────────────────────────────────────────────────────
+
+function drawChart(resultA, resultB, inp) {
+  const canvas = document.getElementById('chart');
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.parentElement.clientWidth;
+  const H = 280;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+
+  if (!resultA || !resultA.data || resultA.data.length < 2) {
+    ctx.fillStyle = '#475569';
+    ctx.font = '14px -apple-system, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Enter valid inputs to see chart', W / 2, H / 2);
+    return;
+  }
+
+  const dataA = resultA.data;
+  const dataB = resultB?.data || null;
+  const mc = resultA.monteCarlo;
+
+  // Determine y max across all datasets
+  const allBalances = dataA.map(d => d.balance);
+  if (dataB) allBalances.push(...dataB.map(d => d.balance));
+  if (inp.showInflation) allBalances.push(...dataA.map(d => d.balanceReal || 0));
+  if (resultA.finalBalanceNoFee && inp.fee > 0) allBalances.push(resultA.finalBalanceNoFee);
+  if (mc) allBalances.push(mc.p90[mc.p90.length - 1]);
+
+  let maxVal = Math.max(...allBalances.filter(v => isFinite(v) && v > 0));
+  if (!maxVal || maxVal <= 0) maxVal = 1;
+  // Round up nicely
+  const mag = Math.pow(10, Math.floor(Math.log10(maxVal)));
+  maxVal = Math.ceil(maxVal / mag) * mag;
+
+  const n = dataA.length - 1;
+
+  const pad = { top: 28, right: 24, bottom: 42, left: 76 };
+  const cw = W - pad.left - pad.right;
+  const ch = H - pad.top  - pad.bottom;
+
+  const xOf = (i, total = n) => pad.left + (i / total) * cw;
+  const yOf = (v) => pad.top + ch - Math.max(0, Math.min(v / maxVal, 1)) * ch;
+
+  // ── Grid + axes ──
+  ctx.strokeStyle = '#2d3148';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([]);
+  ctx.beginPath();
+  ctx.moveTo(pad.left, pad.top);
+  ctx.lineTo(pad.left, pad.top + ch);
+  ctx.lineTo(pad.left + cw, pad.top + ch);
+  ctx.stroke();
+
+  // Y grid
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+  ctx.font = `${11 * Math.min(1, W / 300)}px -apple-system, sans-serif`;
+  const ticks = 4;
+  for (let i = 0; i <= ticks; i++) {
+    const v = (maxVal / ticks) * i;
+    const y = yOf(v);
+    ctx.strokeStyle = '#252840';
+    ctx.setLineDash([4, 4]);
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(pad.left + 1, y);
+    ctx.lineTo(pad.left + cw, y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#475569';
+    ctx.fillText(abbr(v), pad.left - 8, y);
+  }
+
+  // X labels
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = '#475569';
+  const labelStep = Math.max(1, Math.floor(n / 5));
+  for (let i = 0; i <= n; i += labelStep) {
+    ctx.fillText(dataA[i].label, xOf(i), pad.top + ch + 8);
+  }
+  if (n % labelStep !== 0) {
+    ctx.fillText(dataA[n].label, xOf(n), pad.top + ch + 8);
+  }
+
+  // ── Milestone markers ──
+  const MILESTONES = [100000, 250000, 500000, 1000000, 2000000, 5000000, 10000000];
+  const activeMilestones = MILESTONES.filter(m => m < maxVal * 0.98 && m > 0);
+
+  activeMilestones.forEach(ms => {
+    const y = yOf(ms);
+    ctx.strokeStyle = 'rgba(251, 191, 36, 0.2)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([6, 5]);
+    ctx.beginPath();
+    ctx.moveTo(pad.left + 1, y);
+    ctx.lineTo(pad.left + cw, y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Find crossing point
+    for (let i = 1; i < dataA.length; i++) {
+      const prev = dataA[i - 1].balance;
+      const curr = dataA[i].balance;
+      if (prev < ms && curr >= ms) {
+        const t = (ms - prev) / (curr - prev);
+        const cx = xOf(i - 1) + t * (xOf(i) - xOf(i - 1));
+        const cy = yOf(ms);
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.font = `bold 10px -apple-system, sans-serif`;
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'bottom';
+        const msLabel = abbr(ms) + ' — ' + dataA[i].label;
+        const labelX = Math.min(cx + 6, pad.left + cw - 80);
+        const tw = ctx.measureText(msLabel).width;
+        ctx.fillStyle = 'rgba(15, 18, 30, 0.8)';
+        ctx.fillRect(labelX - 3, cy - 16, tw + 6, 14);
+        ctx.fillStyle = '#fbbf24';
+        ctx.fillText(msLabel, labelX, cy - 3);
+        break;
+      }
+    }
+  });
+
+  // ── Monte Carlo fan ──
+  if (mc && mc.p50.length > 0) {
+    const mcLen = mc.p50.length;
+    const xOfMC = i => pad.left + ((i + 1) / (mcLen + 1)) * cw;
+
+    // P10-P90 band
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), yOf(dataA[0].balance));
+    for (let i = 0; i < mcLen; i++) ctx.lineTo(xOfMC(i), yOf(mc.p90[i]));
+    for (let i = mcLen - 1; i >= 0; i--) ctx.lineTo(xOfMC(i), yOf(mc.p10[i]));
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(100, 116, 139, 0.08)';
+    ctx.fill();
+
+    // P25-P75 band
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), yOf(dataA[0].balance));
+    for (let i = 0; i < mcLen; i++) ctx.lineTo(xOfMC(i), yOf(mc.p75[i]));
+    for (let i = mcLen - 1; i >= 0; i--) ctx.lineTo(xOfMC(i), yOf(mc.p25[i]));
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(100, 116, 139, 0.14)';
+    ctx.fill();
+
+    // Median line
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), yOf(dataA[0].balance));
+    for (let i = 0; i < mcLen; i++) ctx.lineTo(xOfMC(i), yOf(mc.p50[i]));
+    ctx.strokeStyle = '#64748b';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 3]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // ── Contributed area ──
+  ctx.beginPath();
+  ctx.moveTo(xOf(0), yOf(dataA[0].contributed));
+  dataA.forEach((d, i) => ctx.lineTo(xOf(i), yOf(d.contributed)));
+  ctx.lineTo(xOf(n), pad.top + ch);
+  ctx.lineTo(pad.left, pad.top + ch);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(100, 116, 139, 0.15)';
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.moveTo(xOf(0), yOf(dataA[0].contributed));
+  dataA.forEach((d, i) => ctx.lineTo(xOf(i), yOf(d.contributed)));
+  ctx.strokeStyle = '#4b5563';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([6, 3]);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // ── No-fee ghost line ──
+  if (inp.fee > 0 && dataA[0].balanceNoFee !== undefined) {
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), yOf(dataA[0].balanceNoFee || dataA[0].balance));
+    dataA.forEach((d, i) => ctx.lineTo(xOf(i), yOf(d.balanceNoFee || d.balance)));
+    ctx.strokeStyle = 'rgba(148, 163, 184, 0.3)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([5, 3]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // ── Scenario B line ──
+  if (dataB && dataB.length >= 2) {
+    const nB = dataB.length - 1;
+    const xOfB = i => pad.left + (i / nB) * cw;
+
+    ctx.beginPath();
+    ctx.moveTo(xOfB(0), yOf(dataB[0].balance));
+    dataB.forEach((d, i) => ctx.lineTo(xOfB(i), yOf(d.balance)));
+    ctx.lineTo(xOfB(nB), pad.top + ch);
+    ctx.lineTo(pad.left, pad.top + ch);
+    ctx.closePath();
+    const gradB = ctx.createLinearGradient(0, pad.top, 0, pad.top + ch);
+    gradB.addColorStop(0, 'rgba(74, 222, 128, 0.2)');
+    gradB.addColorStop(1, 'rgba(74, 222, 128, 0.02)');
+    ctx.fillStyle = gradB;
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(xOfB(0), yOf(dataB[0].balance));
+    dataB.forEach((d, i) => ctx.lineTo(xOfB(i), yOf(d.balance)));
+    ctx.strokeStyle = '#4ade80';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  }
+
+  // ── Real balance line (inflation-adjusted) ──
+  if (inp.showInflation && dataA[0].balanceReal !== undefined) {
+    ctx.beginPath();
+    ctx.moveTo(xOf(0), yOf(dataA[0].balanceReal));
+    dataA.forEach((d, i) => {
+      if (d.balanceReal !== undefined) ctx.lineTo(xOf(i), yOf(d.balanceReal));
+    });
+    ctx.strokeStyle = '#fb923c';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([]);
+    ctx.stroke();
+  }
+
+  // ── Main balance line + gradient fill ──
+  ctx.beginPath();
+  ctx.moveTo(xOf(0), yOf(dataA[0].balance));
+  dataA.forEach((d, i) => ctx.lineTo(xOf(i), yOf(d.balance)));
+  ctx.lineTo(xOf(n), pad.top + ch);
+  ctx.lineTo(pad.left, pad.top + ch);
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + ch);
+  grad.addColorStop(0, 'rgba(99, 102, 241, 0.3)');
+  grad.addColorStop(1, 'rgba(99, 102, 241, 0.02)');
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Main balance line — color segments
+  if (resultA.isHistorical) {
+    // Find where accumulation ends
+    for (let i = 1; i < dataA.length; i++) {
+      const d = dataA[i];
+      const down = d.ret !== undefined && d.ret < 0;
+      const isWD = d.phase === 'withdrawal';
+      ctx.beginPath();
+      ctx.moveTo(xOf(i - 1), yOf(dataA[i - 1].balance));
+      ctx.lineTo(xOf(i), yOf(d.balance));
+      ctx.strokeStyle = isWD ? '#fb923c' : (down ? '#f87171' : '#818cf8');
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    }
+  } else {
+    // Color withdrawal phase differently
+    let wdStart = dataA.findIndex(d => d.phase === 'withdrawal');
+    if (wdStart < 1) wdStart = dataA.length; // no withdrawal
+
+    if (wdStart > 1) {
+      ctx.beginPath();
+      ctx.moveTo(xOf(0), yOf(dataA[0].balance));
+      for (let i = 0; i < wdStart; i++) ctx.lineTo(xOf(i), yOf(dataA[i].balance));
+      ctx.strokeStyle = '#818cf8';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    }
+    if (wdStart < dataA.length) {
+      ctx.beginPath();
+      ctx.moveTo(xOf(wdStart - 1), yOf(dataA[wdStart - 1].balance));
+      for (let i = wdStart; i < dataA.length; i++) ctx.lineTo(xOf(i), yOf(dataA[i].balance));
+      ctx.strokeStyle = '#fb923c';
+      ctx.lineWidth = 2.5;
+      ctx.setLineDash([6, 3]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    if (wdStart === dataA.length) {
+      ctx.beginPath();
+      ctx.moveTo(xOf(0), yOf(dataA[0].balance));
+      dataA.forEach((d, i) => ctx.lineTo(xOf(i), yOf(d.balance)));
+      ctx.strokeStyle = '#818cf8';
+      ctx.lineWidth = 2.5;
+      ctx.stroke();
+    }
+  }
+
+  // ── Legend ──
+  buildLegend(inp, resultA, !!dataB, !!mc);
+}
+
+function buildLegend(inp, result, hasB, hasMC) {
+  const el = document.getElementById('chartLegend');
+  const items = [];
+
+  items.push(`<div class="legend-item"><div class="legend-swatch" style="background:#818cf8"></div>Balance (A)</div>`);
+
+  if (hasB) {
+    items.push(`<div class="legend-item"><div class="legend-swatch" style="background:#4ade80"></div>Balance (B)</div>`);
+  }
+  if (inp.showInflation) {
+    items.push(`<div class="legend-item"><div class="legend-swatch" style="background:#fb923c"></div>Real Balance</div>`);
+  }
+  if (inp.fee > 0) {
+    items.push(`<div class="legend-item"><div class="legend-swatch dashed" style="color:#94a3b8"></div>Without Fee</div>`);
+  }
+  if (inp.showWD) {
+    items.push(`<div class="legend-item"><div class="legend-swatch" style="background:#fb923c"></div>Withdrawal</div>`);
+  }
+  if (hasMC) {
+    items.push(`<div class="legend-item"><div class="legend-swatch" style="background:rgba(100,116,139,0.5)"></div>Monte Carlo</div>`);
+  }
+  items.push(`<div class="legend-item"><div class="legend-swatch dashed" style="color:#4b5563"></div>Contributed</div>`);
+
+  el.innerHTML = items.join('');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// YEAR TABLE
+// ─────────────────────────────────────────────────────────────────────────────
+
+function renderTable(result, inp) {
+  const thead = document.querySelector('#breakdownTable thead');
+  const tbody = document.querySelector('#breakdownTable tbody');
+
+  const isHist = result.isHistorical;
+
+  if (isHist) {
+    thead.innerHTML = `<tr>
+      <th>Year</th>
+      <th>Market Return</th>
+      <th>Balance</th>
+      <th>Contributed</th>
+      <th>Growth</th>
+    </tr>`;
+  } else {
+    thead.innerHTML = `<tr>
+      <th>Year</th>
+      <th>Balance</th>
+      <th>Contributed</th>
+      <th>Growth</th>
+    </tr>`;
+  }
+
+  const rows = result.data.slice(1); // skip year 0
+  let csvRows = [isHist
+    ? ['Year', 'Market Return', 'Balance', 'Contributed', 'Growth']
+    : ['Year', 'Balance', 'Contributed', 'Growth']
+  ];
+
+  tbody.innerHTML = rows.map(d => {
+    const growth = d.balance - d.contributed;
+    const retClass = d.ret === undefined ? '' : (d.ret > 0 ? 'ret-pos' : d.ret < 0 ? 'ret-neg' : 'ret-neutral');
+    const retStr = d.ret !== undefined ? pct(d.ret) : '—';
+
+    if (isHist) {
+      csvRows.push([d.label, retStr, Math.round(d.balance), Math.round(d.contributed), Math.round(growth)]);
+      return `<tr>
+        <td>${d.label}</td>
+        <td class="${retClass}">${retStr}</td>
+        <td>${fmt(d.balance)}</td>
+        <td>${fmt(d.contributed)}</td>
+        <td class="${growth >= 0 ? 'ret-pos' : 'ret-neg'}">${fmt(growth)}</td>
+      </tr>`;
+    } else {
+      csvRows.push([d.label, Math.round(d.balance), Math.round(d.contributed), Math.round(growth)]);
+      return `<tr>
+        <td>${d.label}</td>
+        <td>${fmt(d.balance)}</td>
+        <td>${fmt(d.contributed)}</td>
+        <td class="${growth >= 0 ? 'ret-pos' : 'ret-neg'}">${fmt(growth)}</td>
+      </tr>`;
+    }
+  }).join('');
+
+  // CSV link
+  const csv = csvRows.map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const csvBtn = document.getElementById('csvBtn');
+  csvBtn.href = URL.createObjectURL(blob);
+  csvBtn.classList.remove('hidden');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// URL SYNC
+// ─────────────────────────────────────────────────────────────────────────────
+
+function updateURL() {
+  const p = new URLSearchParams();
+  p.set('mode', mode);
+  p.set('p', document.getElementById('principal').value);
+  p.set('m', document.getElementById('monthly').value);
+  if (mode === 'fixed' || mode === 'goal') {
+    p.set('r', document.getElementById(mode === 'goal' ? 'goalRate' : 'rate').value);
+    p.set('y', document.getElementById(mode === 'goal' ? 'goalYears' : 'years').value);
+  }
+  if (mode === 'goal') {
+    p.set('gt', document.getElementById('goalTarget').value);
+  }
+  if (mode === 'historical') {
+    p.set('d', document.getElementById('startDate').value);
+    p.set('ac', document.getElementById('assetClass').value);
+  }
+  p.set('fee', document.getElementById('fee').value);
+  if (document.getElementById('inflToggle').checked) {
+    p.set('infl', '1');
+    p.set('cpi', document.getElementById('cpiRate').value);
+  }
+  if (document.getElementById('mcToggle').checked) p.set('mc', '1');
+  if (document.getElementById('wdToggle').checked) {
+    p.set('wd', '1');
+    p.set('wdm', document.getElementById('wdMonthly').value);
+    p.set('wdy', document.getElementById('wdYears').value);
+  }
+  if (showB) {
+    p.set('sb', '1');
+    p.set('sb_p', document.getElementById('b_principal').value);
+    p.set('sb_m', document.getElementById('b_monthly').value);
+    p.set('sb_r', document.getElementById('b_rate').value);
+    p.set('sb_y', document.getElementById('b_years').value);
+    if (mode === 'historical') {
+      p.set('sb_d', document.getElementById('b_startDate').value);
+      p.set('sb_ac', document.getElementById('b_assetClass').value);
+    }
+  }
+  history.replaceState(null, '', '?' + p.toString());
+}
+
+function loadFromURL() {
+  const p = new URLSearchParams(window.location.search);
+  if (!p.has('mode') && !p.has('p')) return; // nothing to load
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val !== null) el.value = val; };
+  const check = (id, val) => { const el = document.getElementById(id); if (el) el.checked = val === '1'; };
+
+  const urlMode = p.get('mode') || 'fixed';
+  switchMode(urlMode, false);
+
+  set('principal', p.get('p'));
+  set('monthly', p.get('m'));
+
+  if (urlMode === 'fixed') {
+    set('rate', p.get('r'));
+    set('years', p.get('y'));
+  }
+  if (urlMode === 'goal') {
+    set('goalTarget', p.get('gt'));
+    set('goalRate', p.get('r'));
+    set('goalYears', p.get('y'));
+  }
+  if (urlMode === 'historical') {
+    set('startDate', p.get('d'));
+    set('assetClass', p.get('ac'));
+  }
+  set('fee', p.get('fee'));
+  if (p.get('fee')) updateFeeDisplay();
+
+  check('inflToggle', p.get('infl'));
+  if (p.get('infl') === '1') {
+    set('cpiRate', p.get('cpi'));
+    document.getElementById('cpi-row').classList.remove('hidden');
+    updateCpiDisplay();
+  }
+  check('mcToggle', p.get('mc'));
+  check('wdToggle', p.get('wd'));
+  if (p.get('wd') === '1') {
+    set('wdMonthly', p.get('wdm'));
+    set('wdYears', p.get('wdy'));
+    document.getElementById('wd-inputs').classList.remove('hidden');
+  }
+  if (p.get('sb') === '1') {
+    showB = true;
+    set('b_principal', p.get('sb_p'));
+    set('b_monthly', p.get('sb_m'));
+    set('b_rate', p.get('sb_r'));
+    set('b_years', p.get('sb_y'));
+    if (urlMode === 'historical') {
+      set('b_startDate', p.get('sb_d'));
+      set('b_assetClass', p.get('sb_ac'));
+    }
+    document.getElementById('scenarioBCard').classList.remove('hidden');
+    document.getElementById('addScenarioBtn').classList.add('hidden');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MAIN CALCULATE
+// ─────────────────────────────────────────────────────────────────────────────
+
+function calculate() {
+  const inp = getInputs();
+  let result = null;
+
+  if (inp.mode === 'goal') {
+    result = runGoal(inp);
+    renderResults(result, inp);
+    drawChart(result, null, inp);
+    document.getElementById('tableControlRow').style.display = 'none';
+    lastResult = result;
+    updateURL();
+    return;
+  }
+
+  if (inp.mode === 'fixed') {
+    result = runFixed(inp);
+  } else {
+    result = runHistorical(inp);
+  }
+
+  lastResult = result;
+  renderResults(result, inp);
+
+  // Scenario B
+  let resultB = null;
+  if (showB) {
+    const inpB = getInputsB();
+    if (mode === 'fixed') {
+      resultB = runFixed(inpB);
+    } else {
+      resultB = runHistorical(inpB);
+    }
+    lastResultB = resultB;
+    renderCompareResults(result, resultB, inp, inpB);
+  } else {
+    const ex = document.getElementById('compareResults');
+    if (ex) ex.remove();
+  }
+
+  drawChart(result, resultB, inp);
+
+  // Table
+  if (result && showTable) {
+    renderTable(result, inp);
+    document.getElementById('tableSection').classList.remove('hidden');
+  }
+  document.getElementById('tableControlRow').style.display = result ? '' : 'none';
+
+  updateURL();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DISPLAY HELPERS
+// ─────────────────────────────────────────────────────────────────────────────
+
+function updateFeeDisplay() {
+  const val = parseInt(document.getElementById('fee').value) || 0;
+  document.getElementById('feeDisplay').textContent = (val / 100).toFixed(2) + '%';
+}
+
+function updateCpiDisplay() {
+  const val = parseInt(document.getElementById('cpiRate').value) || 0;
+  document.getElementById('cpiDisplay').textContent = (val / 10).toFixed(1) + '%';
+}
+
+function switchMode(newMode, recalc = true) {
+  mode = newMode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === newMode));
+  document.getElementById('fixed-inputs').classList.toggle('hidden', newMode !== 'fixed');
+  document.getElementById('historical-inputs').classList.toggle('hidden', newMode !== 'historical');
+  document.getElementById('goal-inputs').classList.toggle('hidden', newMode !== 'goal');
+
+  // Show/hide shared monthly for goal mode
+  document.getElementById('sharedMonthlyField').classList.toggle('hidden', newMode === 'goal');
+
+  // Monte Carlo only in fixed mode
+  const mcRow = document.getElementById('mc-toggle-row');
+  mcRow.style.display = (newMode === 'fixed') ? '' : 'none';
+  if (newMode !== 'fixed') {
+    document.getElementById('mcToggle').checked = false;
+  }
+
+  // Show add scenario B button for non-goal modes
+  const sbBtn = document.getElementById('addScenarioBtn');
+  if (newMode !== 'goal') {
+    if (!showB) sbBtn.classList.remove('hidden');
+  } else {
+    sbBtn.classList.add('hidden');
+    if (showB) closeScenarioB();
+  }
+
+  // Sync scenario B inputs visibility
+  document.getElementById('b_fixed_inputs').classList.toggle('hidden', newMode !== 'fixed');
+  document.getElementById('b_historical_inputs').classList.toggle('hidden', newMode !== 'historical');
+
+  // Show CPI note about historical mode
+  document.getElementById('cpiNote').textContent = newMode === 'historical'
+    ? 'Actual historical CPI data used per year (1928–2024).'
+    : 'Applies ~' + (parseInt(document.getElementById('cpiRate').value) / 10).toFixed(1) + '%/yr assumption.';
+
+  if (recalc) calculate();
+}
+
+function closeScenarioB() {
+  showB = false;
+  document.getElementById('scenarioBCard').classList.add('hidden');
+  document.getElementById('addScenarioBtn').classList.remove('hidden');
+  const ex = document.getElementById('compareResults');
+  if (ex) ex.remove();
+  calculate();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EVENT WIRING
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Mode buttons
+document.querySelectorAll('.mode-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchMode(btn.dataset.mode));
+});
+
+// All inputs
+document.querySelectorAll('input:not([type="checkbox"])').forEach(el => {
+  el.addEventListener('input', calculate);
+});
+document.querySelectorAll('select').forEach(el => el.addEventListener('change', calculate));
+
+// Fee slider display
+document.getElementById('fee').addEventListener('input', () => {
+  updateFeeDisplay();
+  calculate();
+});
+
+// CPI slider display
+document.getElementById('cpiRate').addEventListener('input', () => {
+  updateCpiDisplay();
+  calculate();
+});
+
+// Inflation toggle
+document.getElementById('inflToggle').addEventListener('change', function () {
+  document.getElementById('cpi-row').classList.toggle('hidden', !this.checked);
+  calculate();
+});
+
+// Monte Carlo toggle
+document.getElementById('mcToggle').addEventListener('change', calculate);
+
+// Withdrawal toggle
+document.getElementById('wdToggle').addEventListener('change', function () {
+  document.getElementById('wd-inputs').classList.toggle('hidden', !this.checked);
+  calculate();
+});
+
+// 4% Rule button
+document.getElementById('fourPctBtn').addEventListener('click', () => {
+  if (!lastResult) return;
+  const suggested = Math.round(lastResult.finalBalance * 0.04 / 12 / 100) * 100;
+  document.getElementById('wdMonthly').value = suggested;
+  calculate();
+});
+
+// Scenario B
+document.getElementById('addScenarioBtn').addEventListener('click', () => {
+  showB = true;
+  document.getElementById('scenarioBCard').classList.remove('hidden');
+  document.getElementById('addScenarioBtn').classList.add('hidden');
+  calculate();
+});
+
+document.getElementById('closeBBtn').addEventListener('click', closeScenarioB);
+
+// Table toggle
+document.getElementById('tableToggleBtn').addEventListener('click', function () {
+  showTable = !showTable;
+  this.textContent = (showTable ? '▼' : '▶') + ' Year-by-Year Breakdown';
+  const section = document.getElementById('tableSection');
+  if (showTable && lastResult) {
+    renderTable(lastResult, getInputs());
+    section.classList.remove('hidden');
+  } else {
+    section.classList.add('hidden');
+  }
+});
+
+// Share button
+document.getElementById('shareBtn').addEventListener('click', () => {
+  updateURL();
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }).catch(() => {
+    // Fallback for non-secure contexts
+    const inp = document.createElement('input');
+    inp.value = window.location.href;
+    document.body.appendChild(inp);
+    inp.select();
+    document.execCommand('copy');
+    document.body.removeChild(inp);
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  });
+});
+
+// Resize
+window.addEventListener('resize', () => {
+  if (lastResult) drawChart(lastResult, lastResultB, getInputs());
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+
+updateFeeDisplay();
+updateCpiDisplay();
+loadFromURL();
+calculate();
+</script>
+</body>
+</html>

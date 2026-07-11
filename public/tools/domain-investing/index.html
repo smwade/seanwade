@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Domain vs Stock Market ROI Calculator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+      flex: 1;
+    }
+
+    .share-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #1e2130;
+      border: 1px solid #2d3148;
+      border-radius: 8px;
+      color: #94a3b8;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.45rem 0.85rem;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .share-btn:hover { border-color: #6366f1; color: #818cf8; }
+    .share-btn svg { width: 13px; height: 13px; }
+
+    .card {
+      background: #1e2130;
+      border: 1px solid #2d3148;
+      border-radius: 16px;
+      padding: 1.75rem;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #475569;
+      margin-bottom: 1rem;
+    }
+
+    .section-divider {
+      height: 1px;
+      background: #2d3148;
+      margin: 1.25rem 0;
+    }
+
+    .field {
+      margin-bottom: 1.15rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #94a3b8;
+      margin-bottom: 0.45rem;
+    }
+
+    .input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .prefix {
+      position: absolute;
+      left: 14px;
+      color: #64748b;
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    .suffix {
+      position: absolute;
+      right: 14px;
+      color: #64748b;
+      font-size: 1rem;
+      pointer-events: none;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 10px;
+      color: #f1f5f9;
+      font-size: 1.05rem;
+      padding: 0.6rem 2.5rem 0.6rem 2.2rem;
+      outline: none;
+      transition: border-color 0.15s;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+    input[type="number"]:focus { border-color: #6366f1; }
+
+    input.no-prefix { padding-left: 1rem; }
+
+    .row {
+      display: flex;
+      gap: 1rem;
+    }
+    .row > .field { flex: 1; min-width: 0; }
+
+    /* Commission toggle */
+    .commission-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-end;
+    }
+    .commission-row > .field { flex: 1; min-width: 0; }
+
+    .comm-toggle {
+      display: flex;
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 8px;
+      padding: 2px;
+      margin-bottom: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .comm-btn {
+      padding: 0.45rem 0.7rem;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: #64748b;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .comm-btn.active {
+      background: #2d3148;
+      color: #f1f5f9;
+    }
+
+    /* Results */
+    .results {
+      margin-top: 1.5rem;
+      background: #0f1117;
+      border: 1px solid #2d3148;
+      border-radius: 12px;
+      padding: 1.35rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem;
+    }
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .stat.full { grid-column: 1 / -1; }
+
+    .stat-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #64748b;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    .stat-value.highlight {
+      color: #818cf8;
+      font-size: 1.9rem;
+    }
+
+    .stat-value.positive { color: #4ade80; }
+    .stat-value.negative { color: #f87171; }
+
+    .divider {
+      grid-column: 1 / -1;
+      height: 1px;
+      background: #2d3148;
+    }
+
+    .section-title {
+      grid-column: 1 / -1;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #475569;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+
+    .badge.green {
+      background: rgba(74, 222, 128, 0.12);
+      color: #4ade80;
+    }
+
+    .badge.red {
+      background: rgba(248, 113, 113, 0.12);
+      color: #f87171;
+    }
+
+    /* Chart */
+    .chart-wrap {
+      margin-top: 1rem;
+      width: 100%;
+      max-width: 760px;
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem 1.2rem;
+      margin-bottom: 0.6rem;
+      padding: 0 4px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    .legend-swatch {
+      width: 20px;
+      height: 3px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    canvas {
+      width: 100%;
+      border-radius: 12px;
+      background: #1e2130;
+      border: 1px solid #2d3148;
+      display: block;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #818cf8;
+      color: #0f1117;
+      font-size: 0.85rem;
+      font-weight: 700;
+      padding: 0.6rem 1.4rem;
+      border-radius: 10px;
+      opacity: 0;
+      transition: transform 0.25s, opacity 0.25s;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    @media (max-width: 500px) {
+      .row { flex-direction: column; gap: 0; }
+      .commission-row { flex-direction: column; gap: 0; }
+      .comm-toggle { margin-bottom: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Domain vs Stocks</h1>
+  <button class="share-btn" id="shareBtn">
+    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 2L14 6L10 10M14 6H6C4.89 6 4 6.89 4 8V14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Copy Link
+  </button>
+</div>
+
+<div class="card">
+  <div class="section-label">Domain Investment</div>
+
+  <div class="row">
+    <div class="field">
+      <label>Purchase Price</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="purchasePrice" value="5000" min="0" step="100">
+      </div>
+    </div>
+    <div class="field">
+      <label>Sale Price</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="salePrice" value="15000" min="0" step="100">
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Years Held</label>
+    <div class="input-wrap">
+      <input type="number" id="yearsHeld" value="3" min="0.1" step="0.5" class="no-prefix">
+      <span class="suffix">yrs</span>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Yearly Renewal Fee</label>
+    <div class="input-wrap">
+      <span class="prefix">$</span>
+      <input type="number" id="renewalFee" value="12" min="0" step="1">
+    </div>
+  </div>
+
+  <div class="commission-row">
+    <div class="field">
+      <label>Commission</label>
+      <div class="input-wrap">
+        <span class="prefix" id="commPrefix" style="display:none">$</span>
+        <input type="number" id="commValue" value="15" min="0" step="0.5">
+        <span class="suffix" id="commSuffix">%</span>
+      </div>
+    </div>
+    <div class="comm-toggle">
+      <button class="comm-btn active" data-mode="pct">%</button>
+      <button class="comm-btn" data-mode="fixed">$</button>
+    </div>
+  </div>
+
+  <div class="section-divider"></div>
+  <div class="section-label">Stock Market Comparison</div>
+
+  <div class="field">
+    <label>Annual Stock Return</label>
+    <div class="input-wrap">
+      <input type="number" id="stockReturn" value="10" min="0" max="100" step="0.5" class="no-prefix">
+      <span class="suffix">%</span>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="results" id="results">
+    <div class="stat full">
+      <span class="stat-label">Holding Period</span>
+      <span class="stat-value highlight" id="rHolding">—</span>
+    </div>
+
+    <div class="stat">
+      <span class="stat-label">Total Cost</span>
+      <span class="stat-value" id="rTotalCost">—</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Sale Proceeds</span>
+      <span class="stat-value" id="rProceeds">—</span>
+    </div>
+
+    <div class="stat">
+      <span class="stat-label">Domain Profit / Loss</span>
+      <span class="stat-value" id="rProfit">—</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Domain ROI</span>
+      <span class="stat-value" id="rROI">—</span>
+    </div>
+
+    <div class="stat full">
+      <span class="stat-label">Annualized ROI</span>
+      <span class="stat-value" id="rAnnualROI">—</span>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">If Invested in Stocks</div>
+
+    <div class="stat">
+      <span class="stat-label">Stock Value</span>
+      <span class="stat-value" id="rStockVal">—</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Stock Gain</span>
+      <span class="stat-value" id="rStockGain">—</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="stat full">
+      <span class="stat-label">Verdict</span>
+      <span class="stat-value" id="rVerdict">—</span>
+    </div>
+
+    <div class="stat full" id="breakEvenRow" style="display:none">
+      <span class="stat-label">Break-Even Hold Time (Domain vs Stocks)</span>
+      <span class="stat-value highlight" id="rBreakEven">—</span>
+    </div>
+  </div>
+</div>
+
+<!-- Chart -->
+<div class="chart-wrap">
+  <div class="chart-legend">
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#818cf8"></div>
+      Domain Investment
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background:#4ade80"></div>
+      Stock Market
+    </div>
+  </div>
+  <canvas id="chart"></canvas>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">Link copied!</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+// Commission toggle
+let commMode = 'pct';
+document.querySelectorAll('.comm-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    commMode = btn.dataset.mode;
+    document.querySelectorAll('.comm-btn').forEach(b => b.classList.toggle('active', b === btn));
+    if (commMode === 'pct') {
+      $('commPrefix').style.display = 'none';
+      $('commSuffix').style.display = '';
+      $('commSuffix').textContent = '%';
+      $('commValue').value = 15;
+      $('commValue').style.paddingLeft = '1rem';
+      $('commValue').style.paddingRight = '2.5rem';
+    } else {
+      $('commPrefix').style.display = '';
+      $('commSuffix').style.display = 'none';
+      $('commValue').value = 0;
+      $('commValue').style.paddingLeft = '2.2rem';
+      $('commValue').style.paddingRight = '1rem';
+    }
+    calculate();
+  });
+});
+
+// Initial padding for % mode
+$('commValue').style.paddingLeft = '1rem';
+$('commValue').style.paddingRight = '2.5rem';
+
+// Listen for input changes
+const inputs = ['purchasePrice', 'salePrice', 'yearsHeld', 'renewalFee', 'commValue', 'stockReturn'];
+inputs.forEach(id => $(id).addEventListener('input', calculate));
+
+function fmtMoney(n) {
+  if (Math.abs(n) >= 1e6) return (n < 0 ? '-' : '') + '$' + (Math.abs(n) / 1e6).toFixed(2) + 'M';
+  if (Math.abs(n) >= 1e4) return (n < 0 ? '-' : '') + '$' + (Math.abs(n) / 1e3).toFixed(1) + 'K';
+  return (n < 0 ? '-$' : '$') + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+}
+
+function fmtMoneyAxis(n) {
+  if (Math.abs(n) >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+  if (Math.abs(n) >= 1e3) return '$' + (n / 1e3).toFixed(0) + 'K';
+  return '$' + n.toFixed(0);
+}
+
+function calculate() {
+  const pp = parseFloat($('purchasePrice').value) || 0;
+  const sp = parseFloat($('salePrice').value) || 0;
+  const rf = parseFloat($('renewalFee').value) || 0;
+  const cv = parseFloat($('commValue').value) || 0;
+  const sr = parseFloat($('stockReturn').value) || 0;
+  const holdingYears = parseFloat($('yearsHeld').value) || 0;
+
+  if (holdingYears <= 0) return;
+
+  const totalRenewals = Math.ceil(holdingYears) * rf;
+  const commission = commMode === 'pct' ? sp * (cv / 100) : cv;
+  const totalCost = pp + totalRenewals + commission;
+  const proceeds = sp - commission;
+  const netProfit = sp - totalCost;
+  const costBasis = pp + totalRenewals;
+  const roi = costBasis > 0 ? (netProfit / costBasis) * 100 : 0;
+  const annualizedROI = holdingYears > 0 && roi > -100
+    ? (Math.pow(1 + roi / 100, 1 / holdingYears) - 1) * 100
+    : 0;
+
+  // Stock calculation: purchase price compounds for full period
+  // Each annual renewal also compounds from when it was paid
+  let stockValue = pp * Math.pow(1 + sr / 100, holdingYears);
+  for (let y = 1; y <= Math.ceil(holdingYears); y++) {
+    const yearsLeft = holdingYears - Math.min(y, holdingYears);
+    stockValue += rf * Math.pow(1 + sr / 100, yearsLeft);
+  }
+  const stockTotalInvested = pp + totalRenewals;
+  const stockGain = stockValue - stockTotalInvested;
+
+  const difference = netProfit - stockGain;
+
+  // Render results
+  const yrs = Math.floor(holdingYears);
+  const mos = Math.round((holdingYears - yrs) * 12);
+  $('rHolding').textContent = mos > 0 ? `${yrs}y ${mos}m` : `${yrs}y`;
+
+  $('rTotalCost').textContent = fmtMoney(totalCost);
+  $('rProceeds').textContent = fmtMoney(proceeds);
+
+  $('rProfit').textContent = fmtMoney(netProfit);
+  $('rProfit').className = 'stat-value ' + (netProfit >= 0 ? 'positive' : 'negative');
+
+  $('rROI').textContent = roi.toFixed(1) + '%';
+  $('rROI').className = 'stat-value ' + (roi >= 0 ? 'positive' : 'negative');
+
+  $('rAnnualROI').textContent = annualizedROI.toFixed(1) + '%';
+  $('rAnnualROI').className = 'stat-value ' + (annualizedROI >= 0 ? 'positive' : 'negative');
+
+  $('rStockVal').textContent = fmtMoney(stockValue);
+  $('rStockGain').textContent = fmtMoney(stockGain);
+  $('rStockGain').className = 'stat-value ' + (stockGain >= 0 ? 'positive' : 'negative');
+
+  const verdictEl = $('rVerdict');
+  const absDiff = fmtMoney(Math.abs(difference));
+  if (difference > 0) {
+    verdictEl.innerHTML = `+${absDiff} <span class="badge green">Domain Wins</span>`;
+    verdictEl.className = 'stat-value positive';
+  } else if (difference < 0) {
+    verdictEl.innerHTML = `-${absDiff} <span class="badge red">Stocks Win</span>`;
+    verdictEl.className = 'stat-value negative';
+  } else {
+    verdictEl.innerHTML = '$0 — Tie';
+    verdictEl.className = 'stat-value';
+  }
+
+  // Break-even: find years where domain profit == stock gain
+  // domainProfit(t) = sp - pp - ceil(t)*rf - commission  (constant w.r.t. t, but renewals grow)
+  // stockGain(t) = pp*(1+sr/100)^t + sum(rf*(1+sr/100)^(t-y)) - pp - ceil(t)*rf
+  // difference(t) = domainProfit(t) - stockGain(t)
+  function diffAtYears(t) {
+    if (t <= 0) return 0;
+    const renewals = Math.ceil(t) * rf;
+    const domProfit = sp - pp - renewals - commission;
+    let sv = pp * Math.pow(1 + sr / 100, t);
+    for (let y = 1; y <= Math.ceil(t); y++) {
+      sv += rf * Math.pow(1 + sr / 100, Math.max(0, t - y));
+    }
+    const sGain = sv - pp - renewals;
+    return domProfit - sGain;
+  }
+
+  const breakEvenRow = $('breakEvenRow');
+  const breakEvenEl = $('rBreakEven');
+
+  // Search from 0.1 to 50 years in 0.1 steps for a sign change
+  let breakEvenYears = null;
+  const step = 0.1;
+  let prevDiff = diffAtYears(step);
+  for (let t = step + step; t <= 50; t += step) {
+    const curDiff = diffAtYears(t);
+    if ((prevDiff > 0 && curDiff <= 0) || (prevDiff < 0 && curDiff >= 0)) {
+      // Binary search to refine
+      let lo = t - step, hi = t;
+      for (let i = 0; i < 30; i++) {
+        const mid = (lo + hi) / 2;
+        if (diffAtYears(mid) * diffAtYears(lo) <= 0) hi = mid;
+        else lo = mid;
+      }
+      breakEvenYears = (lo + hi) / 2;
+      break;
+    }
+    prevDiff = curDiff;
+  }
+
+  if (breakEvenYears !== null) {
+    const beYrs = Math.floor(breakEvenYears);
+    const beMos = Math.round((breakEvenYears - beYrs) * 12);
+    breakEvenEl.textContent = beMos > 0 ? `~${beYrs}y ${beMos}m` : `~${beYrs}y`;
+    breakEvenRow.style.display = '';
+  } else {
+    breakEvenRow.style.display = 'none';
+  }
+
+  drawChart(holdingYears, pp, rf, sp, commission, sr);
+  updateURL();
+}
+
+function drawChart(holdingYears, pp, rf, sp, commission, sr) {
+  const canvas = $('chart');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  const w = rect.width * dpr;
+  const h = 320 * dpr;
+  canvas.width = w;
+  canvas.height = h;
+  canvas.style.height = '320px';
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const cw = rect.width;
+  const ch = 320;
+
+  const pad = { top: 20, right: 20, bottom: 35, left: 60 };
+  const plotW = cw - pad.left - pad.right;
+  const plotH = ch - pad.top - pad.bottom;
+
+  // Generate monthly data points
+  const totalMonths = Math.max(1, Math.round(holdingYears * 12));
+  const domainData = [];
+  const stockData = [];
+
+  for (let m = 0; m <= totalMonths; m++) {
+    const t = m / 12; // years elapsed
+    const isLast = m === totalMonths;
+
+    // Domain: cumulative cost, jumps to net sale value at end
+    const renewalsPaid = Math.min(Math.ceil(t), Math.ceil(holdingYears)) * rf;
+    let domainVal;
+    if (isLast) {
+      domainVal = sp - commission - pp - renewalsPaid;
+      // Show net position: profit/loss relative to $0
+      domainVal = sp - commission;
+    } else {
+      domainVal = pp + renewalsPaid;
+    }
+    domainData.push(domainVal);
+
+    // Stock: purchase + renewals compounding
+    let sv = pp * Math.pow(1 + sr / 100, t);
+    const renewalYears = Math.min(Math.ceil(t), Math.ceil(holdingYears));
+    for (let y = 1; y <= renewalYears; y++) {
+      const elapsed = Math.max(0, t - y);
+      sv += rf * Math.pow(1 + sr / 100, elapsed);
+    }
+    stockData.push(sv);
+  }
+
+  // Y range
+  const allVals = [...domainData, ...stockData];
+  let yMin = Math.min(0, ...allVals);
+  let yMax = Math.max(...allVals);
+  const yPad = (yMax - yMin) * 0.1 || 100;
+  yMin -= yPad;
+  yMax += yPad;
+
+  // Clear
+  ctx.clearRect(0, 0, cw, ch);
+
+  // Grid lines
+  ctx.strokeStyle = '#2d3148';
+  ctx.lineWidth = 0.5;
+  const yTicks = 5;
+  for (let i = 0; i <= yTicks; i++) {
+    const y = pad.top + (plotH / yTicks) * i;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, y);
+    ctx.lineTo(cw - pad.right, y);
+    ctx.stroke();
+
+    const val = yMax - (yMax - yMin) * (i / yTicks);
+    ctx.fillStyle = '#475569';
+    ctx.font = '11px -apple-system, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(fmtMoneyAxis(val), pad.left - 8, y + 4);
+  }
+
+  // X-axis labels (year markers)
+  const fullYears = Math.ceil(holdingYears);
+  ctx.fillStyle = '#475569';
+  ctx.font = '11px -apple-system, sans-serif';
+  ctx.textAlign = 'center';
+  for (let y = 0; y <= fullYears; y++) {
+    const x = pad.left + (y / holdingYears) * plotW;
+    if (x <= cw - pad.right) {
+      ctx.fillText('Yr ' + y, x, ch - pad.bottom + 20);
+    }
+  }
+
+  function toX(m) { return pad.left + (m / totalMonths) * plotW; }
+  function toY(v) { return pad.top + plotH - ((v - yMin) / (yMax - yMin)) * plotH; }
+
+  // Draw stock line (green)
+  ctx.strokeStyle = '#4ade80';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let m = 0; m <= totalMonths; m++) {
+    const x = toX(m);
+    const y = toY(stockData[m]);
+    m === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+
+  // Draw domain line (indigo) - step function for cost, jump at end
+  ctx.strokeStyle = '#818cf8';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let m = 0; m <= totalMonths; m++) {
+    const x = toX(m);
+    const y = toY(domainData[m]);
+    if (m === 0) {
+      ctx.moveTo(x, y);
+    } else if (m === totalMonths) {
+      // Draw to the previous month's Y first, then jump
+      ctx.lineTo(x, toY(domainData[m - 1]));
+      ctx.lineTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  }
+  ctx.stroke();
+
+  // End dots
+  ctx.fillStyle = '#818cf8';
+  ctx.beginPath();
+  ctx.arc(toX(totalMonths), toY(domainData[totalMonths]), 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = '#4ade80';
+  ctx.beginPath();
+  ctx.arc(toX(totalMonths), toY(stockData[totalMonths]), 4, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// URL Sharing
+function updateURL() {
+  const p = new URLSearchParams();
+  p.set('pp', $('purchasePrice').value);
+  p.set('sp', $('salePrice').value);
+  p.set('yh', $('yearsHeld').value);
+  p.set('rf', $('renewalFee').value);
+  p.set('cm', commMode);
+  p.set('cv', $('commValue').value);
+  p.set('sr', $('stockReturn').value);
+  history.replaceState(null, '', '?' + p.toString());
+}
+
+function loadFromURL() {
+  const p = new URLSearchParams(window.location.search);
+  if (!p.has('pp')) return false;
+
+  if (p.has('pp')) $('purchasePrice').value = p.get('pp');
+  if (p.has('sp')) $('salePrice').value = p.get('sp');
+  if (p.has('yh')) $('yearsHeld').value = p.get('yh');
+  if (p.has('rf')) $('renewalFee').value = p.get('rf');
+  if (p.has('sr')) $('stockReturn').value = p.get('sr');
+
+  if (p.has('cm') && p.get('cm') === 'fixed') {
+    document.querySelector('.comm-btn[data-mode="fixed"]').click();
+  }
+  if (p.has('cv')) $('commValue').value = p.get('cv');
+
+  return true;
+}
+
+// Init
+loadFromURL();
+calculate();
+
+// Resize chart on window resize
+window.addEventListener('resize', calculate);
+
+// Share button
+$('shareBtn').addEventListener('click', () => {
+  updateURL();
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const toast = $('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }).catch(() => {
+    const inp = document.createElement('input');
+    inp.value = window.location.href;
+    document.body.appendChild(inp);
+    inp.select();
+    document.execCommand('copy');
+    document.body.removeChild(inp);
+    const toast = $('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  });
+});
+</script>
+</body>
+</html>

@@ -6,6 +6,7 @@ export default function Home() {
     <>
       {/* Hero */}
       <header className="mb-10">
+        <h1 className="sr-only">Sean Wade - Research Engineer</h1>
         <div className="flex flex-col gap-4">
           <p className="text-[1.1rem] leading-[1.8] text-text-secondary">
             Experienced research scientist and engineer. I love solving
