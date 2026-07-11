@@ -1,0 +1,49 @@
+name: Deploy seanwade.com
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: seanwade-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2.2.0
+        with:
+          bun-version: 1.3.8
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Build static site
+        run: bun run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v6.2.2
+        with:
+          role-to-assume: arn:aws:iam::301701475594:role/seanwade-github-deploy
+          aws-region: us-east-1
+          role-session-name: seanwade-${{ github.run_id }}
+
+      - name: Upload site to S3
+        run: aws s3 sync out/ s3://seanwade.com --delete --exclude ".DS_Store"
+
+      - name: Invalidate CloudFront cache
+        run: aws cloudfront create-invalidation --distribution-id E20VQTC0TY7DFQ --paths "/*"
