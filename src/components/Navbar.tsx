@@ -8,6 +8,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/pulshealth", label: "PulsHealth" },
   { href: "/tools", label: "Tools" },
+  { href: "/misc", label: "Misc" },
 ];
 
 export default function Navbar() {
@@ -31,7 +32,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               className={`text-sm transition-colors duration-200 no-underline ${
-                pathname === link.href
+                pathname === link.href || pathname.startsWith(`${link.href}/`)
                   ? "text-accent"
                   : "text-text-secondary hover:text-text-primary"
               }`}
@@ -74,7 +75,7 @@ export default function Navbar() {
               href={link.href}
               onClick={() => setMenuOpen(false)}
               className={`block py-2 text-sm no-underline ${
-                pathname === link.href
+                pathname === link.href || pathname.startsWith(`${link.href}/`)
                   ? "text-accent"
                   : "text-text-secondary hover:text-text-primary"
               }`}

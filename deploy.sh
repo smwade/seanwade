@@ -22,6 +22,16 @@ else
   exit 1
 fi
 
+echo "Uploading Misc catalog page..."
+
+aws s3 sync out/misc/ s3://seanwade.com/misc/ \
+  --exclude ".registry/*"
+
+if [ $? -ne 0 ]; then
+  echo "Misc catalog upload failed."
+  exit 1
+fi
+
 echo "Creating CloudFront invalidation..."
 
 aws cloudfront create-invalidation --distribution-id E20VQTC0TY7DFQ --paths "/*"
