@@ -12,7 +12,8 @@ fi
 echo "Starting S3 deployment..."
 
 aws s3 sync out/ s3://seanwade.com --delete \
-  --exclude ".DS_Store"
+  --exclude ".DS_Store" \
+  --exclude "misc/*"
 
 if [ $? -eq 0 ]; then
   echo "S3 deployment completed successfully."
