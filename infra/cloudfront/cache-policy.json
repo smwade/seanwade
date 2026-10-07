@@ -1,0 +1,14 @@
+{
+  "Name": "seanwade-static-site",
+  "Comment": "Respect origin cache headers; support gzip and Brotli without varying on queries or cookies",
+  "MinTTL": 0,
+  "DefaultTTL": 300,
+  "MaxTTL": 31536000,
+  "ParametersInCacheKeyAndForwardedToOrigin": {
+    "EnableAcceptEncodingGzip": true,
+    "EnableAcceptEncodingBrotli": true,
+    "HeadersConfig": { "HeaderBehavior": "none" },
+    "CookiesConfig": { "CookieBehavior": "none" },
+    "QueryStringsConfig": { "QueryStringBehavior": "none" }
+  }
+}
