@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import { getAllPosts } from "@/lib/blog";
 import BlogPostCard from "@/components/BlogPostCard";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description: "Thoughts on machine learning, engineering, and building things.",
-};
+export const metadata = pageMetadata(
+  "Blog",
+  "Notes by Sean Wade on machine learning, research engineering, and building useful tools.",
+  "/blog/",
+);
 
 export default function BlogPage() {
   const posts = getAllPosts();

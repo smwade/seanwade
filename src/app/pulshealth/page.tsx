@@ -1,22 +1,12 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import Image from "next/image";
 
-export const metadata: Metadata = {
-  title: "PulsHealth",
-  description: "PulsHealth — making wearable health data reliable, normalized, and privacy-safe for AI.",
-  openGraph: {
-    title: "PulsHealth",
-    description: "PulsHealth — making wearable health data reliable, normalized, and privacy-safe for AI.",
-    url: "https://seanwade.com/pulshealth/",
-    type: "website",
-    images: [{ url: "https://seanwade.com/images/pulshealth-logo.png" }],
-  },
-  twitter: {
-    card: "summary",
-    title: "PulsHealth",
-    description: "PulsHealth — making wearable health data reliable, normalized, and privacy-safe for AI.",
-  },
-};
+export const metadata = pageMetadata(
+  "PulsHealth",
+  "How Sean Wade is building PulsHealth to make wearable health data reliable, normalized, and privacy-safe for personalized AI.",
+  "/pulshealth/",
+  "/images/pulshealth-logo.png",
+);
 
 export default function ProjectsPage() {
   return (

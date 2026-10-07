@@ -1,12 +1,20 @@
+import { pageMetadata } from "@/lib/metadata";
+
 import ExperienceCard from "@/components/ExperienceCard";
 import SkillBadge from "@/components/SkillBadge";
+
+export const metadata = pageMetadata(
+  "Sean Wade - Research Scientist & Engineer",
+  "Sean Wade is a research scientist and engineer working on LLM evaluation, generative AI, and health machine learning. Explore his experience, writing, and tools.",
+  "/",
+);
 
 export default function Home() {
   return (
     <>
       {/* Hero */}
       <header className="mb-10">
-        <h1 className="sr-only">Sean Wade - Research Engineer</h1>
+        <h1 className="sr-only">Sean Wade - Research Scientist &amp; Engineer</h1>
         <div className="flex flex-col gap-4">
           <p className="text-[1.1rem] leading-[1.8] text-text-secondary">
             Experienced research scientist and engineer. I love solving
@@ -16,6 +24,7 @@ export default function Home() {
             <a
               href="/assets/sean_wade_resume_2025_updated.pdf"
               download="sean_wade_resume.pdf"
+              data-analytics-event="resume_download"
               aria-label="Download Sean Wade's resume in PDF format"
               className="border-b border-transparent text-accent no-underline transition-all duration-200 hover:border-accent hover:text-white"
             >
@@ -27,6 +36,7 @@ export default function Home() {
             Want to connect? Feel free to reach out at{" "}
             <a
               href="mailto:hello@seanwade.com"
+              data-analytics-event="contact_click"
               aria-label="Email Sean Wade at hello@seanwade.com"
               className="border-b border-transparent text-accent no-underline transition-all duration-200 hover:border-accent hover:text-white"
             >

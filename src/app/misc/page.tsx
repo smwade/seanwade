@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 import MiscCatalog from "@/components/MiscCatalog";
 
-export const metadata: Metadata = {
-  title: "Misc",
-  description: "Small standalone websites, guides, experiments, and one-off projects.",
-};
+export const metadata = pageMetadata(
+  "Misc",
+  "Small websites, practical guides, and experiments by Sean Wade, including a guide to food history and cooking.",
+  "/misc/",
+);
 
 export default function MiscPage() {
   return (

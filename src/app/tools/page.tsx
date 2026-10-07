@@ -1,9 +1,10 @@
-import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Tools",
-  description: "Standalone mini-tools and calculators.",
-};
+export const metadata = pageMetadata(
+  "Tools",
+  "Explore Sean Wade’s free investment growth and domain investing calculators, with scenarios, fees, and return comparisons.",
+  "/tools/",
+);
 
 const tools = [
   {

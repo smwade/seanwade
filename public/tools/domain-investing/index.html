@@ -3,7 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Domain vs Stock Market ROI Calculator</title>
+  <title>Domain vs Stocks Calculator | Sean Wade</title>
+  <meta name="description" content="Compare domain investing with stock market returns, including commissions, renewal fees, and holding periods. Find the break-even point with this free calculator." />
+  <meta name="referrer" content="strict-origin" />
+  <link rel="canonical" href="https://seanwade.com/tools/domain-investing/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Domain vs Stocks Calculator | Sean Wade" />
+  <meta property="og:description" content="Compare domain investing with stock market returns, including commissions, renewal fees, and holding periods. Find the break-even point with this free calculator." />
+  <meta property="og:url" content="https://seanwade.com/tools/domain-investing/" />
+  <meta property="og:image" content="https://seanwade.com/images/sean-wade.jpeg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Domain vs Stocks Calculator | Sean Wade" />
+  <meta name="twitter:description" content="Compare domain investing with stock market returns, including commissions, renewal fees, and holding periods. Find the break-even point with this free calculator." />
+  <meta name="twitter:image" content="https://seanwade.com/images/sean-wade.jpeg" />
+  <script src="/tools/analytics.js" data-tool="domain_investing" data-path="/tools/domain-investing/"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -626,7 +639,6 @@ function calculate() {
   }
 
   drawChart(holdingYears, pp, rf, sp, commission, sr);
-  updateURL();
 }
 
 function drawChart(holdingYears, pp, rf, sp, commission, sr) {
@@ -775,11 +787,11 @@ function updateURL() {
   p.set('cm', commMode);
   p.set('cv', $('commValue').value);
   p.set('sr', $('stockReturn').value);
-  history.replaceState(null, '', '?' + p.toString());
+  return window.location.origin + window.location.pathname + '?' + p.toString();
 }
 
 function loadFromURL() {
-  const p = new URLSearchParams(window.location.search);
+  const p = new URLSearchParams(window.calculatorSearch || window.location.search);
   if (!p.has('pp')) return false;
 
   if (p.has('pp')) $('purchasePrice').value = p.get('pp');
@@ -805,14 +817,14 @@ window.addEventListener('resize', calculate);
 
 // Share button
 $('shareBtn').addEventListener('click', () => {
-  updateURL();
-  navigator.clipboard.writeText(window.location.href).then(() => {
+  const shareURL = updateURL();
+  navigator.clipboard.writeText(shareURL).then(() => {
     const toast = $('toast');
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2500);
   }).catch(() => {
     const inp = document.createElement('input');
-    inp.value = window.location.href;
+    inp.value = shareURL;
     document.body.appendChild(inp);
     inp.select();
     document.execCommand('copy');

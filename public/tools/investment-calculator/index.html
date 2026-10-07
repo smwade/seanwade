@@ -3,7 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Investment Calculator</title>
+  <title>Investment Calculator | Sean Wade</title>
+  <meta name="description" content="Project compound growth with contributions, investment fees, inflation, historical returns, and retirement goals. Compare scenarios with this free calculator." />
+  <meta name="referrer" content="strict-origin" />
+  <link rel="canonical" href="https://seanwade.com/tools/investment-calculator/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Investment Calculator | Sean Wade" />
+  <meta property="og:description" content="Project compound growth with contributions, investment fees, inflation, historical returns, and retirement goals. Compare scenarios with this free calculator." />
+  <meta property="og:url" content="https://seanwade.com/tools/investment-calculator/" />
+  <meta property="og:image" content="https://seanwade.com/images/sean-wade.jpeg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Investment Calculator | Sean Wade" />
+  <meta name="twitter:description" content="Project compound growth with contributions, investment fees, inflation, historical returns, and retirement goals. Compare scenarios with this free calculator." />
+  <meta name="twitter:image" content="https://seanwade.com/images/sean-wade.jpeg" />
+  <script src="/tools/analytics.js" data-tool="investment_calculator" data-path="/tools/investment-calculator/"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -2013,7 +2026,7 @@ function renderTable(result, inp) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// URL SYNC
+// SHARE URL GENERATION (kept out of browser history and analytics)
 // ─────────────────────────────────────────────────────────────────────────────
 
 function updateURL() {
@@ -2054,11 +2067,11 @@ function updateURL() {
       p.set('sb_ac', document.getElementById('b_assetClass').value);
     }
   }
-  history.replaceState(null, '', '?' + p.toString());
+  return window.location.origin + window.location.pathname + '?' + p.toString();
 }
 
 function loadFromURL() {
-  const p = new URLSearchParams(window.location.search);
+  const p = new URLSearchParams(window.calculatorSearch || window.location.search);
   if (!p.has('mode') && !p.has('p')) return; // nothing to load
 
   const set = (id, val) => { const el = document.getElementById(id); if (el && val !== null) el.value = val; };
@@ -2128,7 +2141,6 @@ function calculate() {
     drawChart(result, null, inp);
     document.getElementById('tableControlRow').style.display = 'none';
     lastResult = result;
-    updateURL();
     return;
   }
 
@@ -2166,7 +2178,6 @@ function calculate() {
   }
   document.getElementById('tableControlRow').style.display = result ? '' : 'none';
 
-  updateURL();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -2305,15 +2316,15 @@ document.getElementById('tableToggleBtn').addEventListener('click', function () 
 
 // Share button
 document.getElementById('shareBtn').addEventListener('click', () => {
-  updateURL();
-  navigator.clipboard.writeText(window.location.href).then(() => {
+  const shareURL = updateURL();
+  navigator.clipboard.writeText(shareURL).then(() => {
     const toast = document.getElementById('toast');
     toast.classList.add('show');
     setTimeout(() => toast.classList.remove('show'), 2500);
   }).catch(() => {
     // Fallback for non-secure contexts
     const inp = document.createElement('input');
-    inp.value = window.location.href;
+    inp.value = shareURL;
     document.body.appendChild(inp);
     inp.select();
     document.execCommand('copy');

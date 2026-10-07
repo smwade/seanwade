@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import rehypePrettyCode from "rehype-pretty-code";
@@ -12,24 +13,27 @@ export async function generateMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
-}) {
+}): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return {};
   return {
     title: post.title,
     description: post.description,
+    alternates: { canonical: `https://seanwade.com/blog/${slug}/` },
     openGraph: {
       title: post.title,
       description: post.description,
       type: "article",
       publishedTime: post.date,
       url: `https://seanwade.com/blog/${slug}/`,
+      images: [{ url: "https://seanwade.com/images/sean-wade.jpeg" }],
     },
     twitter: {
       card: "summary",
       title: post.title,
       description: post.description,
+      images: ["https://seanwade.com/images/sean-wade.jpeg"],
     },
   };
 }

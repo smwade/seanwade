@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import Navbar from "@/components/Navbar";
+import AnalyticsEvents from "@/components/AnalyticsEvents";
 import "./globals.css";
 
 const inter = Inter({
@@ -11,11 +12,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Sean Wade - Research Engineer",
+    default: "Sean Wade - Research Scientist & Engineer",
     template: "%s | Sean Wade",
   },
   description:
-    "Sean Wade's personal portfolio website showcasing his experience as a Research Engineer in machine learning, deep learning, and computer vision.",
+    "Sean Wade is a research scientist and engineer working on LLM evaluation, generative AI, and health machine learning. Explore his experience, writing, and tools.",
   keywords: [
     "Sean Wade",
     "Research Engineer",
@@ -28,18 +29,18 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Sean Wade" }],
   openGraph: {
-    title: "Sean Wade - Research Engineer",
+    title: "Sean Wade - Research Scientist & Engineer",
     description:
-      "Sean Wade's personal portfolio website showcasing his experience as a Research Engineer in machine learning, deep learning, and computer vision.",
+      "Sean Wade is a research scientist and engineer working on LLM evaluation, generative AI, and health machine learning. Explore his experience, writing, and tools.",
     images: [{ url: "https://seanwade.com/images/sean-wade.jpeg" }],
     url: "https://seanwade.com",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sean Wade - Research Engineer",
+    title: "Sean Wade - Research Scientist & Engineer",
     description:
-      "Sean Wade's personal portfolio website showcasing his experience as a Research Engineer in machine learning, deep learning, and computer vision.",
+      "Sean Wade is a research scientist and engineer working on LLM evaluation, generative AI, and health machine learning. Explore his experience, writing, and tools.",
     images: ["https://seanwade.com/images/sean-wade.jpeg"],
   },
   metadataBase: new URL("https://seanwade.com"),
@@ -73,6 +74,7 @@ export default function RootLayout({
       </head>
       <body>
         <Navbar />
+        <AnalyticsEvents />
         <main className="mx-auto max-w-[800px] px-8 pt-8 pb-16 max-sm:px-5">
           {children}
         </main>
@@ -83,7 +85,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "Person",
               name: "Sean Wade",
-              jobTitle: "Research Engineer",
+              jobTitle: "Research Scientist and Engineer",
               email: "hello@seanwade.com",
               url: "https://seanwade.com",
               sameAs: [
