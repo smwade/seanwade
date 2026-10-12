@@ -33,7 +33,6 @@
       if (link.dataset.analyticsEvent === 'resume_download') name = 'resume_download';
       else if (url.protocol === 'mailto:') name = 'contact_click';
       else if (url.hostname === 'github.com') name = 'github_click';
-      else if (url.origin === location.origin && url.pathname.startsWith('/tools/')) name = 'tool_open';
       else if (url.hostname === 'pulshealth.com' || url.hostname === 'labs.seanwade.com') name = 'project_click';
     } catch { return; }
     if(name)track(name);
