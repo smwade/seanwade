@@ -1,206 +1,246 @@
 import Image from "next/image";
 import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
-import SignalPortrait from "@/components/SignalPortrait";
+import styles from "./home.module.css";
 export const metadata = pageMetadata(
-  "Sean Wade — Research & engineering",
-  "I build AI evaluation systems, health software, and useful things. Research at Google, previously Apple Health, founder of PulsHealth.",
+  "Sean Wade — Research scientist & engineer",
+  "Senior Research Data Scientist at Google, working on LLM evaluation for Search and Discover. Previously Apple Health. Founder of PulsHealth.",
   "/",
 );
 export default function Home() {
   return (
-    <>
-      <header className="home-hero">
-        <div className="hero-copy">
-          <p className="intro-line">
-            <span className="status-dot" /> Research scientist & engineer
-          </p>
+    <div className={styles.resume}>
+      <header className={styles.intro}>
+        <div>
+          <p className={styles.discipline}>Research scientist & engineer</p>
           <h1>
-            Curiosity,
-            <br />
-            put to work.
+            Sean Wade<span>.</span>
           </h1>
-          <p className="hero-description">
-            I’m Sean. I build AI systems, make health data useful, and turn
-            interesting questions into things people can use.
+          <p className={styles.headline}>
+            Building better AI.
+            <br />
+            Making its quality measurable.
           </p>
-          <p className="hero-context">
-            Now at <strong>Google</strong>. Previously{" "}
-            <strong>Apple Health</strong>.<br />
-            Independently building <Link href="/pulshealth/">PulsHealth</Link>.
+          <p className={styles.summary}>
+            I’m a Senior Research Data Scientist at Google, working on LLM
+            evaluation for Search and Discover. Previously, I built machine
+            learning systems for Apple Health.
           </p>
           <div className="actions">
-            <Link className="button primary" href="/projects/">
-              Explore my work <span aria-hidden="true">↗</span>
-            </Link>
             <a
-              className="text-link"
+              className="button primary"
               href="/assets/sean_wade_resume_2025_updated.pdf"
               data-analytics-event="resume_download"
             >
               Download résumé <span aria-hidden="true">↓</span>
             </a>
+            <a
+              className="text-link"
+              href="mailto:hello@seanwade.com"
+              data-analytics-event="contact_click"
+            >
+              Get in touch <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
-        <SignalPortrait />
+        <aside className={styles.profile}>
+          <Image
+            src="/images/sean-wade.jpeg"
+            alt="Sean Wade"
+            width={220}
+            height={260}
+            priority
+          />
+          <div>
+            <span className={styles.location}>San Francisco Bay Area</span>
+            <a href="https://www.linkedin.com/in/sean-wade-linked/">
+              LinkedIn ↗
+            </a>
+            <a href="https://github.com/smwade">GitHub ↗</a>
+          </div>
+        </aside>
       </header>
-      <section className="featured-project" aria-labelledby="puls-title">
-        <div className="featured-copy">
-          <div className="product-wordmark">
-            <Image
-              src="/images/pulshealth-logo.png"
-              alt=""
-              width={32}
-              height={32}
-            />
-            PulsHealth <span>Independent project</span>
-          </div>
-          <h2 id="puls-title">
-            Your health data.
-            <br />A world of possibilities.
-          </h2>
-          <p>
-            An open-source app and platform that takes Apple Health beyond your
-            phone. Built from the first line of Swift to the database,
-            dashboard, and AI integrations.
-          </p>
-          <div className="puls-proof">
-            <strong>1,000+</strong>
-            <span>users</span>
-            <span className="proof-divider" />
-            <span>
-              Open source
-              <br />
-              Built independently
-            </span>
-          </div>
-          <Link href="/pulshealth/" className="button light">
-            Explore PulsHealth <span aria-hidden="true">↗</span>
-          </Link>
+      <section className={styles.work} aria-labelledby="experience">
+        <div className={styles.sectionTitle}>
+          <h2 id="experience">Experience</h2>
+          <span>Research through production</span>
         </div>
-        <div className="featured-visual">
-          <div className="data-label label-left">Apple Health</div>
-          <Image
-            src="/images/pulshealth-explore.webp"
-            alt="PulsHealth Explore screen with activity, heart, sleep, and workout categories"
-            width={390}
-            height={844}
-            className="puls-phone"
-          />
-          <div className="data-label label-right">
-            Your data.
-            <br />
-            Your database.
-            <br />
-            Your AI.
-          </div>
-          <svg className="data-lines" viewBox="0 0 500 420" aria-hidden="true">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <path
-                key={i}
-                d={`M 0 ${160 + i * 22} C 180 ${80 + i * 60}, 320 ${340 - i * 60}, 500 ${130 + i * 32}`}
+        <article className={`${styles.role} ${styles.current}`}>
+          <div className={styles.roleMeta}>
+            <div className={styles.company}>
+              <Image
+                src="/images/Google_Favicon_2025.svg"
+                alt=""
+                width={29}
+                height={29}
               />
-            ))}
-          </svg>
-        </div>
-      </section>
-      <section className="experience-section" aria-labelledby="experience">
-        <div className="section-heading">
-          <div>
-            <p className="section-note">The work so far</p>
-            <h2 id="experience">Research meets real life.</h2>
+              <h3>Google</h3>
+            </div>
+            <p>July 2025–present</p>
+            <span className={styles.currentTag}>Current role</span>
           </div>
+          <div className={styles.roleBody}>
+            <h4>Senior Research Data Scientist</h4>
+            <p className={styles.team}>Search & Discover</p>
+            <p className={styles.roleLead}>
+              I build evaluation systems that help teams understand where AI
+              works, where it fails, and what to improve.
+            </p>
+            <ul>
+              <li>
+                Build production LLM-as-a-judge systems for measuring product
+                quality, with automated evaluation workflows and reliable
+                metrics.
+              </li>
+              <li>
+                Develop methods for validating AI raters: calibration, prompt
+                sensitivity, stability, and disagreement analysis.
+              </li>
+              <li>
+                Design experiments and evaluation strategies for recommender
+                systems, connecting model quality to product decisions.
+              </li>
+              <li>
+                Build tools and teach teams how to work effectively with AI.
+              </li>
+            </ul>
+            <div className={styles.tags}>
+              <span>LLM evaluation</span>
+              <span>Experimentation</span>
+              <span>Recommender systems</span>
+              <span>Python</span>
+            </div>
+          </div>
+        </article>
+        <article className={styles.role}>
+          <div className={styles.roleMeta}>
+            <div className={styles.company}>
+              <Image
+                className={styles.apple}
+                src="/images/Apple_logo_black.svg"
+                alt=""
+                width={27}
+                height={29}
+              />
+              <h3>Apple</h3>
+            </div>
+            <p>December 2019–July 2025</p>
+          </div>
+          <div className={styles.roleBody}>
+            <h4>Senior ML Engineer / Data Scientist</h4>
+            <p className={styles.team}>Health</p>
+            <ul>
+              <li>
+                Developed and shipped personalized workout recommendations,
+                passive walk detection, and contextual health experiences.
+              </li>
+              <li>
+                Led evaluation of health ML systems, including outcome metrics,
+                experiments, and human-feedback datasets.
+              </li>
+              <li>
+                Designed privacy-preserving data collection and measurement for
+                LumiHealth, Heartline, and Attain research programs.
+              </li>
+              <li>
+                Built pipelines for large-scale health sensor and medical claims
+                data.
+              </li>
+            </ul>
+            <div className={styles.tags}>
+              <span>Health ML</span>
+              <span>Privacy</span>
+              <span>Causal inference</span>
+              <span>Data systems</span>
+            </div>
+          </div>
+        </article>
+        <article className={styles.role}>
+          <div className={styles.roleMeta}>
+            <div className={styles.company}>
+              <Image
+                src="/images/pulshealth-logo.png"
+                alt=""
+                width={29}
+                height={29}
+              />
+              <h3>PulsHealth</h3>
+            </div>
+            <p>2024–present</p>
+            <span className={styles.independent}>Independent project</span>
+          </div>
+          <div className={styles.roleBody}>
+            <h4>Founder & engineer</h4>
+            <p className={styles.team}>
+              Open-source health software · 1,000+ users
+            </p>
+            <p>
+              Designed and built an iPhone app and platform for exploring,
+              exporting, and syncing Apple Health data. The product spans Swift,
+              a database backend, a web dashboard, and read-only AI
+              integrations.
+            </p>
+            <Link href="/pulshealth/" className="text-link">
+              Explore PulsHealth <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
+        </article>
+        <div className={styles.earlier}>
+          <h3>Earlier work</h3>
+          <p>
+            <strong>Microsoft</strong> · AI platform engineering
+            <br />
+            <strong>Disney</strong> · Recommender systems
+            <br />
+            <strong>Loveland Innovations</strong> · Computer vision
+          </p>
           <Link href="/resume/" className="text-link">
-            Full experience <span aria-hidden="true">↗</span>
+            Full experience ↗
           </Link>
         </div>
-        <div className="career-row">
-          <Image
-            src="/images/Google_Favicon_2025.svg"
-            alt=""
-            width={34}
-            height={34}
-          />
-          <div>
-            <h3>Google</h3>
-            <span>Senior Research Data Scientist</span>
-          </div>
-          <p>
-            Building evaluation systems for LLMs in Search and Discover. Making
-            model quality measurable, reliable, and useful.
-          </p>
-          <span className="career-date">2025–present</span>
-        </div>
-        <div className="career-row">
-          <Image
-            src="/images/Apple_logo_black.svg"
-            alt=""
-            width={34}
-            height={34}
-          />
-          <div>
-            <h3>Apple</h3>
-            <span>ML Engineer & Data Scientist</span>
-          </div>
-          <p>
-            Turning wearable signals into better health experiences, from
-            workout recommendations to privacy-preserving research.
-          </p>
-          <span className="career-date">2019–2025</span>
-        </div>
-        <div className="career-row">
-          <Image
-            src="/images/BYU_Cougars_logo.svg"
-            alt=""
-            width={34}
-            height={34}
-          />
-          <div>
-            <h3>Brigham Young University</h3>
-            <span>Computer Science & Applied Math</span>
-          </div>
-          <p>
-            Research in generative models, medical data embeddings, and new ways
-            to train neural networks.
-          </p>
-          <span className="career-date">BS ’17 · MS ’19</span>
-        </div>
       </section>
-      <section className="about-bottom">
-        <div>
-          <p className="section-note">Away from the keyboard</p>
-          <h2>
-            Always finding
-            <br />
-            something to explore.
-          </h2>
+      <section className={styles.research} aria-labelledby="research">
+        <div className={styles.sectionTitle}>
+          <h2 id="research">Education & research</h2>
+        </div>
+        <div className={styles.education}>
+          <h3>Brigham Young University</h3>
           <p>
-            Running, cycling, a good board game, or learning something new. I
-            like the process of figuring things out as much as the finished
-            thing.
+            MS Computer Science, 2019
+            <br />
+            BS Applied Mathematics, 2017
           </p>
-          <a
-            href="mailto:hello@seanwade.com"
-            className="text-link"
-            data-analytics-event="contact_click"
-          >
-            hello@seanwade.com
+        </div>
+        <div className={styles.publications}>
+          <a href="https://ieeexplore.ieee.org/document/8031179">
+            <span>Code2Vec</span>
+            <p>Embedding and clustering medical diagnosis data</p>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a href="https://arxiv.org/abs/1706.02480">
+            <span>Forward Thinking</span>
+            <p>Training neural networks one layer at a time</p>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <a href="https://github.com/smwade/MediAug">
+            <span>MediAug</span>
+            <p>A toolkit for synthetic cancer-cell image generation</p>
+            <span aria-hidden="true">↗</span>
           </a>
         </div>
-        <Link href="/ask/" className="ask-invitation">
-          <span className="ask-symbol" aria-hidden="true">
-            ✳
-          </span>
-          <h3>There’s more to the story.</h3>
+      </section>
+      <section className={styles.closing}>
+        <div>
+          <h2>Outside the day job.</h2>
           <p>
-            Explore my background, projects, and how I approach building things.
+            I build useful apps, explore new ideas, and occasionally turn a
+            small experiment into something bigger.
           </p>
-          <span className="text-link">
-            Ask about me <span aria-hidden="true">↗</span>
-          </span>
-          <small>Interactive preview</small>
+        </div>
+        <Link href="/projects/" className="text-link">
+          Explore the project library ↗
         </Link>
       </section>
-    </>
+    </div>
   );
 }

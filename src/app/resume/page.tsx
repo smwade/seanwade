@@ -71,6 +71,7 @@ export default function Home() {
         </ExperienceCard>
 
         <ExperienceCard
+          invertLogo
           logo="/images/Apple_logo_black.svg"
           logoAlt="Apple logo"
           title="Senior Machine Learning Engineer / Data Scientist"
@@ -218,6 +219,7 @@ export default function Home() {
         </ExperienceCard>
 
         <ExperienceCard
+          invertLogo
           logo="/images/Disney_wordmark.svg"
           logoAlt="Disney logo"
           title="Machine Learning Resident"

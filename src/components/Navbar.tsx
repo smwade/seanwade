@@ -5,7 +5,6 @@ const links = [
   { href: "/", label: "About" },
   { href: "/pulshealth/", label: "PulsHealth" },
   { href: "/projects/", label: "Project library" },
-  { href: "/ask/", label: "Ask about me" },
 ];
 export default function Navbar() {
   const pathname = usePathname();

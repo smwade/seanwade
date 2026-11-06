@@ -2,7 +2,7 @@
 
 ## This branch
 
-`/ask/` is an interactive design preview. It uses a small, client-visible set of curated professional answers with source links. It makes no model requests and sends no questions to a server. Free text selects a relevant prepared answer; unknown topics get an honest fallback. The conversation lives only in React memory. It is not a completed LLM integration and the preview implements no usage limits.
+The paperclip launcher in the bottom-right corner opens an interactive design preview. There is no separate `/ask/` page or chat navigation item. It uses a small, client-visible set of curated professional answers with source links. It makes no model requests and sends no questions to a server. Free text selects a relevant prepared answer; unknown topics get an honest fallback. The conversation lives only in React memory. It is not a completed LLM integration and the preview implements no usage limits.
 
 ## Recommended first live version
 

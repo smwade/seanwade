@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import AnalyticsEvents from "@/components/AnalyticsEvents";
+import AssistantLauncher from "@/components/AssistantLauncher";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
@@ -57,8 +58,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={manrope.variable}>
       <head>
-        <meta name="color-scheme" content="light" />
-        <meta name="theme-color" content="#f7f9fc" />
+        <meta name="color-scheme" content="dark" />
+        <meta name="theme-color" content="#0b0e14" />
       </head>
       <body>
         <a href="#main-content" className="skip-link">
@@ -73,6 +74,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <AssistantLauncher />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

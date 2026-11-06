@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HealthDataFlow } from "@/components/HealthDataFlow";
 import { pageMetadata } from "@/lib/metadata";
 export const metadata = pageMetadata(
   "PulsHealth — An independent product",
@@ -25,8 +26,9 @@ export default function PulsHealth() {
           Beyond your phone.
         </h1>
         <p className="case-intro">
-          An independent, open-source product I built to make Apple Health data
-          easier to explore and use.
+          An independent, open-source iPhone app and data platform I designed
+          and built. Used by over 1,000 people to explore, export, and do more
+          with their Apple Health data.
         </p>
         <div className="actions">
           <a className="button light" href="https://pulshealth.com">
@@ -36,36 +38,7 @@ export default function PulsHealth() {
             Explore the source
           </a>
         </div>
-        <div className="featured-visual">
-          <div className="data-label label-left">
-            Export files
-            <br />
-            CSV · JSON
-          </div>
-          <Image
-            className="puls-phone"
-            src="/images/pulshealth-explore.webp"
-            alt="PulsHealth iPhone app showing health categories in Explore"
-            width={390}
-            height={844}
-            priority
-          />
-          <div className="data-label label-right">
-            Your database
-            <br />
-            Your dashboard
-            <br />
-            Your AI
-          </div>
-          <svg className="data-lines" viewBox="0 0 650 500" aria-hidden="true">
-            {[0, 1, 2, 3, 4, 5].map((i) => (
-              <path
-                key={i}
-                d={`M0 ${150 + i * 30} C220 ${70 + i * 60}, 420 ${400 - i * 30}, 650 ${180 + i * 25}`}
-              />
-            ))}
-          </svg>
-        </div>
+        <HealthDataFlow />
         <div className="case-stats">
           <div>
             <strong>1,000+</strong>
@@ -112,8 +85,9 @@ export default function PulsHealth() {
         <article>
           <h3>An app that opens things up.</h3>
           <p>
-            Explore and export Apple Health readings from iPhone. Start with a
-            file, or keep data flowing into a database.
+            Browse health readings, inspect trends, and export individual
+            samples or custom summaries as CSV or JSON. Start on your phone
+            without creating an account.
           </p>
           <a className="text-link" href="https://pulshealth.com/features/">
             Explore the app ↗
@@ -122,8 +96,9 @@ export default function PulsHealth() {
         <article>
           <h3>A platform to build on.</h3>
           <p>
-            A PostgreSQL backend, web dashboard, and API. Use hosted sync or run
-            the open-source stack on your own server.
+            Automatic sync brings Apple Health into PostgreSQL. Explore
+            activity, sleep, and workouts in a browser, or build directly on the
+            API. Choose hosted sync or run the open-source stack yourself.
           </p>
           <a className="text-link" href="https://pulshealth.com/server/">
             See self-hosting ↗
@@ -135,10 +110,34 @@ export default function PulsHealth() {
             Connect compatible assistants through a read-only MCP server. Give
             your chosen tools useful context from your synced history.
           </p>
-          <a className="text-link" href="https://pulshealth.com/docs/">
-            Read the documentation ↗
+          <a className="text-link" href="https://pulshealth.com/docs/ai/">
+            See AI connections ↗
           </a>
         </article>
+      </section>
+      <section className="case-story">
+        <div>
+          <p className="section-note">From idea to product</p>
+          <h2>Built across the whole stack.</h2>
+        </div>
+        <div>
+          <p>
+            I’m the solo developer behind the native Swift app, the sync
+            protocol, PostgreSQL backend, web dashboard, API, and MCP
+            integration. I also maintain the documentation and health-metric
+            knowledge base.
+          </p>
+          <p>
+            The app and server are open source. That makes the data flow
+            inspectable and gives people a choice about where their history
+            lives. The App Store version offers a convenient way to get started,
+            with optional Pro purchases.
+          </p>
+          <p>
+            It’s where my background in health machine learning meets the
+            everyday work of making something people can actually use.
+          </p>
+        </div>
       </section>
       <div className="actions">
         <a className="button primary" href="https://app.pulshealth.com">

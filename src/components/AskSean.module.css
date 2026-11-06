@@ -1,12 +1,12 @@
 .panel {
   max-width: 860px;
   margin: 0 auto;
-  border: 1px solid #dbe3f4;
+  border: 1px solid #2b3545;
   border-radius: 24px;
-  background: #fff;
-  color: #172541;
+  background: #141a24;
+  color: #edf2fa;
   overflow: hidden;
-  box-shadow: 0 20px 70px #2947800a;
+  box-shadow: 0 20px 70px #00000040;
 }
 .header {
   display: flex;
@@ -20,7 +20,7 @@
 }
 .header p {
   margin: 3px 0 0;
-  color: #56647c;
+  color: #a5b1c4;
   font-size: 14px;
 }
 .mark {
@@ -30,7 +30,7 @@
   height: 46px;
   flex-shrink: 0;
   border-radius: 15px;
-  background: #2854d7;
+  background: #8eb5ff;
   color: white;
   font-size: 25px;
 }
@@ -39,8 +39,8 @@
   align-items: baseline;
   gap: 8px;
   padding: 12px 30px;
-  background: #f0f4fc;
-  color: #4f5f79;
+  background: #10151e;
+  color: #a5b1c4;
   font-size: 12px;
 }
 .dot {
@@ -48,7 +48,7 @@
   height: 6px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: #2854d7;
+  background: #8eb5ff;
 }
 .conversation {
   max-height: 470px;
@@ -66,14 +66,14 @@
   margin: 0 0 8px;
 }
 .welcome p {
-  color: #56647c;
+  color: #a5b1c4;
   font-size: 15px;
 }
 .exchange {
   margin-bottom: 28px;
 }
 .question {
-  background: #eaf0ff;
+  background: #263753;
   border-radius: 18px 18px 4px 18px;
   padding: 12px 18px;
   width: fit-content;
@@ -90,14 +90,14 @@
   margin: 6px 0 12px;
 }
 .answer a {
-  color: #2854d7;
+  color: #8eb5ff;
   text-decoration: underline;
   text-underline-offset: 4px;
   font-size: 13px;
 }
 .label {
   font-size: 12px;
-  color: #59677e;
+  color: #a5b1c4;
 }
 .suggestions {
   display: flex;
@@ -109,16 +109,16 @@
   text-align: left;
   font: inherit;
   font-size: 12px;
-  border: 1px solid #dbe3f4;
-  background: white;
+  border: 1px solid #2b3545;
+  background: #141a24;
   border-radius: 20px;
   padding: 8px 13px;
-  color: #405375;
+  color: #c5d3e8;
   cursor: pointer;
 }
 .suggestions button:hover {
-  background: #eef3ff;
-  border-color: #a6b9e9;
+  background: #202c3f;
+  border-color: #6487be;
 }
 .form {
   display: flex;
@@ -126,11 +126,11 @@
   gap: 12px;
   margin: 0 24px 24px;
   padding: 8px 9px 8px 18px;
-  border: 1px solid #becce6;
+  border: 1px solid #3c4b62;
   border-radius: 16px;
 }
 .form:focus-within {
-  outline: 2px solid #2854d7;
+  outline: 2px solid #8eb5ff;
   outline-offset: 3px;
 }
 .form input {
@@ -141,13 +141,13 @@
   background: transparent;
   font: inherit;
   font-size: 16px;
-  color: #172541;
+  color: #edf2fa;
 }
 .form input::placeholder {
-  color: #64728a;
+  color: #a5b1c4;
 }
 .form button {
-  background: #2854d7;
+  background: #8eb5ff;
   color: white;
   border: 0;
   border-radius: 10px;
@@ -165,7 +165,7 @@
   display: block;
   border: 0;
   background: none;
-  color: #56647c;
+  color: #a5b1c4;
   text-decoration: underline;
   font-size: 12px;
   margin: -8px auto 20px;
@@ -173,7 +173,7 @@
 }
 .panel button:focus-visible,
 .panel a:focus-visible {
-  outline: 2px solid #2854d7;
+  outline: 2px solid #8eb5ff;
   outline-offset: 4px;
 }
 .srOnly {
@@ -203,4 +203,57 @@
   .question {
     max-width: 95%;
   }
+}
+
+.mark,
+.form button {
+  color: #0b0e14;
+}
+.compact {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+}
+.compact .notice {
+  padding: 12px 18px;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.compact .conversation {
+  padding: 18px 18px 4px;
+  max-height: min(320px, 38dvh);
+  overscroll-behavior: contain;
+}
+.compact .conversation:has(.exchange) {
+  min-height: 140px;
+}
+.compact .answer {
+  font-size: 13px;
+  max-width: 100%;
+}
+.compact .question {
+  font-size: 13px;
+  padding: 9px 13px;
+  margin-bottom: 15px;
+}
+.compact .suggestions {
+  padding: 8px 18px 18px;
+  gap: 7px;
+}
+.compact .suggestions button {
+  font-size: 11px;
+  padding: 7px 11px;
+}
+.compact .form {
+  margin: 0 16px 18px;
+  border-radius: 12px;
+  padding-left: 12px;
+  gap: 6px;
+}
+.compact .form input {
+  font-size: 16px;
+}
+.compact .clear {
+  margin-bottom: 16px;
 }

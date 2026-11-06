@@ -1,5 +1,5 @@
 .library {
-  color: #142442;
+  color: #edf2fa;
   padding-top: 36px;
 }
 .header {
@@ -17,7 +17,7 @@
   max-width: 580px;
   font-size: 1.15rem;
   line-height: 1.7;
-  color: #58657a;
+  color: #a3afc2;
 }
 .controls {
   display: flex;
@@ -35,24 +35,24 @@
   padding: 9px 16px;
   border-radius: 24px;
   cursor: pointer;
-  color: #536078;
+  color: #a3afc2;
   background: transparent;
   font: inherit;
   font-size: 0.9rem;
 }
 .filters button:hover {
-  background: #edf1fc;
+  background: #202c40;
 }
 .filters button[aria-pressed="true"] {
-  background: #2854d7;
-  color: white;
+  background: #8eb5ff;
+  color: #0b1424;
 }
 .search {
   display: flex;
   align-items: center;
   gap: 10px;
-  background: white;
-  border: 1px solid #d7deea;
+  background: #141a24;
+  border: 1px solid #303d50;
   border-radius: 10px;
   padding: 10px 13px;
 }
@@ -67,7 +67,7 @@
   min-width: 0;
   width: 160px;
   border: 0;
-  color: #142442;
+  color: #edf2fa;
   background: transparent;
   font: inherit;
   font-size: 0.9rem;
@@ -76,11 +76,11 @@
   outline: none;
 }
 .search:focus-within {
-  outline: 2px solid #2854d7;
+  outline: 2px solid #8eb5ff;
   outline-offset: 3px;
 }
 .count {
-  color: #657187;
+  color: #8c9bb2;
   font-size: 0.8rem;
   margin: 24px 0 14px;
 }
@@ -90,9 +90,9 @@
   gap: 24px;
 }
 .card {
-  border: 1px solid #dfe5ef;
+  border: 1px solid #283140;
   border-radius: 16px;
-  background: white;
+  background: #141a24;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -104,7 +104,7 @@
   flex-direction: column;
 }
 .detail {
-  color: #657187;
+  color: #8c9bb2;
   font-size: 0.73rem;
 }
 .body h2 {
@@ -119,16 +119,16 @@
   text-decoration: none;
 }
 .body h2 a:hover {
-  color: #2854d7;
+  color: #8eb5ff;
 }
 .body p {
-  color: #59667b;
+  color: #a3afc2;
   font-size: 0.9rem;
   line-height: 1.65;
   margin: 0 0 24px;
 }
 .action {
-  color: #2854d7;
+  color: #8eb5ff;
   font-size: 0.84rem;
   font-weight: 600;
   text-decoration: none;
@@ -155,13 +155,13 @@
   stroke-width: 3;
 }
 .pulse {
-  background: #e9f0ff;
+  background: #14233b;
 }
 .pulse svg {
-  stroke: #2854d7;
+  stroke: #8eb5ff;
 }
 .watch {
-  background: #e5edea;
+  background: #142723;
 }
 .watchFace {
   background: #172a29;
@@ -173,7 +173,7 @@
   padding: 14px 10px;
   text-align: center;
   line-height: 1.4;
-  box-shadow: 0 8px 0 #cad7d1;
+  box-shadow: 0 8px 0 #293b36;
 }
 .watchFace strong {
   display: block;
@@ -192,7 +192,7 @@
   width: 70%;
 }
 .friends {
-  background: #f0edfd;
+  background: #231c38;
   align-items: flex-end;
 }
 .podium {
@@ -220,7 +220,7 @@
   background: #d3c7f4;
 }
 .cells {
-  background: #f8edf4;
+  background: #2e1c2a;
   position: relative;
   gap: 11px;
   flex-wrap: wrap;
@@ -241,13 +241,13 @@
   height: 45px;
 }
 .growth {
-  background: #e8f2f3;
+  background: #15292d;
 }
 .growth svg {
-  stroke: #258289;
+  stroke: #61bfc9;
 }
 .growth .baseline {
-  stroke: #c0d9dc;
+  stroke: #345158;
   stroke-width: 1;
 }
 .growth .secondaryLine {
@@ -256,7 +256,7 @@
   stroke-width: 2;
 }
 .domains {
-  background: #edf0f7;
+  background: #1c2435;
 }
 .domainLabels {
   display: flex;
@@ -266,24 +266,24 @@
 }
 .domainLabels span:first-child {
   font-size: 23px;
-  background: white;
+  background: #141a24;
   padding: 12px 22px;
-  border: 1px solid #ccd6ea;
+  border: 1px solid #344157;
   border-radius: 8px;
   letter-spacing: -0.03em;
 }
 .domainLabels span:last-child {
   font-size: 10px;
-  color: #64738b;
+  color: #99abc5;
 }
 .branches {
-  background: #eaf0ff;
+  background: #19253e;
 }
 .branches svg {
-  stroke: #5774c7;
+  stroke: #8aaafa;
 }
 .branches circle {
-  fill: #eaf0ff;
+  fill: #19253e;
 }
 .archive {
   display: flex;
@@ -292,7 +292,7 @@
   gap: 25px;
   margin-top: 56px;
   padding: 32px 0;
-  border-top: 1px solid #dfe5ef;
+  border-top: 1px solid #283140;
 }
 .archive h2 {
   font-size: 1.2rem;
@@ -301,11 +301,11 @@
 }
 .archive p {
   font-size: 0.9rem;
-  color: #59667b;
+  color: #a3afc2;
 }
 .archive a {
   flex-shrink: 0;
-  color: #2854d7;
+  color: #8eb5ff;
   font-weight: 600;
   font-size: 0.9rem;
   text-decoration: none;
@@ -313,7 +313,7 @@
 .empty {
   padding: 60px 20px;
   text-align: center;
-  background: #f0f4fb;
+  background: #141a24;
   border-radius: 14px;
 }
 .empty h2 {
@@ -321,19 +321,19 @@
   font-weight: 600;
 }
 .empty p {
-  color: #59667b;
+  color: #a3afc2;
   margin: 10px 0 20px;
 }
 .empty button {
-  background: #2854d7;
-  color: white;
+  background: #8eb5ff;
+  color: #0b1424;
   border: 0;
   border-radius: 8px;
   padding: 10px 20px;
   cursor: pointer;
 }
 .library :is(a, button):focus-visible {
-  outline: 2px solid #2854d7;
+  outline: 2px solid #8eb5ff;
   outline-offset: 4px;
 }
 .srOnly {

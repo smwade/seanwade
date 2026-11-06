@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useId, useRef, useState } from "react";
 import styles from "./AskSean.module.css";
 
 type Answer = {
@@ -58,7 +58,8 @@ const answers: Answer[] = [
 ];
 type Message = { id: number; question: string; answer?: Answer };
 
-export default function AskSean() {
+export default function AskSean({ compact = false }: { compact?: boolean }) {
+  const inputId = useId();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
   const latest = useRef<HTMLDivElement>(null);
@@ -89,16 +90,21 @@ export default function AskSean() {
     ask(input);
   }
   return (
-    <section className={styles.panel} aria-label="Ask about Sean preview">
-      <div className={styles.header}>
-        <span className={styles.mark} aria-hidden="true">
-          S
-        </span>
-        <div>
-          <strong>A little more context.</strong>
-          <p>Career, research, and the thinking behind the projects.</p>
+    <section
+      className={`${styles.panel} ${compact ? styles.compact : ""}`}
+      aria-label="Ask about Sean preview"
+    >
+      {!compact && (
+        <div className={styles.header}>
+          <span className={styles.mark} aria-hidden="true">
+            S
+          </span>
+          <div>
+            <strong>A little more context.</strong>
+            <p>Career, research, and the thinking behind the projects.</p>
+          </div>
         </div>
-      </div>
+      )}
       <div className={styles.notice}>
         <span className={styles.dot} /> Interactive preview · Curated answers,
         not live AI. Questions stay in this browser session.
@@ -110,7 +116,7 @@ export default function AskSean() {
         aria-relevant="additions"
         aria-label="Conversation"
       >
-        {messages.length === 0 && (
+        {messages.length === 0 && !compact && (
           <div className={styles.welcome}>
             <h2>Where would you like to start?</h2>
             <p>Explore Sean’s work, or ask what connects the dots.</p>
@@ -148,11 +154,11 @@ export default function AskSean() {
         ))}
       </div>
       <form onSubmit={submit} className={styles.form}>
-        <label htmlFor="ask-sean" className={styles.srOnly}>
+        <label htmlFor={inputId} className={styles.srOnly}>
           Your question about Sean
         </label>
         <input
-          id="ask-sean"
+          id={inputId}
           value={input}
           onChange={(event) => setInput(event.target.value)}
           maxLength={500}

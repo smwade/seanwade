@@ -28,11 +28,11 @@ are maintained separately from this site. Run `bun run lint`, `bunx tsc --noEmit
 
 Branch: `site/personal-redesign`.
 
-- `/`: introduction, interactive portrait, featured PulsHealth project, career summary.
-- `/pulshealth/`: product showcase using the real Explore screenshot from pulshealth.com.
+- `/`: résumé-style introduction highlighting current Google work, Apple Health experience, independent work, and research.
+- `/pulshealth/`: product details and the actual animated data-flow component adapted from pulshealth.com, with pause and reduced-motion support.
 - `/projects/`: searchable library; existing `/tools/`, `/misc/`, and `/blog/` remain available.
 - `/resume/`: detailed experience and publications; the existing PDF remains downloadable.
-- `/ask/`: clearly labeled local conversation preview. No live LLM or paid requests.
+- A bottom-corner paperclip character opens the clearly labeled local conversation preview. No standalone chat page, live LLM, or paid requests.
 
 See [the chat integration proposal](docs/ask-sean.md) for live API hosting, reviewed
 background material, and durable usage/spending limits. The 1,000+ user milestone
@@ -43,7 +43,8 @@ Build with `npm run build`, then preview the static output with
 The local Misc archive registry is supplied by the production publishing system;
 its existing unavailable state is expected in a standalone static preview.
 
-Visual direction: Manrope type; ink `#172641`, cobalt `#2854d7`, cloud `#f7f9fc`,
-muted blue `#526079`, and PulsHealth navy `#0b1625`. A quiet portfolio frame makes
-room for product imagery and an interactive mathematical line field. No private
-knowledge-base files are bundled with the site.
+Visual direction: Manrope type; charcoal `#0b0e14`, slate `#141a24`, soft white
+`#edf2fa`, muted text `#a3afc2`, and blue `#8eb5ff`. The résumé leads with current
+Google work; interactive product storytelling lives in the PulsHealth tab.
+The project library keeps its filters and illustrations in a dark palette.
+No private knowledge-base files are bundled with the site.
