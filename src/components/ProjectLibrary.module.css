@@ -13,12 +13,6 @@
   font-weight: 600;
   margin: 0 0 24px;
 }
-.header p {
-  max-width: 580px;
-  font-size: 1.15rem;
-  line-height: 1.7;
-  color: #a3afc2;
-}
 .controls {
   display: flex;
   align-items: center;
@@ -375,4 +369,11 @@
     align-items: flex-start;
     flex-direction: column;
   }
+}
+
+.productIcon {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  border-radius: 22px;
 }

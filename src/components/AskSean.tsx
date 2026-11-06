@@ -3,185 +3,212 @@
 import { FormEvent, useEffect, useId, useRef, useState } from "react";
 import styles from "./AskSean.module.css";
 
-type Answer = {
-  title: string;
-  terms: string[];
-  text: string;
-  source: string;
-  href: string;
-};
-const answers: Answer[] = [
-  {
-    title: "Why did Sean build PulsHealth?",
-    terms: ["pulshealth", "founder", "health data", "built", "build"],
-    text: "Working on Health at Apple showed Sean how useful wearable data can be. When he wanted to use his own data for side projects, getting it out of Apple Health was harder than it should have been. He built PulsHealth to bridge that gap: an open-source iPhone app and server for exploring, exporting, and syncing health data. It brings together his health ML background and his interest in tools people can build on.",
-    source: "PulsHealth project",
-    href: "/pulshealth/",
-  },
-  {
-    title: "What does he work on at Google?",
-    terms: ["google", "current", "evaluation", "llm", "rater", "ai"],
-    text: "Sean is a Senior Research Data Scientist at Google, working on Search and Discover. His work includes LLM-based quality evaluation, testing AI raters, and measuring the quality of recommender systems. A recurring theme is making AI evaluation reliable enough to guide real product decisions, with experiments and validation alongside the models.",
-    source: "Experience",
-    href: "/#experience",
-  },
-  {
-    title: "Tell me about his time at Apple.",
-    terms: ["apple", "workout", "privacy", "machine learning"],
-    text: "At Apple, Sean worked on Health as a Senior Machine Learning Engineer / Data Scientist from December 2019 to July 2025. His work ranged from personalized workout recommendations and walk detection to health-data pipelines and privacy-preserving research measurement. He helped take algorithms from research through shipping and ongoing evaluation.",
-    source: "Experience",
-    href: "/#experience",
-  },
-  {
-    title: "What has he published?",
-    terms: [
-      "research",
-      "publish",
-      "publication",
-      "school",
-      "education",
-      "byu",
-      "study",
-      "studied",
-    ],
-    text: "Sean studied applied mathematics and computer science at Brigham Young University. His research includes Code2Vec, on representing medical diagnosis data; Forward Thinking, on training neural networks one layer at a time; and MediAug, a toolkit for synthetic cancer-cell image generation. That work connects his interests in mathematical methods, machine learning, and health.",
-    source: "MediAug research code",
-    href: "https://github.com/smwade/MediAug",
-  },
-  {
-    title: "How can I get in touch?",
-    terms: ["contact", "email", "connect", "hire", "collaborat", "reach"],
-    text: "You can reach Sean at hello@seanwade.com. For a collaboration, a short note about what you’re building and where you think his experience would help is a good starting point. This preview can describe his background, but it cannot speak for him or make commitments.",
-    source: "Email Sean",
-    href: "mailto:hello@seanwade.com",
-  },
+type Message = { role: "user" | "assistant"; content: string };
+const suggestions = [
+  { label: "Google", question: "What does Sean work on at Google?" },
+  { label: "PulsHealth", question: "Why did Sean build PulsHealth?" },
 ];
-type Message = { id: number; question: string; answer?: Answer };
 
 export default function AskSean({ compact = false }: { compact?: boolean }) {
   const inputId = useId();
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
-  const latest = useRef<HTMLDivElement>(null);
+  const [pending, setPending] = useState("");
+  const [error, setError] = useState("");
+  const request = useRef<AbortController | null>(null);
+  const conversation = useRef<HTMLDivElement>(null);
+  const inputElement = useRef<HTMLInputElement>(null);
+  useEffect(
+    () => () => {
+      request.current?.abort();
+      request.current = null;
+    },
+    [],
+  );
   useEffect(() => {
-    if (messages.length) latest.current?.scrollIntoView({ block: "nearest" });
-  }, [messages]);
-  function ask(question: string) {
-    const trimmed = question.trim();
-    if (!trimmed) return;
-    const normalized = trimmed.toLowerCase();
-    const scored = answers
-      .map((answer) => ({
-        answer,
-        score: answer.terms.filter((term) => normalized.includes(term)).length,
-      }))
-      .sort((a, b) => b.score - a.score);
-    const answer =
-      answers.find((answer) => answer.title === trimmed) ??
-      (scored[0].score ? scored[0].answer : undefined);
-    setMessages((previous) => [
-      ...previous,
-      { id: Date.now(), question: trimmed, answer },
-    ]);
+    const element = conversation.current;
+    if (element) element.scrollTop = element.scrollHeight;
+  }, [messages, pending, error]);
+
+  async function ask(question: string) {
+    const content = question.trim();
+    if (!content || request.current) return;
+    const controller = new AbortController();
+    request.current = controller;
+    setPending(content);
+    setError("");
     setInput("");
+    const userMessage: Message = { role: "user", content };
+    const timeout = window.setTimeout(() => controller.abort(), 45000);
+    try {
+      const response = await fetch("/api/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [
+            ...messages
+              .slice(-6)
+              .map((message) => ({
+                ...message,
+                content:
+                  message.role === "assistant"
+                    ? message.content.slice(0, 1800)
+                    : message.content,
+              })),
+            userMessage,
+          ],
+        }),
+        signal: controller.signal,
+      });
+      const data = await response.json().catch(() => null);
+      if (!response.ok) {
+        let detail =
+          response.status === 429
+            ? "Chat limit reached. Try again later."
+            : "Chat is unavailable right now. Please try again later.";
+        if (data && typeof data.error === "string" && data.error.trim())
+          detail = data.error.slice(0, 240);
+        if (response.status === 404 || response.status === 405)
+          detail = "Chat is unavailable right now. Please try again later.";
+        if (typeof data?.retryAt === "string") {
+          const retry = new Date(data.retryAt);
+          if (Number.isFinite(retry.getTime()))
+            detail += ` Try after ${retry.toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}.`;
+        }
+        throw new Error(detail);
+      }
+      if (typeof data?.answer !== "string" || !data.answer.trim())
+        throw new Error(
+          "Chat is unavailable right now. Please try again later.",
+        );
+      if (request.current !== controller) return;
+      setMessages((previous) => [
+        ...previous,
+        userMessage,
+        { role: "assistant", content: data.answer },
+      ]);
+    } catch (cause) {
+      if (request.current !== controller) return;
+      setInput(content);
+      setError(
+        controller.signal.aborted
+          ? "The reply took too long. Please try again."
+          : cause instanceof TypeError
+            ? "Couldn’t connect. Check your connection and try again."
+            : cause instanceof Error
+              ? cause.message
+              : "Chat is unavailable right now. Please try again later.",
+      );
+    } finally {
+      window.clearTimeout(timeout);
+      if (request.current === controller) {
+        request.current = null;
+        setPending("");
+      }
+    }
+  }
+  function clear() {
+    request.current?.abort();
+    request.current = null;
+    setMessages([]);
+    setPending("");
+    setInput("");
+    setError("");
+    inputElement.current?.focus();
   }
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    ask(input);
+    void ask(input);
   }
   return (
     <section
       className={`${styles.panel} ${compact ? styles.compact : ""}`}
-      aria-label="Ask about Sean preview"
+      aria-label="Ask Sean"
     >
-      {!compact && (
-        <div className={styles.header}>
-          <span className={styles.mark} aria-hidden="true">
-            S
-          </span>
-          <div>
-            <strong>A little more context.</strong>
-            <p>Career, research, and the thinking behind the projects.</p>
-          </div>
+      {!compact && <h2 className={styles.title}>Ask Sean</h2>}
+      {(messages.length > 0 || pending) && (
+        <div
+          ref={conversation}
+          className={styles.conversation}
+          role="log"
+          aria-live="polite"
+          aria-relevant="additions"
+          aria-label="Conversation"
+        >
+          {messages.map((message, index) => (
+            <p
+              key={index}
+              className={
+                message.role === "user" ? styles.question : styles.answer
+              }
+            >
+              <span className={styles.srOnly}>
+                {message.role === "user" ? "You: " : "AI: "}
+              </span>
+              {message.content}
+            </p>
+          ))}
+          {pending && (
+            <>
+              <p className={styles.question}>
+                <span className={styles.srOnly}>You: </span>
+                {pending}
+              </p>
+              <p className={styles.loading}>Thinking…</p>
+            </>
+          )}
         </div>
       )}
-      <div className={styles.notice}>
-        <span className={styles.dot} /> Interactive preview · Curated answers,
-        not live AI. Questions stay in this browser session.
-      </div>
-      <div
-        className={styles.conversation}
-        role="log"
-        aria-live="polite"
-        aria-relevant="additions"
-        aria-label="Conversation"
-      >
-        {messages.length === 0 && !compact && (
-          <div className={styles.welcome}>
-            <h2>Where would you like to start?</h2>
-            <p>Explore Sean’s work, or ask what connects the dots.</p>
-          </div>
-        )}
-        {messages.map((message) => (
-          <div key={message.id} className={styles.exchange}>
-            <p className={styles.question}>
-              <span className={styles.srOnly}>You: </span>
-              {message.question}
-            </p>
-            <div className={styles.answer}>
-              <span className={styles.label}>From Sean’s background</span>
-              <p>
-                {message.answer?.text ??
-                  "This preview doesn’t have a curated answer for that yet. Try asking about Google, Apple, PulsHealth, research, or getting in touch. A future AI version could answer more freely using a reviewed collection of background notes."}
-              </p>
-              {message.answer && (
-                <a href={message.answer.href}>{message.answer.source} ↗</a>
-              )}
-            </div>
-          </div>
-        ))}
-        <div ref={latest} />
-      </div>
-      <div className={styles.suggestions} aria-label="Suggested questions">
-        {answers.slice(0, 4).map((answer) => (
-          <button
-            key={answer.title}
-            type="button"
-            onClick={() => ask(answer.title)}
-          >
-            {answer.title}
-          </button>
-        ))}
-      </div>
+      {messages.length === 0 && !pending && (
+        <div className={styles.suggestions} aria-label="Suggested questions">
+          {suggestions.map((suggestion) => (
+            <button
+              type="button"
+              key={suggestion.label}
+              onClick={() => void ask(suggestion.question)}
+            >
+              {suggestion.label}
+            </button>
+          ))}
+        </div>
+      )}
+      {error && (
+        <p className={styles.error} role="alert">
+          {error}
+        </p>
+      )}
       <form onSubmit={submit} className={styles.form}>
         <label htmlFor={inputId} className={styles.srOnly}>
           Your question about Sean
         </label>
         <input
+          ref={inputElement}
           id={inputId}
           value={input}
           onChange={(event) => setInput(event.target.value)}
-          maxLength={500}
-          placeholder="Ask about Sean’s work…"
+          maxLength={1000}
+          placeholder="Ask a question…"
           autoComplete="off"
+          readOnly={Boolean(pending)}
         />
         <button
           type="submit"
-          disabled={!input.trim()}
+          disabled={!input.trim() || Boolean(pending)}
           aria-label="Send question"
         >
           ↑
         </button>
       </form>
-      {messages.length > 0 && (
-        <button
-          type="button"
-          className={styles.clear}
-          onClick={() => setMessages([])}
-        >
-          Clear conversation
-        </button>
-      )}
+      <div className={styles.footer}>
+        <span>
+          AI · <a href="/privacy/#chat">Privacy</a>
+        </span>
+        {(messages.length > 0 || pending || error) && (
+          <button type="button" onClick={clear}>
+            Clear
+          </button>
+        )}
+      </div>
     </section>
   );
 }

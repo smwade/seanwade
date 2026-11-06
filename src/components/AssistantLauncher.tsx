@@ -70,8 +70,7 @@ export default function AssistantLauncher() {
         >
           <div className={styles.heading}>
             <div>
-              <h2 id="sean-assistant-title">Ask about Sean</h2>
-              <p>A small guide to the person behind the work.</p>
+              <h2 id="sean-assistant-title">Ask Sean</h2>
             </div>
             <button
               type="button"
@@ -90,11 +89,11 @@ export default function AssistantLauncher() {
         type="button"
         onClick={() => (open ? close() : setOpen(true))}
         className={styles.launcher}
-        aria-label="Ask about Sean"
+        aria-label="Ask Sean"
         aria-expanded={open}
         aria-controls={open ? "sean-assistant-panel" : undefined}
       >
-        <span className={styles.launcherLabel}>Ask about Sean</span>
+        <span className={styles.launcherLabel}>Ask Sean</span>
         <span className={styles.mascot}>
           <ClipMascot />
         </span>

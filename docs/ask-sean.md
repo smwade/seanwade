@@ -1,43 +1,60 @@
-# Ask about Sean
+# Ask Sean
 
-## This branch
+The paperclip opens a real OpenAI chat. No canned answers or browser-side API key.
 
-The paperclip launcher in the bottom-right corner opens an interactive design preview. There is no separate `/ask/` page or chat navigation item. It uses a small, client-visible set of curated professional answers with source links. It makes no model requests and sends no questions to a server. Free text selects a relevant prepared answer; unknown topics get an honest fallback. The conversation lives only in React memory. It is not a completed LLM integration and the preview implements no usage limits.
+## Run locally
 
-## Recommended first live version
+Requires Node 24. Build the static site, then run the companion server:
 
-Pay for a small server-side API allowance so visitors can ask immediately. Keep the static site and deploy a separate same-origin `/api/ask` backend behind the existing hosting router. A Next route handler alone will not work with this repository's `output: "export"` deployment.
+```sh
+npm run build
+node --env-file-if-exists=.env.local server/index.mjs
+```
 
-Do not make connecting a visitor's ChatGPT account the core flow. ChatGPT and API billing are separate; a subscription is not a general-purpose API allowance for this site. An optional link to a separately configured GPT could be a later convenience, but it moves the experience out of the site and requires its own setup. See [OpenAI's billing explanation](https://help.openai.com/en/articles/9039756-managing-billing-for-chatgpt-and-the-api-platform).
+Open `http://localhost:4174`. Set `OPENAI_API_KEY` in the ignored `.env.local` file or the process environment. Without it, chat returns a useful unavailable response; the rest of the site works. The old Python static preview cannot serve `/api/ask`.
 
-Store the model credential only in the backend's secret store, never in a `NEXT_PUBLIC_` variable or static bundle. See [OpenAI API authentication](https://developers.openai.com/api/reference/overview).
+## Model and context
 
-### Content
+The server calls the [Responses API](https://developers.openai.com/api/docs/guides/text) using `gpt-5.4-mini-2026-03-17`, standard service tier, no tools, no reasoning, and `store: false`. Answers use `server/context.mjs`: a small, public professional biography with more detail than the homepage. No private knowledge-base directory is read or uploaded. Input conversation is untrusted and never becomes verified biographical context.
 
-Author a dedicated, reviewed collection of professional background notes: project decisions, research summaries, lessons learned, and public career history. It can be richer than the visible portfolio. Do not mount the personal knowledge base or feed it wholesale to retrieval. Anything supplied to a public chatbot should be treated as disclosable, even if stored server-side; prompt instructions cannot guarantee secrecy.
+The assistant speaks about Sean, not as him, and is instructed to answer briefly and acknowledge missing information. Model instructions reduce mistakes; they are not a guarantee. Plain text output is rendered without executing HTML or accepting model-provided links as application actions.
 
-Give each note a stable ID, public source link, and review date. Retrieve a few relevant notes, answer only from them, cite the source links, and say when the notes do not answer a question. Do not impersonate Sean, invent achievements, or make commitments for him. Start without external tools or arbitrary URL fetching.
+## Limits
 
-### Suggested launch limits (proposal, not configured)
+- 10 requests per signed visitor cookie **and** socket network address per Monday–Sunday UTC week.
+- 3 requests per minute per visitor/network.
+- 500 requests globally per UTC week.
+- Up to 7 alternating messages, last message from the visitor, with at most 1,000 characters per visitor message.
+- Entire provider request, including instructions and history, bounded to 15,000 UTF-8 bytes; output capped at 1,000 tokens.
+- 30-second provider timeout; no automatic retries.
 
-- 10 questions per visitor per week, plus a short burst limit (3 per minute).
-- $10 maximum total model spend per UTC week, with an operator kill switch.
-- A modest question limit (1,000 characters), bounded history/context tokens, and a strict output-token maximum.
+Each call reserves one of 500 weekly slots **before** inference in an atomic SQLite transaction. Each slot is conservatively budgeted at $0.02, making the weekly allowance $10 at the verified model prices. [Published GPT-5.4 Mini pricing](https://developers.openai.com/api/docs/models/gpt-5.4-mini) is $0.75 per million input tokens and $4.50 per million output tokens (checked November 6, 2026). The 15,000-byte bound with a 1,000-token protocol allowance and 1,000 output tokens costs at most about $0.0165 at those prices. This is intentionally conservative, not actual spend accounting. Recheck pricing and bounds before changing the fixed model. Provider pricing changes can invalidate any dollar estimate.
 
-Anonymous cookies identify browsers, not people. Pair a signed, HTTP-only visitor cookie with a short-lived HMAC of the network address for abuse controls; do not claim this is an enforceable per-person quota. Introduce verified sign-in if a real per-user quota becomes necessary. Never ask visitors for their model API key.
+Failed/timeout calls keep their reservation because they may still incur cost. Retries are new requests and consume a new slot. SQLite failures reject requests without calling the model. Quotas survive process restarts. Browser cookies identify browsers, not people; the separate network quota prevents simply clearing a cookie from resetting the allowance. Shared networks also share this limit.
 
-### Durable budget enforcement
+## Retention and privacy
 
-Use a transactional database or single durable coordinator. Before a provider request, atomically check and reserve the maximum possible request cost against **both** the visitor and global week buckets, based on a pinned model's verified token prices and bounded input/output. Reject if either reserve would exceed its cap. Reserve a message slot and concurrency slot in the same transaction. The backend must fail closed when accounting is unavailable.
+Questions and responses are not logged or stored by this server. They are sent to OpenAI to answer the question; `store: false` disables Responses storage, but does not itself promise zero provider retention. Review [OpenAI's data controls](https://developers.openai.com/api/docs/guides/your-data) for the account's provider retention policy.
 
-Assign an idempotency key so retries cannot reserve twice or trigger duplicate inference. After completion, reconcile the reservation to actual token usage and release the unused portion. On timeout or ambiguous provider failure, retain the reservation until reconciliation; do not blindly refund a request that may have incurred cost. Store outstanding reservations durably across restarts. Avoid automatic provider retries unless the original outcome is known. Provider dashboard budgets are defense in depth, not a substitute for this admission check.
+SQLite stores request timestamps, week buckets, and HMAC-derived visitor/network identifiers only. No raw address is stored. Network hashes rotate weekly. At the next chat reservation, records older than the previous UTC week are deleted; an idle server can retain older records until the next request. The signed HTTP-only cookie lasts seven days. The frontend holds its conversation in component memory.
 
-Return an explicit reset timestamp and a friendly exhausted-allowance state, with résumé and contact links still available. Use a fixed UTC week boundary and document it in the UI. Server-enforce origin, input size, model choice, and token limits. Client counters are presentation only.
+## Deployment
 
-### Before enabling live chat
+This is a single Node service with a persistent local SQLite volume. The existing S3 static deployment alone cannot run it. To launch live, either serve `out/` through this service, or route same-origin `/api/ask` to the service while continuing to serve static files through S3/CloudFront. No production infrastructure or DNS is changed by this branch.
 
-1. Approve the curated background corpus and initial budget values.
-2. Deploy the backend, persistent accounting store, and secret; confirm the host routes `/api/ask` to it instead of the static export.
-3. Test simultaneous last-budget requests, spoofed client counters, repeated idempotency keys, week rollover, provider timeouts, store failures, and prompt injection.
-4. Add a brief disclosure of model processing and retention to the chat and privacy page. Keep question text out of analytics and ordinary access logs. Specify retention for operational metadata.
-5. Verify accessible streaming, cancellation, error recovery, source links, and budget-exhaustion states. Only then remove the preview label.
+Production requires:
+
+- `NODE_ENV=production`.
+- `CHAT_ORIGIN=https://seanwade.com` (or the actual exact public origin).
+- `CHAT_COOKIE_SECRET` with at least 32 cryptographically random characters, kept stable across restarts.
+- `OPENAI_API_KEY` in the runtime secret store.
+- `CHAT_DATA_DIR` on a persistent, private volume; never under `out/`.
+- A TLS proxy that preserves the public `Host`. `HOST` defaults to `127.0.0.1`; set a network bind only when required by your runtime.
+
+The service deliberately ignores forwarded-address headers. Behind a proxy, the network quota applies to that proxy's socket address, potentially limiting all visitors to ten requests weekly. Before production, either use a deployment that preserves verified client addresses, or implement explicit trusted-proxy handling with tests. Never blindly trust caller-supplied `X-Forwarded-For`. Keep one service/volume for the global budget; separate replicas with separate databases would each grant their own budget.
+
+Static requests are restricted to files under `out/`, with traversal, dotfiles, and escaping symlinks blocked. API requests must carry the configured Host, exact same Origin, and JSON content type. Origin checks prevent browser cross-origin use, but are not identity/authentication; the durable global budget is the spending backstop.
+
+## Verification
+
+`node --test tests/chat.test.mjs` uses a mock provider, never paid calls. It covers durable quotas/restart, weekly reset, concurrent burst/global admission, failed-provider accounting, request validation/origin checks, missing credentials, and static isolation. A real model smoke test passed locally on November 6, 2026 using the runtime key from the existing home env file. The key was not copied into this project.

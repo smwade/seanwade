@@ -6,7 +6,6 @@ export default function Footer() {
         <Link className="wordmark" href="/">
           Sean Wade.
         </Link>
-        <p>Research, engineering, and things worth making.</p>
       </div>
       <div className="footer-links">
         <a

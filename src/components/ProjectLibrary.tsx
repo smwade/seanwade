@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import styles from "./ProjectLibrary.module.css";
 
 const projects = [
   {
     title: "PulsHealth",
     category: "Apps",
-    description:
-      "An open-source home for your Apple Health data. Explore, export, sync, and build with it.",
+    description: "Explore, export, and sync Apple Health data. Open source.",
     href: "/pulshealth/",
     type: "pulse",
     detail: "iPhone · Web · Open source",
@@ -17,8 +17,7 @@ const projects = [
   {
     title: "Watch Workout Pro",
     category: "Apps",
-    description:
-      "Create custom workouts and take them with you on Apple Watch.",
+    description: "Create custom workouts for Apple Watch.",
     href: "https://pulshealth.com/watch-workout-pro/",
     type: "watch",
     detail: "iPhone · Apple Watch",
@@ -27,8 +26,7 @@ const projects = [
   {
     title: "Friend Flex",
     category: "Apps",
-    description:
-      "Fitness challenges with friends, scored on improvement from your own starting point.",
+    description: "Fitness challenges scored on personal improvement.",
     href: "https://pulshealth.com/friend-flex/",
     type: "friends",
     detail: "iPhone · Fitness",
@@ -38,7 +36,7 @@ const projects = [
     title: "MediAug",
     category: "Research",
     description:
-      "A Python toolkit for medical image augmentation, built for histology and cytology slides.",
+      "Medical image augmentation for histology and cytology slides.",
     href: "https://github.com/smwade/MediAug",
     type: "cells",
     detail: "Python · Computer vision",
@@ -47,8 +45,7 @@ const projects = [
   {
     title: "Investment calculator",
     category: "Tools",
-    description:
-      "Explore compound growth, contributions, and inflation across different scenarios.",
+    description: "Model compound growth, contributions, and inflation.",
     href: "/tools/investment-calculator/",
     type: "growth",
     detail: "Interactive calculator",
@@ -57,8 +54,7 @@ const projects = [
   {
     title: "Domains vs. stocks",
     category: "Tools",
-    description:
-      "Compare investment scenarios with renewal costs, commissions, and break-even analysis.",
+    description: "Compare returns, renewal costs, and break-even points.",
     href: "/tools/domain-investing/",
     type: "domains",
     detail: "Interactive calculator",
@@ -67,8 +63,7 @@ const projects = [
   {
     title: "Git worktrees + Claude Code",
     category: "Writing",
-    description:
-      "Notes on working with parallel coding agents without constantly switching branches.",
+    description: "Run parallel coding agents with Git worktrees.",
     href: "/blog/git-worktrees-claude-code/",
     type: "branches",
     detail: "Engineering notes",
@@ -81,9 +76,13 @@ function Illustration({ type }: { type: string }) {
   return (
     <div className={`${styles.art} ${styles[type]}`} aria-hidden="true">
       {type === "pulse" && (
-        <svg viewBox="0 0 400 160">
-          <path d="M0 85H80L105 60 126 112 157 30 185 134 213 85H400" />
-        </svg>
+        <Image
+          src="/images/pulshealth-logo.png"
+          alt=""
+          width={96}
+          height={96}
+          className={styles.productIcon}
+        />
       )}
       {type === "watch" && (
         <div className={styles.watchFace}>
@@ -142,11 +141,7 @@ export default function ProjectLibrary() {
   return (
     <div className={styles.library}>
       <header className={styles.header}>
-        <h1>Things I’ve made.</h1>
-        <p>
-          Useful apps, research, and ideas that turned into something you can
-          try. A few big projects. Plenty of small experiments.
-        </p>
+        <h1>Projects</h1>
       </header>
       <div className={styles.controls}>
         <div className={styles.filters} aria-label="Filter projects">
@@ -213,11 +208,8 @@ export default function ProjectLibrary() {
       )}
       <aside className={styles.archive}>
         <div>
-          <h2>The experiment shelf</h2>
-          <p>
-            More small websites, practical guides, and things made out of
-            curiosity.
-          </p>
+          <h2>More projects</h2>
+          <p>Small websites, guides, and experiments.</p>
         </div>
         <a href="/misc/">
           Browse the archive <span aria-hidden="true">↗</span>

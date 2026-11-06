@@ -32,14 +32,14 @@ Branch: `site/personal-redesign`.
 - `/pulshealth/`: product details and the actual animated data-flow component adapted from pulshealth.com, with pause and reduced-motion support.
 - `/projects/`: searchable library; existing `/tools/`, `/misc/`, and `/blog/` remain available.
 - `/resume/`: detailed experience and publications; the existing PDF remains downloadable.
-- A bottom-corner paperclip character opens the clearly labeled local conversation preview. No standalone chat page, live LLM, or paid requests.
+- A bottom-corner paperclip opens live AI chat using a server-side OpenAI connection.
 
-See [the chat integration proposal](docs/ask-sean.md) for live API hosting, reviewed
-background material, and durable usage/spending limits. The 1,000+ user milestone
+See [chat setup](docs/ask-sean.md) for the server, background material, and durable usage limits. The 1,000+ user milestone
 is supplied by Sean for this redesign; it is not a live analytics counter.
 
-Build with `npm run build`, then preview the static output with
-`python3 -m http.server 4173 --directory out` at http://localhost:4173.
+Use Node 24+. Build with `npm run build`, set `OPENAI_API_KEY` server-side, then
+run `npm run serve` at http://localhost:4174. The static-only Python preview
+does not include `/api/ask`.
 The local Misc archive registry is supplied by the production publishing system;
 its existing unavailable state is expected in a standalone static preview.
 

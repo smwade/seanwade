@@ -278,10 +278,9 @@ h3 {
   align-items: center;
 }
 .puls-case {
-  background: #0a111b;
+  background: transparent;
   color: #eff6ff;
-  border-radius: 22px;
-  padding: 60px 55px;
+  padding: 18px 0 35px;
 }
 .puls-case .product-wordmark {
   justify-content: center;
@@ -429,7 +428,7 @@ h3 {
     flex-wrap: wrap;
   }
   .puls-case {
-    padding: 35px 22px;
+    padding: 0 0 30px;
   }
   .puls-case h1 {
     font-size: 43px;
@@ -624,4 +623,14 @@ h3 {
 
 .prose-custom pre::-webkit-scrollbar-thumb:hover {
   background: var(--color-border-subtle-hover);
+}
+
+.github-button {
+  gap: 10px;
+  border: 1px solid #364151;
+  background: #161c25;
+  color: #edf2fa;
+}
+.github-button:hover {
+  background: #202938;
 }
