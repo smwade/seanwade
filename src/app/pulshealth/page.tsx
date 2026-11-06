@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export const metadata = pageMetadata(
   "PulsHealth",
-  "How Sean Wade is building PulsHealth to make wearable health data reliable, normalized, and privacy-safe for personalized AI.",
+  "PulsHealth is my open-source project for exploring, exporting, and syncing Apple Health data to your own database and AI tools.",
   "/pulshealth/",
   "/images/pulshealth-logo.png",
 );
@@ -15,7 +15,7 @@ export default function ProjectsPage() {
         <div className="flex items-center gap-4 mb-4">
           <Image
             src="/images/pulshealth-logo.png"
-            alt="Puls Health logo"
+            alt="PulsHealth logo"
             width={56}
             height={56}
             className="rounded-lg"
@@ -36,18 +36,26 @@ export default function ProjectsPage() {
         </div>
         <div className="space-y-4 text-[1.1rem] leading-[1.8] text-text-secondary">
           <p>
-            While working at Apple I saw firsthand the power of the health data the Apple Watch collects. Heart rate trends, blood oxygen, sleep stages, respiratory rate &mdash; it could catch early warning signs, personalize treatment plans, and fundamentally change how people understand their own health.
+            Working on Health at Apple showed me how much useful information we
+            collect about ourselves. But when I wanted to use my own data for
+            side projects, getting it out of Apple Health and into something I
+            could build with was harder than it should have been.
           </p>
           <p>
-            But almost none of that potential was being realized. The data stayed locked on-device, siloed across platforms, and difficult for AI systems to ingest.
+            I built PulsHealth to make that easier. It&apos;s an open-source
+            iPhone app and server for exploring, exporting, and syncing Apple
+            Health data. You can start with a file export or keep your history
+            in a database you control.
           </p>
           <p>
-            I created PulsHealth to solve this. It unlocks the value of wearable health data by normalizing it across platforms, enforcing privacy at every step, and making it accessible to AI agents &mdash; turning raw sensor readings into real, personalized health guidance.
+            My goal is to make health data useful beyond the phone, whether
+            you&apos;re building a personal dashboard, trying an idea, or
+            connecting an AI assistant you already use.
           </p>
         </div>
       </header>
 
-      {/* What I'm Building */}
+      {/* Current product */}
       <section className="mb-10">
         <div className="mb-6 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
           What It Does
@@ -55,37 +63,45 @@ export default function ProjectsPage() {
         <div className="space-y-6">
           <div className="rounded-xl border border-border-subtle bg-bg-card p-8 max-sm:p-5">
             <h2 className="mb-2 text-xl font-semibold text-text-primary">
-              AI Health Agent
+              Explore &amp; Export
             </h2>
             <p className="text-base leading-relaxed text-text-secondary">
-              A general-purpose health agent that is deeply personalized to you.
-              It uses your wearable data, health history, and context to answer
-              questions, surface insights, and create personalized workout programs.
+              Browse your health data on iPhone and export individual readings
+              or custom summaries. Exploring and exporting need no account.
+              The App Store app is free to start, with optional Pro purchases.
             </p>
           </div>
 
           <div className="rounded-xl border border-border-subtle bg-bg-card p-8 max-sm:p-5">
             <h2 className="mb-2 text-xl font-semibold text-text-primary">
-              PulsHealthSync
+              Your Database &amp; Dashboard
             </h2>
             <p className="text-base leading-relaxed text-text-secondary">
-              Real-time collection and sync of wearable health data across
-              devices. Handles encryption, consent, and the quirks of each
-              platform. Available as a fully managed hosted solution or as a
-              package that points at your own infrastructure.
+              Sync to PostgreSQL on your own server, then explore your history
+              through a web dashboard or build with the API. The app and server
+              are open source, and the server is free to self-host.
             </p>
           </div>
 
           <div className="rounded-xl border border-border-subtle bg-bg-card p-8 max-sm:p-5">
             <h2 className="mb-2 text-xl font-semibold text-text-primary">
-              Wearable Knowledge Base
+              Connect Your AI
             </h2>
             <p className="text-base leading-relaxed text-text-secondary">
-              Detailed technical and clinical context for every health metric
-              &mdash; sampling rates, typical ranges, device-specific accuracy,
-              and clinical significance. Distills expertise from clinicians,
-              ex-Apple Health and Google Research scientists into a format AI
-              agents can use directly.
+              An MCP server gives compatible AI assistants read-only access to
+              your synced data. Bring the assistant you prefer and choose what
+              to connect.
+            </p>
+          </div>
+
+          <div className="rounded-xl border border-border-subtle bg-bg-card p-8 max-sm:p-5">
+            <h2 className="mb-2 text-xl font-semibold text-text-primary">
+              Knowledge Base &amp; Examples
+            </h2>
+            <p className="text-base leading-relaxed text-text-secondary">
+              Reference material explains health metrics and wearable data.
+              Example projects show what you can make with your own history,
+              from a year in review to workout visualizations.
             </p>
           </div>
         </div>
