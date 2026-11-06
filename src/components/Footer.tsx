@@ -4,7 +4,7 @@ export default function Footer() {
     <footer className="site-footer">
       <div>
         <Link className="wordmark" href="/">
-          Sean Wade.
+          Sean Wade
         </Link>
       </div>
       <div className="footer-links">

@@ -13,7 +13,6 @@ export default function Navbar() {
       <div className="nav-inner">
         <Link href="/" className="wordmark">
           <span className="monogram">sw</span>Sean Wade
-          <span className="wordmark-dot">.</span>
         </Link>
         <div className="nav-links">
           {links.map((link) => (

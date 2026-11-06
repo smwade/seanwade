@@ -29,7 +29,7 @@ are maintained separately from this site. Run `bun run lint`, `bunx tsc --noEmit
 Branch: `site/personal-redesign`.
 
 - `/`: résumé-style introduction highlighting current Google work, Apple Health experience, independent work, and research.
-- `/pulshealth/`: product details and the actual animated data-flow component adapted from pulshealth.com, with pause and reduced-motion support.
+- `/pulshealth/`: product details and the actual animated data-flow component adapted from pulshealth.com, with reduced-motion support.
 - `/projects/`: searchable library; existing `/tools/`, `/misc/`, and `/blog/` remain available.
 - `/resume/`: detailed experience and publications; the existing PDF remains downloadable.
 - A bottom-corner paperclip opens live AI chat using a server-side OpenAI connection.

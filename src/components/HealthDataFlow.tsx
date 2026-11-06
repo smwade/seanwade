@@ -8,10 +8,9 @@ import { ChatGPTIcon, GeminiIcon, ClaudeIcon } from "./PulsHealthBrandIcons";
 import styles from "./HealthDataFlow.module.css";
 
 /** Adapted from PulsHealth (Apache-2.0), copyright 2026 Sean Wade.
- * Local changes: absolute links, dependency-free file icons, pause control.
+ * Local changes: absolute links and dependency-free file icons.
  * See public/licenses/pulshealth/. */
 export function HealthDataFlow() {
-  const [paused, setPaused] = useState(false);
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -24,11 +23,7 @@ export function HealthDataFlow() {
   }, []);
 
   return (
-    <figure
-      ref={ref}
-      className={styles.figure}
-      data-paused={!visible || paused}
-    >
+    <figure ref={ref} className={styles.figure} data-paused={!visible}>
       <div className={styles.stage}>
         <div className={styles.halo} aria-hidden />
         <svg
@@ -229,17 +224,6 @@ export function HealthDataFlow() {
           </span>
         </Link>
       </div>
-      <figcaption className={styles.caption}>
-        <span>From your iPhone to files, your database, and your AI.</span>
-        <button
-          type="button"
-          className={styles.motionButton}
-          aria-pressed={paused}
-          onClick={() => setPaused(!paused)}
-        >
-          {paused ? "Play animation" : "Pause animation"}
-        </button>
-      </figcaption>
     </figure>
   );
 }

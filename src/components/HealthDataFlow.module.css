@@ -392,33 +392,11 @@
   }
 }
 
-/* Local adaptations: room for the mobile destinations and explicit motion control. */
+/* Local adaptations: room for the mobile destinations. */
 .figure {
   margin-top: 28px;
   margin-bottom: 32px;
   text-align: left;
-}
-.caption {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  color: #a9bdd2;
-  font-size: 12px;
-  padding-top: 16px;
-}
-.motionButton {
-  color: #d7eaff;
-  border: 1px solid #49617b;
-  border-radius: 6px;
-  padding: 5px 10px;
-  background: #142232;
-  font: inherit;
-  white-space: nowrap;
-}
-.motionButton:focus-visible {
-  outline: 2px solid #9bd3ff;
-  outline-offset: 4px;
 }
 .fileStack:hover,
 .fileStack:focus-visible {
@@ -434,16 +412,5 @@
   }
   .stage {
     margin-bottom: 36px;
-  }
-  .caption {
-    text-align: center;
-    flex-direction: column;
-    gap: 12px;
-    padding-top: 22px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .motionButton {
-    display: none;
   }
 }
