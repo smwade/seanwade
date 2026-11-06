@@ -33,6 +33,26 @@ const projects = [
     action: "Explore the app",
   },
   {
+    title: "Living Window",
+    category: "Experiments",
+    description:
+      "A Raspberry Pi window display and an eye that follows movement.",
+    href: "/projects/living-window/",
+    type: "window",
+    detail: "Hardware · Computer vision",
+    action: "Try the demo",
+  },
+  {
+    title: "Health data experiments",
+    category: "Experiments",
+    description:
+      "Visualizations and creative projects built around health data.",
+    href: "https://pulshealth.com/examples/",
+    type: "healthArt",
+    detail: "Data · Visualization",
+    action: "Explore the collection",
+  },
+  {
     title: "MediAug",
     category: "Research",
     description:
@@ -70,7 +90,14 @@ const projects = [
     action: "Read the article",
   },
 ];
-const categories = ["All", "Apps", "Research", "Tools", "Writing"];
+const categories = [
+  "All",
+  "Apps",
+  "Research",
+  "Tools",
+  "Experiments",
+  "Writing",
+];
 
 function Illustration({ type }: { type: string }) {
   return (
@@ -83,6 +110,23 @@ function Illustration({ type }: { type: string }) {
           height={96}
           className={styles.productIcon}
         />
+      )}
+      {type === "window" && (
+        <div className={styles.windowFrame}>
+          <div className={styles.windowEye}>
+            <i />
+          </div>
+        </div>
+      )}
+      {type === "healthArt" && (
+        <svg viewBox="0 0 400 160">
+          {Array.from({ length: 12 }, (_, i) => (
+            <path
+              key={i}
+              d={`M${30 + i * 8} 130 C${95 + i * 4} ${20 + i * 6}, ${230 + i * 6} ${160 - i * 8}, ${300 + i * 7} 30`}
+            />
+          ))}
+        </svg>
       )}
       {type === "watch" && (
         <div className={styles.watchFace}>

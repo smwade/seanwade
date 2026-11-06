@@ -1,0 +1,74 @@
+.entry {
+  padding: 28px 0;
+  border-bottom: 1px solid #252e3b;
+}
+.entry:first-of-type {
+  padding-top: 0;
+}
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 13px;
+}
+.company {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.company img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+.company h3 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.6px;
+}
+.invert {
+  filter: invert(1);
+}
+.date {
+  font-size: 10px;
+  color: #8c9bb2;
+  white-space: nowrap;
+}
+.entry .role {
+  font-size: 15px;
+  font-weight: 500;
+  color: #dce5f3;
+  line-height: 1.6;
+}
+.subtitle {
+  color: #9caac0;
+  font-size: 12px;
+}
+.details {
+  margin-top: 20px;
+}
+.details > div[class*="uppercase"] {
+  text-transform: none;
+  letter-spacing: 0;
+}
+@media (max-width: 650px) {
+  .heading {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .company h3 {
+    font-size: 21px;
+  }
+  .date {
+    margin-left: 40px;
+    width: 100%;
+  }
+  .entry .role {
+    font-size: 14px;
+  }
+  .details {
+    margin-top: 15px;
+  }
+}

@@ -52,7 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
-    ...["projects", "resume"].map((path) => ({
+    ...["projects", "projects/living-window", "resume"].map((path) => ({
       url: `${BASE_URL}/${path}/`,
       changeFrequency: "monthly" as const,
       priority: 0.8,

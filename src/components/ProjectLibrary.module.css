@@ -377,3 +377,59 @@
   object-fit: contain;
   border-radius: 22px;
 }
+
+.window {
+  background: #192622;
+}
+.windowFrame {
+  display: grid;
+  place-items: center;
+  width: 138px;
+  height: 138px;
+  border-radius: 50%;
+  border: 6px solid #536459;
+  background: #0c1711;
+  box-shadow: 0 10px 25px #0005;
+}
+.windowEye {
+  width: 105px;
+  height: 63px;
+  border-radius: 50%;
+  background: #c5ccaf;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  box-shadow: inset 0 8px 10px #334c3770;
+}
+.windowEye i {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 15px solid #6b8656;
+  background: #0b170f;
+  position: relative;
+}
+.windowEye i::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f3f4df;
+  left: 1px;
+  top: 0;
+  transform: rotate(-30deg);
+}
+.healthArt {
+  background: #1d2533;
+}
+.healthArt svg {
+  stroke: #7aaab9;
+  stroke-width: 1.5;
+}
+.healthArt path:nth-child(3n) {
+  stroke: #a7c6a1;
+}
+.healthArt path:nth-child(3n + 1) {
+  stroke: #8594c9;
+}

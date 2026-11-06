@@ -56,7 +56,7 @@ a:hover {
   top: 12px;
 }
 .site-nav {
-  border-bottom: 1px solid #222b39;
+  border: 0;
 }
 .nav-inner {
   max-width: 1120px;
@@ -104,7 +104,7 @@ a:hover {
 }
 .nav-links a[aria-current="page"] {
   color: #8eb5ff;
-  box-shadow: 0 2px #8eb5ff;
+  box-shadow: none;
 }
 h1,
 h2,
@@ -633,4 +633,25 @@ h3 {
 }
 .github-button:hover {
   background: #202938;
+}
+
+.resume-section {
+  margin-bottom: 42px;
+}
+.resume-section-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  margin-bottom: 24px;
+}
+.resume-section ul,
+.resume-section p {
+  font-size: 13px;
+  line-height: 1.85;
+}
+.resume-section ul ul li {
+  font-size: 12px;
+}
+.resume-section a {
+  font-size: 13px;
 }

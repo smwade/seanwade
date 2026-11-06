@@ -11,6 +11,7 @@ import {
 } from "node:fs";
 import { resolve, sep, extname } from "node:path";
 import { instructions } from "./context.mjs";
+import { createAdminHandler } from "./admin.mjs";
 
 export const MODEL = "gpt-5.4-mini-2026-03-17";
 const WEEK = 7 * 86400000;
@@ -25,6 +26,7 @@ export function weekStart(time) {
 }
 export function createSiteServer({
   apiKey = process.env.OPENAI_API_KEY,
+  adminPassword = process.env.ADMIN_PASSWORD,
   secret = process.env.CHAT_COOKIE_SECRET,
   production = process.env.NODE_ENV === "production",
   origin = process.env.CHAT_ORIGIN || "http://localhost:4174",
@@ -116,11 +118,24 @@ export function createSiteServer({
     });
     res.end(JSON.stringify(value));
   }
+  const admin = createAdminHandler({
+    db,
+    sign,
+    now,
+    origin,
+    production,
+    password: adminPassword,
+    model: MODEL,
+    apiKeyConfigured: Boolean(apiKey),
+    weekStart,
+    json,
+  });
   const server = createServer(async (req, res) => {
     try {
       if (req.headers.host !== allowed.host)
         return json(res, 403, { error: "Request not allowed." });
       const rawPath = (req.url || "/").split("?")[0];
+      if (await admin(req, res, rawPath)) return;
       if (rawPath !== "/api/ask")
         return serveStatic(req, res, rawPath, staticDir);
       if (req.method !== "POST") return json(res, 405, { error: "Use POST." });

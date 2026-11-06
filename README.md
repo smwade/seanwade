@@ -28,7 +28,7 @@ are maintained separately from this site. Run `bun run lint`, `bunx tsc --noEmit
 
 Branch: `site/personal-redesign`.
 
-- `/`: résumé-style introduction highlighting current Google work, Apple Health experience, independent work, and research.
+- `/`: full résumé alongside a compact profile, including Google, Apple, research, internships, and skills.
 - `/pulshealth/`: product details and the actual animated data-flow component adapted from pulshealth.com, with reduced-motion support.
 - `/projects/`: searchable library; existing `/tools/`, `/misc/`, and `/blog/` remain available.
 - `/resume/`: detailed experience and publications; the existing PDF remains downloadable.
@@ -48,3 +48,9 @@ Visual direction: Manrope type; charcoal `#0b0e14`, slate `#141a24`, soft white
 Google work; interactive product storytelling lives in the PulsHealth tab.
 The project library keeps its filters and illustrations in a dark palette.
 No private knowledge-base files are bundled with the site.
+
+## Admin
+
+Open `/admin/` through the Node server for character selection and diagnostics.
+Local loopback access works without a password; production requires an admin
+password and an authenticated session. See [admin setup](docs/admin.md).

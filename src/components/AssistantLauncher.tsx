@@ -2,41 +2,47 @@
 
 import { useEffect, useRef, useState } from "react";
 import AskSean from "./AskSean";
+import Mascot, { isMascot, type MascotName } from "./Mascot";
 import styles from "./AssistantLauncher.module.css";
-
-function ClipMascot() {
-  return (
-    <svg viewBox="0 0 64 72" fill="none" aria-hidden="true">
-      <path
-        className={styles.clipShadow}
-        d="M24 54V23c0-10 7-16 15-16s14 6 14 15v32c0 9-7 15-15 15S23 63 23 54"
-      />
-      <path
-        className={styles.clipWire}
-        d="M21 50V21c0-9 6-15 14-15s14 6 14 15v31c0 8-6 14-14 14s-14-6-14-14V28c0-5 3-8 8-8s8 3 8 8v23"
-      />
-      <ellipse cx="28" cy="29" rx="7" ry="9" fill="#edf2fa" />
-      <ellipse cx="43" cy="27" rx="7" ry="9" fill="#edf2fa" />
-      <ellipse cx="30" cy="31" rx="2.6" ry="4" fill="#0b0e14" />
-      <ellipse cx="45" cy="29" rx="2.6" ry="4" fill="#0b0e14" />
-      <path
-        d="M31 43q6 5 11-1"
-        stroke="#edf2fa"
-        strokeWidth="2.3"
-        strokeLinecap="round"
-      />
-      <path
-        d="m16 54-6 5m40-8 6 2"
-        stroke="#8eb5ff"
-        strokeWidth="3"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
 
 export default function AssistantLauncher() {
   const [open, setOpen] = useState(false);
+  const [mascot, setMascot] = useState<MascotName>("clip");
+  useEffect(() => {
+    let active = true;
+    let revision = 0;
+    const controller = new AbortController();
+    async function refresh() {
+      const current = ++revision;
+      try {
+        const response = await fetch("/api/site-config", {
+          cache: "no-store",
+          credentials: "same-origin",
+          signal: controller.signal,
+        });
+        if (!response.ok) return;
+        const config = await response.json();
+        if (active && current === revision && isMascot(config.mascot))
+          setMascot(config.mascot);
+      } catch {
+        /* The default character remains usable without the API. */
+      }
+    }
+    function changed(event: Event) {
+      const config = (event as CustomEvent).detail;
+      if (isMascot(config?.mascot)) {
+        revision++;
+        setMascot(config.mascot);
+      } else void refresh();
+    }
+    void refresh();
+    window.addEventListener("site-config-changed", changed);
+    return () => {
+      active = false;
+      controller.abort();
+      window.removeEventListener("site-config-changed", changed);
+    };
+  }, []);
   const launcher = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
   function close() {
@@ -95,7 +101,7 @@ export default function AssistantLauncher() {
       >
         <span className={styles.launcherLabel}>Ask Sean</span>
         <span className={styles.mascot}>
-          <ClipMascot />
+          <Mascot name={mascot} />
         </span>
       </button>
     </div>
