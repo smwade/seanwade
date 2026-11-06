@@ -1,304 +1,206 @@
+import Image from "next/image";
+import Link from "next/link";
 import { pageMetadata } from "@/lib/metadata";
-
-import ExperienceCard from "@/components/ExperienceCard";
-import SkillBadge from "@/components/SkillBadge";
-
+import SignalPortrait from "@/components/SignalPortrait";
 export const metadata = pageMetadata(
-  "Sean Wade - Research Scientist & Engineer",
-  "Sean Wade is a research scientist and engineer working on LLM evaluation, generative AI, and health machine learning. Explore his experience, writing, and tools.",
+  "Sean Wade — Research & engineering",
+  "I build AI evaluation systems, health software, and useful things. Research at Google, previously Apple Health, founder of PulsHealth.",
   "/",
 );
-
 export default function Home() {
   return (
     <>
-      {/* Hero */}
-      <header className="mb-10">
-        <h1 className="sr-only">Sean Wade - Research Scientist &amp; Engineer</h1>
-        <div className="flex flex-col gap-4">
-          <p className="text-[1.1rem] leading-[1.8] text-text-secondary">
-            Experienced research scientist and engineer. I love solving
-            complex problems and taking algorithms all the way from research to
-            production. Lots of experience in the generative AI and health.
-            Check out my{" "}
+      <header className="home-hero">
+        <div className="hero-copy">
+          <p className="intro-line">
+            <span className="status-dot" /> Research scientist & engineer
+          </p>
+          <h1>
+            Curiosity,
+            <br />
+            put to work.
+          </h1>
+          <p className="hero-description">
+            I’m Sean. I build AI systems, make health data useful, and turn
+            interesting questions into things people can use.
+          </p>
+          <p className="hero-context">
+            Now at <strong>Google</strong>. Previously{" "}
+            <strong>Apple Health</strong>.<br />
+            Independently building <Link href="/pulshealth/">PulsHealth</Link>.
+          </p>
+          <div className="actions">
+            <Link className="button primary" href="/projects/">
+              Explore my work <span aria-hidden="true">↗</span>
+            </Link>
             <a
+              className="text-link"
               href="/assets/sean_wade_resume_2025_updated.pdf"
-              download="sean_wade_resume.pdf"
               data-analytics-event="resume_download"
-              aria-label="Download Sean Wade's resume in PDF format"
-              className="border-b border-transparent text-accent no-underline transition-all duration-200 hover:border-accent hover:text-white"
             >
-              resume
-            </a>{" "}
-            for more details.
-          </p>
-          <p className="text-[1.1rem] leading-[1.8] text-text-secondary">
-            Want to connect? Feel free to reach out at{" "}
-            <a
-              href="mailto:hello@seanwade.com"
-              data-analytics-event="contact_click"
-              aria-label="Email Sean Wade at hello@seanwade.com"
-              className="border-b border-transparent text-accent no-underline transition-all duration-200 hover:border-accent hover:text-white"
-            >
-              hello@seanwade.com
+              Download résumé <span aria-hidden="true">↓</span>
             </a>
-          </p>
+          </div>
         </div>
+        <SignalPortrait />
       </header>
-
-      {/* Experience */}
-      <section className="mb-10">
-        <div className="mb-6 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
-          Experience
-        </div>
-
-        <ExperienceCard
-          logo="/images/Google_Favicon_2025.svg"
-          logoAlt="Google logo"
-          title="Senior Research Data Scientist"
-          company="Google"
-          period="July 2025 - Current"
-        >
-          <BulletList
-            items={[
-              "Architected and built a Python library for LLM-based quality evaluation framwork, enabling parallel execution of prompt DAGs and automated quality evaluation metrics",
-              "Researched novel techniques in meta prompts and agentic workflows; built testing and validation suite to evaluate AI rater quality at scale and measure outcome variability",
-              "Created metrics to improve Google Discover recommender system, validating retrieval algorithm quality and performance",
-              "Provided technical guidance on experiment design and analysis, identifying meaningful lift across key user sub-cohorts",
-            ]}
-          />
-        </ExperienceCard>
-
-        <ExperienceCard
-          logo="/images/Apple_logo_black.svg"
-          logoAlt="Apple logo"
-          title="Senior Machine Learning Engineer / Data Scientist"
-          company="Apple"
-          period="Dec 2019 - July 2025"
-          invertLogo
-        >
-          <ul className="list-none space-y-2 text-base text-text-secondary">
-            <li className="flex gap-2">
-              <span className="mt-0.5 text-text-tertiary">•</span>
-              <span>
-                Led cross-functional teams in developing, shipping and
-                maintaining core on-device ML algorithms to users:
-                <ul className="mt-2 ml-4 list-none space-y-1">
-                  <li className="flex gap-2 text-[0.95rem]">
-                    <span className="text-text-tertiary">•</span>
-                    <span>
-                      Meal logging tool with food image classification and LLM
-                      nutrition feedback
-                    </span>
-                  </li>
-                  <li className="flex gap-2 text-[0.95rem]">
-                    <span className="text-text-tertiary">•</span>
-                    <span>
-                      Personalized workout recommender system using a multi
-                      objective loss function and online learning
-                    </span>
-                  </li>
-                  <li className="flex gap-2 text-[0.95rem]">
-                    <span className="text-text-tertiary">•</span>
-                    <span>
-                      Unsupervised walk detection algorithm from steps data
-                    </span>
-                  </li>
-                  <li className="flex gap-2 text-[0.95rem]">
-                    <span className="text-text-tertiary">•</span>
-                    <span>
-                      Contextual notifications engine using routine
-                      identification (commute to work, typical workout time, etc)
-                    </span>
-                  </li>
-                </ul>
-              </span>
-            </li>
-            <li className="flex gap-2">
-              <span className="mt-0.5 text-text-tertiary">•</span>
-              <span>
-                Evaluated performance of ML models with focus on safety,
-                robustness and privacy and efficacy communicated tradeoffs to
-                partners
-              </span>
-            </li>
-            <li className="flex gap-2">
-              <span className="mt-0.5 text-text-tertiary">•</span>
-              <span>
-                Architected data schema and privacy preserving data collection
-                framework for launch of multiple health related programs and
-                research studies (Lumihealth, Heartline, Attain)
-              </span>
-            </li>
-            <li className="flex gap-2">
-              <span className="mt-0.5 text-text-tertiary">•</span>
-              <span>
-                Created application for labeling health data to create datasets
-                and provide human feedback for models
-              </span>
-            </li>
-            <li className="flex gap-2">
-              <span className="mt-0.5 text-text-tertiary">•</span>
-              <span>
-                Built data pipelines to process high volumes of medical claims
-                data and health sensor data
-              </span>
-            </li>
-            <li className="flex gap-2">
-              <span className="mt-0.5 text-text-tertiary">•</span>
-              <span>
-                Designed research studies and experiments to study impact of
-                digital interventions and models on hypertension, diabetes,
-                asthma, MCI and atrial fibrillation
-              </span>
-            </li>
-          </ul>
-        </ExperienceCard>
-      </section>
-
-      {/* Research */}
-      <section className="mb-10">
-        <div className="mb-6 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
-          Research
-        </div>
-
-        <ExperienceCard
-          logo="/images/BYU_Cougars_logo.svg"
-          logoAlt="BYU logo"
-          title="Brigham Young University"
-          company="Master of Science, Computer Science"
-          subtitle="Bachelor of Science, Applied Mathematics"
-          period="December 2017"
-        >
-          <p className="mt-2 text-base text-text-secondary">
-            Researched synthetic cancer cell image generation using conditional
-            adversarial neural networks and wrote a python library to distribute
-            it. Created novel methods for representing medical claims history
-            with vector embeddings.
+      <section className="featured-project" aria-labelledby="puls-title">
+        <div className="featured-copy">
+          <div className="product-wordmark">
+            <Image
+              src="/images/pulshealth-logo.png"
+              alt=""
+              width={32}
+              height={32}
+            />
+            PulsHealth <span>Independent project</span>
+          </div>
+          <h2 id="puls-title">
+            Your health data.
+            <br />A world of possibilities.
+          </h2>
+          <p>
+            An open-source app and platform that takes Apple Health beyond your
+            phone. Built from the first line of Swift to the database,
+            dashboard, and AI integrations.
           </p>
-          <div className="mt-4 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
-            Publications
+          <div className="puls-proof">
+            <strong>1,000+</strong>
+            <span>users</span>
+            <span className="proof-divider" />
+            <span>
+              Open source
+              <br />
+              Built independently
+            </span>
           </div>
-          <div className="mt-2 flex flex-col gap-2">
-            <PublicationLink href="https://ieeexplore.ieee.org/document/8031179">
-              Code2Vec: Embedding and Clustering Medical Diagnosis Data
-            </PublicationLink>
-            <PublicationLink href="https://arxiv.org/abs/1706.02480">
-              Forward Thinking: Building and Training Neural Networks One Layer
-              at a Time
-            </PublicationLink>
-            <PublicationLink href="https://github.com/smwade/MediAug">
-              MediAug, Toolkit for Semi Supervised Synthetic Cancer Cell Image
-              Generation
-            </PublicationLink>
+          <Link href="/pulshealth/" className="button light">
+            Explore PulsHealth <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
+        <div className="featured-visual">
+          <div className="data-label label-left">Apple Health</div>
+          <Image
+            src="/images/pulshealth-explore.webp"
+            alt="PulsHealth Explore screen with activity, heart, sleep, and workout categories"
+            width={390}
+            height={844}
+            className="puls-phone"
+          />
+          <div className="data-label label-right">
+            Your data.
+            <br />
+            Your database.
+            <br />
+            Your AI.
           </div>
-        </ExperienceCard>
+          <svg className="data-lines" viewBox="0 0 500 420" aria-hidden="true">
+            {[0, 1, 2, 3, 4].map((i) => (
+              <path
+                key={i}
+                d={`M 0 ${160 + i * 22} C 180 ${80 + i * 60}, 320 ${340 - i * 60}, 500 ${130 + i * 32}`}
+              />
+            ))}
+          </svg>
+        </div>
       </section>
-
-      {/* Internships */}
-      <section className="mb-10">
-        <div className="mb-6 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
-          Internships
+      <section className="experience-section" aria-labelledby="experience">
+        <div className="section-heading">
+          <div>
+            <p className="section-note">The work so far</p>
+            <h2 id="experience">Research meets real life.</h2>
+          </div>
+          <Link href="/resume/" className="text-link">
+            Full experience <span aria-hidden="true">↗</span>
+          </Link>
         </div>
-
-        <ExperienceCard
-          logo="/images/Microsoft_icon.svg"
-          logoAlt="Microsoft logo"
-          title="AI Platform Engineer Intern"
-          company="Microsoft"
-          period="Jun 2019 - Sep 2019"
-        >
-          <BulletList
-            items={[
-              "Created tools to improve deploying, evaluating, and retraining ML models on Azure",
-              "Extended Azure SDK to support MLflow",
-            ]}
+        <div className="career-row">
+          <Image
+            src="/images/Google_Favicon_2025.svg"
+            alt=""
+            width={34}
+            height={34}
           />
-        </ExperienceCard>
-
-        <ExperienceCard
-          logo="/images/Disney_wordmark.svg"
-          logoAlt="Disney logo"
-          title="Machine Learning Resident"
-          company="Disney"
-          period="Jan 2018 - May 2018"
-          invertLogo
-        >
-          <BulletList
-            items={[
-              "Developed recommender system for rides/attractions in Disney World Park app",
-              "Created realtime pipelines and dashboards to monitor performance",
-            ]}
+          <div>
+            <h3>Google</h3>
+            <span>Senior Research Data Scientist</span>
+          </div>
+          <p>
+            Building evaluation systems for LLMs in Search and Discover. Making
+            model quality measurable, reliable, and useful.
+          </p>
+          <span className="career-date">2025–present</span>
+        </div>
+        <div className="career-row">
+          <Image
+            src="/images/Apple_logo_black.svg"
+            alt=""
+            width={34}
+            height={34}
           />
-        </ExperienceCard>
-
-        <ExperienceCard
-          logo="/images/loveland-logo.webp"
-          logoAlt="Loveland Innovations logo"
-          title="Computer Vision Engineer"
-          company="Loveland Innovations"
-          period="Mar 2017 - Aug 2018"
-        >
-          <BulletList
-            items={[
-              "Used drone imaging and photogrammetry to construct 3D models of buildings",
-              "Built convolutional neural network to identify and classify roof damage",
-            ]}
+          <div>
+            <h3>Apple</h3>
+            <span>ML Engineer & Data Scientist</span>
+          </div>
+          <p>
+            Turning wearable signals into better health experiences, from
+            workout recommendations to privacy-preserving research.
+          </p>
+          <span className="career-date">2019–2025</span>
+        </div>
+        <div className="career-row">
+          <Image
+            src="/images/BYU_Cougars_logo.svg"
+            alt=""
+            width={34}
+            height={34}
           />
-        </ExperienceCard>
+          <div>
+            <h3>Brigham Young University</h3>
+            <span>Computer Science & Applied Math</span>
+          </div>
+          <p>
+            Research in generative models, medical data embeddings, and new ways
+            to train neural networks.
+          </p>
+          <span className="career-date">BS ’17 · MS ’19</span>
+        </div>
       </section>
-
-      {/* Skills */}
-      <section className="mb-10">
-        <div className="mb-6 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
-          Skills
+      <section className="about-bottom">
+        <div>
+          <p className="section-note">Away from the keyboard</p>
+          <h2>
+            Always finding
+            <br />
+            something to explore.
+          </h2>
+          <p>
+            Running, cycling, a good board game, or learning something new. I
+            like the process of figuring things out as much as the finished
+            thing.
+          </p>
+          <a
+            href="mailto:hello@seanwade.com"
+            className="text-link"
+            data-analytics-event="contact_click"
+          >
+            hello@seanwade.com
+          </a>
         </div>
-        <div className="flex flex-wrap gap-3 max-sm:gap-2">
-          <SkillBadge>Python, Swift, SQL, C++</SkillBadge>
-          <SkillBadge>LLM post training, fine tuning and RLHF</SkillBadge>
-          <SkillBadge>LLM evaluation and AI rater systems</SkillBadge>
-          <SkillBadge>Prompt engineering and agentic workflows</SkillBadge>
-          <SkillBadge>Deep learning (PyTorch, JAX)</SkillBadge>
-          <SkillBadge>Distributed systems (Spark, Hadoop, etc)</SkillBadge>
-          <SkillBadge>Medical claims and sensor data</SkillBadge>
-          <SkillBadge>CV algorithms and tools (OpenCV, PCL)</SkillBadge>
-          <SkillBadge>Privacy preserving ML</SkillBadge>
-          <SkillBadge>Numerical methods and mathematical modeling</SkillBadge>
-        </div>
+        <Link href="/ask/" className="ask-invitation">
+          <span className="ask-symbol" aria-hidden="true">
+            ✳
+          </span>
+          <h3>There’s more to the story.</h3>
+          <p>
+            Explore my background, projects, and how I approach building things.
+          </p>
+          <span className="text-link">
+            Ask about me <span aria-hidden="true">↗</span>
+          </span>
+          <small>Interactive preview</small>
+        </Link>
       </section>
     </>
-  );
-}
-
-function BulletList({ items }: { items: string[] }) {
-  return (
-    <ul className="list-none space-y-2 text-base text-text-secondary">
-      {items.map((item, i) => (
-        <li key={i} className="flex gap-2">
-          <span className="mt-0.5 text-text-tertiary">•</span>
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function PublicationLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 text-base text-accent no-underline transition-all duration-200 hover:text-white"
-    >
-      <span className="text-sm">↗</span>
-      {children}
-    </a>
   );
 }

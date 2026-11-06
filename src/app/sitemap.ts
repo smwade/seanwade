@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const posts = getAllPosts();
 
   const blogEntries = posts.map((post) => ({
-      url: `${BASE_URL}/blog/${post.slug}/`,
+    url: `${BASE_URL}/blog/${post.slug}/`,
     lastModified: new Date(post.date),
     changeFrequency: "monthly" as const,
     priority: 0.7,
@@ -52,6 +52,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.7,
     },
+    ...["projects", "ask", "resume"].map((path) => ({
+      url: `${BASE_URL}/${path}/`,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
     ...blogEntries,
     { url: `${BASE_URL}/privacy/`, changeFrequency: "yearly", priority: 0.2 },
   ];

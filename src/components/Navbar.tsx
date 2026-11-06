@@ -1,90 +1,37 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/pulshealth", label: "PulsHealth" },
-  { href: "/tools", label: "Tools" },
-  { href: "/misc", label: "Misc" },
+const links = [
+  { href: "/", label: "About" },
+  { href: "/pulshealth/", label: "PulsHealth" },
+  { href: "/projects/", label: "Project library" },
+  { href: "/ask/", label: "Ask about me" },
 ];
-
 export default function Navbar() {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
-    <nav className="border-b border-border-subtle bg-nav-bg">
-      <div className="mx-auto flex max-w-[800px] items-center justify-between px-8 py-4 max-sm:px-5">
-        <Link
-          href="/"
-          className="text-xl font-semibold tracking-tight text-text-primary no-underline"
-        >
-          Sean Wade
+    <nav className="site-nav" aria-label="Main navigation">
+      <div className="nav-inner">
+        <Link href="/" className="wordmark">
+          <span className="monogram">sw</span>Sean Wade
+          <span className="wordmark-dot">.</span>
         </Link>
-
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-6 sm:flex">
-          {navLinks.map((link) => (
+        <div className="nav-links">
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-sm transition-colors duration-200 no-underline ${
-                pathname === link.href || pathname.startsWith(`${link.href}/`)
-                  ? "text-accent"
-                  : "text-text-secondary hover:text-text-primary"
-              }`}
+              aria-current={
+                pathname.replace(/\/$/, "") === link.href.replace(/\/$/, "")
+                  ? "page"
+                  : undefined
+              }
             >
               {link.label}
             </Link>
           ))}
         </div>
-
-        {/* Mobile hamburger */}
-        <button
-          className="flex flex-col gap-1.5 sm:hidden"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span
-            className={`block h-0.5 w-5 bg-text-secondary transition-all duration-200 ${
-              menuOpen ? "translate-y-2 rotate-45" : ""
-            }`}
-          />
-          <span
-            className={`block h-0.5 w-5 bg-text-secondary transition-all duration-200 ${
-              menuOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`block h-0.5 w-5 bg-text-secondary transition-all duration-200 ${
-              menuOpen ? "-translate-y-2 -rotate-45" : ""
-            }`}
-          />
-        </button>
       </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="border-t border-border-subtle bg-bg-primary px-8 pb-4 sm:hidden max-sm:px-5">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className={`block py-2 text-sm no-underline ${
-                pathname === link.href || pathname.startsWith(`${link.href}/`)
-                  ? "text-accent"
-                  : "text-text-secondary hover:text-text-primary"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      )}
     </nav>
   );
 }

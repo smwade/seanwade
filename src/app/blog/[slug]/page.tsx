@@ -64,7 +64,7 @@ export default async function BlogPostPage({
                 [
                   rehypePrettyCode,
                   {
-                    theme: "github-dark-default",
+                    theme: "github-light",
                     keepBackground: false,
                   },
                 ],

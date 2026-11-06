@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Manrope } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import AnalyticsEvents from "@/components/AnalyticsEvents";
 import Footer from "@/components/Footer";
 import "./globals.css";
 
-const inter = Inter({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
 });
 
 export const metadata: Metadata = {
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL("https://seanwade.com"),
   icons: {
-    icon: "/images/pulshealth-logo.png",
+    icon: "/icon.svg",
   },
 };
 
@@ -55,15 +55,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={manrope.variable}>
       <head>
-        <meta name="color-scheme" content="dark" />
-        <meta name="theme-color" content="#0a0a0a" />
+        <meta name="color-scheme" content="light" />
+        <meta name="theme-color" content="#f7f9fc" />
       </head>
       <body>
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
         <Navbar />
         <AnalyticsEvents />
-        <main className="mx-auto max-w-[800px] px-8 pt-8 pb-16 max-sm:px-5">
+        <main
+          id="main-content"
+          className="mx-auto max-w-[1120px] px-8 pt-12 pb-20 max-sm:px-5"
+        >
           {children}
         </main>
         <Footer />
@@ -77,9 +83,7 @@ export default function RootLayout({
               jobTitle: "Research Scientist and Engineer",
               email: "hello@seanwade.com",
               url: "https://seanwade.com",
-              sameAs: [
-                "https://www.linkedin.com/in/sean-wade-linked/",
-              ],
+              sameAs: ["https://www.linkedin.com/in/sean-wade-linked/"],
             }),
           }}
         />
