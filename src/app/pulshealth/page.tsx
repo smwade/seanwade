@@ -20,11 +20,7 @@ export default function PulsHealth() {
           />
           PulsHealth
         </div>
-        <h1>
-          Your health data.
-          <br />
-          Beyond your phone.
-        </h1>
+        <h1>Unlock your health data</h1>
         <p className="case-intro">
           An open-source platform that connects Apple Health data to AI tools
           and personal projects.
