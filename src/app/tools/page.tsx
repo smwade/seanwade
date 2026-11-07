@@ -48,7 +48,7 @@ export default function ToolsPage() {
                 <span className="text-base font-semibold text-text-primary group-hover:text-accent transition-colors duration-200">
                   {tool.title}
                 </span>
-                <span className="text-sm text-accent">Open Tool →</span>
+                <span className="text-sm text-accent">Open Tool</span>
               </div>
               <p className="text-base text-text-secondary">{tool.description}</p>
             </a>

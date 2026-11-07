@@ -181,7 +181,7 @@ export default function ProjectLibrary() {
               <p>{project.description}</p>
               <a className={styles.action} href={project.href}>
                 {project.action}
-                <span aria-hidden="true">↗</span>
+
               </a>
             </div>
           </article>

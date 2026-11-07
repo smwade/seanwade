@@ -55,7 +55,7 @@ export default function MiscCatalog() {
               <span className="text-base font-semibold text-text-primary transition-colors duration-200 group-hover:text-accent">
                 {page.title}
               </span>
-              <span className="shrink-0 text-sm text-accent">Open →</span>
+              <span className="shrink-0 text-sm text-accent">Open</span>
             </div>
             <div className="flex items-center justify-between gap-4 text-xs text-text-tertiary">
               <span className="uppercase tracking-wider">{page.project}</span>

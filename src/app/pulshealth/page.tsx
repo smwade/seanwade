@@ -31,7 +31,7 @@ export default function PulsHealth() {
         </p>
         <div className="actions">
           <a className="button light" href="https://pulshealth.com">
-            Visit PulsHealth <span aria-hidden="true">↗</span>
+            Visit PulsHealth
           </a>
           <a
             className="button github-button"
@@ -91,7 +91,7 @@ export default function PulsHealth() {
             account needed.
           </p>
           <a className="text-link" href="https://pulshealth.com/features/">
-            Explore the app ↗
+            Explore the app
           </a>
         </article>
         <article>
@@ -101,7 +101,7 @@ export default function PulsHealth() {
             the API. Use hosted sync or your own server.
           </p>
           <a className="text-link" href="https://pulshealth.com/server/">
-            See self-hosting ↗
+            See self-hosting
           </a>
         </article>
         <article>
@@ -111,16 +111,16 @@ export default function PulsHealth() {
             through MCP.
           </p>
           <a className="text-link" href="https://pulshealth.com/docs/ai/">
-            See AI connections ↗
+            See AI connections
           </a>
         </article>
       </section>
       <div className="actions">
         <a className="button primary" href="https://app.pulshealth.com">
-          Try the web dashboard ↗
+          Try the web dashboard
         </a>
         <a className="text-link" href="https://pulshealth.com/examples/">
-          View examples ↗
+          View examples
         </a>
       </div>
     </>
