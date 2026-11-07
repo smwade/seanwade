@@ -12,7 +12,9 @@ import tempfile
 DISTRIBUTION = 'E20VQTC0TY7DFQ'
 
 def aws(*args):
-    result = subprocess.run(['aws', 'cloudfront', *args, '--output', 'json'], check=True, capture_output=True, text=True)
+    result = subprocess.run(['aws', 'cloudfront', *args, '--output', 'json'], capture_output=True, text=True)
+    if result.returncode:
+        raise RuntimeError(result.stderr.replace(os.environ.get('CHAT_PROXY_SECRET', 'redacted'), '[redacted]'))
     return json.loads(result.stdout) if result.stdout.strip() else {}
 
 def payload_call(command, flag, payload, *args):
@@ -61,7 +63,7 @@ behavior = {
     'PathPattern': '/api/*', 'TargetOriginId': origin_id,
     'ViewerProtocolPolicy': 'https-only',
     'AllowedMethods': {'Quantity': 7, 'Items': ['GET', 'HEAD', 'OPTIONS', 'PUT', 'POST', 'PATCH', 'DELETE'], 'CachedMethods': {'Quantity': 2, 'Items': ['GET', 'HEAD']}},
-    'SmoothStreaming': False, 'Compress': True,
+    'SmoothStreaming': False, 'Compress': True, 'FieldLevelEncryptionId': '',
     'CachePolicyId': '4135ea2d-6df8-44a3-9df3-4b5a84be39ad',
     'OriginRequestPolicyId': policy_id,
     'TrustedSigners': {'Enabled': False, 'Quantity': 0},
