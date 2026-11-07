@@ -1,9 +1,11 @@
 .entry {
-  padding: 32px 0;
-  border-bottom: 1px solid #252e3b;
+  padding: 28px;
+  border: 1px solid #252e3b;
+  border-radius: 12px;
+  background: var(--color-bg-card, #141a24);
 }
-.entry:first-of-type {
-  padding-top: 0;
+.entry + .entry {
+  margin-top: 20px;
 }
 .heading {
   display: flex;
@@ -53,6 +55,9 @@
   letter-spacing: 0;
 }
 @media (max-width: 650px) {
+  .entry {
+    padding: 20px;
+  }
   .heading {
     align-items: flex-start;
     flex-wrap: wrap;

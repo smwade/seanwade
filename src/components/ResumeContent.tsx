@@ -127,7 +127,7 @@ export default function ResumeContent() {
             An open-source platform that connects Apple Health data to AI tools
             and personal projects. Used by over 1,000 people.
           </p>
-          <a href="/pulshealth/" className="text-link mt-4">
+          <a href="/pulshealth/" className="mt-4 inline-flex items-center gap-3 font-normal text-accent hover:underline">
             Explore PulsHealth <span aria-hidden="true">↗</span>
           </a>
         </ExperienceCard>
