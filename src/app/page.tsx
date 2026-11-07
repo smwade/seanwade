@@ -14,10 +14,10 @@ export default function Home() {
         <h1 className="sr-only">Sean Wade - Research Scientist &amp; Engineer</h1>
         <div className="flex flex-col gap-4">
           <p className="text-base leading-[1.7] text-text-secondary">
-            Experienced research scientist and engineer. I love solving
-            complex problems and taking algorithms all the way from research to
-            production. Lots of experience in the generative AI and health.
-            Check out my{" "}
+            Research scientist and engineer working in AI and health.
+            Currently at Google; previously Apple.
+          </p>
+          <p className="text-base leading-[1.7] text-text-secondary">
             <a
               href="/assets/sean_wade_resume_2025_updated.pdf"
               download="sean_wade_resume.pdf"
@@ -25,12 +25,9 @@ export default function Home() {
               aria-label="Download Sean Wade's resume in PDF format"
               className="border-b border-transparent text-accent no-underline transition-all duration-200 hover:border-accent hover:text-white"
             >
-              resume
+              Download résumé
             </a>{" "}
-            for more details.
-          </p>
-          <p className="text-base leading-[1.7] text-text-secondary">
-            Want to connect? Feel free to reach out at{" "}
+            <span aria-hidden="true" className="mx-2">/</span>{" "}
             <a
               href="mailto:hello@seanwade.com"
               data-analytics-event="contact_click"

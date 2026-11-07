@@ -35,6 +35,14 @@ export default function ResumeContent() {
           period="Dec 2019 - July 2025"
           invertLogo
         >
+          <BulletList
+            items={[
+              "Led teams building on-device ML for meal logging, workout recommendations, walk detection, and contextual notifications.",
+              "Built privacy-preserving health data systems and designed research studies for digital health programs.",
+            ]}
+          />
+          <details className="resume-details">
+            <summary>More about this work</summary>
           <ul className="list-none space-y-2 text-base text-text-secondary">
             <li className="flex gap-2">
               <span className="mt-0.5 text-text-tertiary">•</span>
@@ -111,6 +119,7 @@ export default function ResumeContent() {
               </span>
             </li>
           </ul>
+          </details>
         </ExperienceCard>
       </section>
 
