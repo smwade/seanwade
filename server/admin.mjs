@@ -194,6 +194,7 @@ export function createAdminHandler({
         .get(week).total;
       json(res, 200, {
         settings: { mascot: getMascot() },
+        turns: db.prepare("SELECT id, conversation, at, question, answer, status FROM chat_turns ORDER BY id DESC LIMIT 100").all(),
         diagnostics: {
           model,
           apiKeyConfigured: Boolean(apiKeyConfigured),

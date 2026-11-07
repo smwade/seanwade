@@ -40,6 +40,7 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
       setSuggestionsFading(false);
     };
   }, [suggestionsPaused, input, pending, messages.length]);
+  const conversationId = useRef<string | null>(null);
   const request = useRef<AbortController | null>(null);
   const conversation = useRef<HTMLDivElement>(null);
   const inputElement = useRef<HTMLInputElement>(null);
@@ -58,6 +59,7 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
   async function ask(question: string) {
     const content = question.trim();
     if (!content || request.current) return;
+    conversationId.current ??= crypto.randomUUID();
     const controller = new AbortController();
     request.current = controller;
     setPending(content);
@@ -70,6 +72,7 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          conversationId: conversationId.current,
           messages: [
             ...messages
               .slice(-6)
@@ -135,6 +138,7 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
   function clear() {
     request.current?.abort();
     request.current = null;
+    conversationId.current = null;
     setMessages([]);
     setPending("");
     setInput("");
@@ -216,6 +220,10 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
           {error}
         </p>
       )}
+      <p className={styles.footer}>
+        Chats are saved for Sean to review. Don’t share sensitive information.{" "}
+        <a href="/privacy/#chat">Privacy</a>
+      </p>
       <form onSubmit={submit} className={styles.form}>
         <label htmlFor={inputId} className={styles.srOnly}>
           Your question about Sean
@@ -240,7 +248,7 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
       </form>
       {(messages.length > 0 || pending || error) && (
         <div className={styles.footer}>
-          <button type="button" onClick={clear}>Clear</button>
+          <button type="button" onClick={clear}>Clear this view</button>
         </div>
       )}
     </section>

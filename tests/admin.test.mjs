@@ -100,7 +100,7 @@ test("local access exposes exact safe diagnostics and persists allowed mascot se
   assert.equal(r.status, 200);
   const text = await r.text();
   const body = JSON.parse(text);
-  assert.deepEqual(Object.keys(body).sort(), ["diagnostics", "settings"]);
+  assert.deepEqual(Object.keys(body).sort(), ["diagnostics", "settings", "turns"]);
   assert.equal(body.settings.mascot, "sean");
   assert.equal(body.diagnostics.model, MODEL);
   assert.equal(body.diagnostics.weeklyRequests, 0);

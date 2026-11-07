@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import AskSean from "./AskSean";
 import Mascot, { isMascot, type MascotName } from "./Mascot";
@@ -98,16 +97,7 @@ export default function AssistantLauncher() {
           className={styles.panel}
         >
           <div className={styles.heading}>
-            <div className={styles.identity}>
-              <Image
-                src="/images/sean-sticker.png"
-                alt=""
-                width={58}
-                height={62}
-                className={styles.headerSticker}
-              />
-              <h2 id="sean-assistant-title">Ask Sean</h2>
-            </div>
+            <h2 id="sean-assistant-title">Ask Sean</h2>
             <button
               type="button"
               onClick={close}

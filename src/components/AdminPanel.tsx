@@ -6,6 +6,7 @@ import Mascot, { isMascot, mascotOptions, type MascotName } from "./Mascot";
 import styles from "./AdminPanel.module.css";
 
 type AdminState = {
+  turns: { id: number; conversation: string; at: number; question: string; answer: string | null; status: string }[];
   settings: { mascot: MascotName };
   diagnostics: {
     model: string;
@@ -313,6 +314,21 @@ export default function AdminPanel() {
               </dl>
             </section>
           )}
+          <section className={styles.section}>
+            <h2>Recent conversations</h2>
+            <p>Latest 100 turns, newest conversations first. Messages are visitor input, not verified facts.</p>
+            {!state.turns.length && <p>No saved conversations yet.</p>}
+            {[...new Set(state.turns.map((turn) => turn.conversation))].map((id) => {
+              const turns = state.turns.filter((turn) => turn.conversation === id).reverse();
+              return <details key={id}>
+                <summary>{new Date(turns[0].at).toLocaleString()} — {turns[0].question.slice(0, 100)}</summary>
+                {turns.map((turn) => <div key={turn.id} style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere", marginBlock: "1rem" }}>
+                  <p><strong>Visitor:</strong> {turn.question}</p>
+                  <p><strong>Assistant:</strong> {turn.answer ?? (turn.status === "failed" ? "Reply failed" : "No completed reply recorded")}</p>
+                </div>)}
+              </details>;
+            })}
+          </section>
           <nav className={styles.previews} aria-label="Page previews">
             <span>Preview</span>
             <Link href="/">About</Link>

@@ -37,12 +37,16 @@ export default function PrivacyPage() {
         <h2 className="text-xl font-semibold text-text-primary">AI chat</h2>
         <p>
           When you send a message, your question and recent conversation are
-          sent to OpenAI to generate a reply using Sean’s professional
+          sent to OpenAI to generate a reply using Sean’s public
           background. AI answers can be wrong. Don’t include sensitive
           information.
         </p>
         <p>
-          The site does not save conversation text or send it to analytics.
+          The site saves your questions, AI replies, timestamps and a random
+          conversation identifier so Sean can review conversations and improve
+          the assistant. They are stored in a private server database until
+          deleted and are accessible through the authenticated admin page.
+          Conversation text is not sent to analytics.
           OpenAI may retain requests under its API data policies; response
           storage is disabled.
         </p>
@@ -50,7 +54,7 @@ export default function PrivacyPage() {
           Chat uses an HTTP-only cookie and a hashed network address to enforce
           usage limits. Usage records older than the current and previous week
           are deleted when chat is next used. Clearing the conversation removes
-          it from this browser session.
+          it from this browser session only; saved server records remain.
         </p>
       </section>
       <p>

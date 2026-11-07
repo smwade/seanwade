@@ -94,6 +94,10 @@ export function createSiteServer({
   db.exec(
     "PRAGMA journal_mode=WAL; PRAGMA busy_timeout=5000; CREATE TABLE IF NOT EXISTS requests (at INTEGER NOT NULL, week INTEGER NOT NULL, visitor TEXT NOT NULL, network TEXT NOT NULL); CREATE INDEX IF NOT EXISTS request_week ON requests(week); CREATE INDEX IF NOT EXISTS request_visitor ON requests(visitor,at); CREATE INDEX IF NOT EXISTS request_network ON requests(network,at);",
   );
+  db.exec(`CREATE TABLE IF NOT EXISTS chat_turns (
+    id INTEGER PRIMARY KEY, conversation TEXT NOT NULL, at INTEGER NOT NULL,
+    question TEXT NOT NULL, answer TEXT, status TEXT NOT NULL
+  ); CREATE INDEX IF NOT EXISTS chat_conversation ON chat_turns(conversation, id);`);
   const sign = (value) =>
     createHmac("sha256", secret).update(value).digest("base64url");
   const counts = db.prepare(
@@ -196,8 +200,11 @@ export function createSiteServer({
       }
       const body = Buffer.concat(chunks).toString("utf8");
       let messages;
+      let conversationId;
       try {
-        messages = validateMessages(JSON.parse(body));
+        const data = JSON.parse(body);
+        messages = validateMessages(data);
+        conversationId = data.conversationId || randomBytes(24).toString("base64url");
       } catch {
         return json(res, 400, { error: "Send a short question about Sean." });
       }
@@ -252,6 +259,14 @@ export function createSiteServer({
         });
       }
       if (reservation.error) return json(res, 429, reservation);
+      // Bind grouping to the signed visitor so another browser cannot append to it.
+      let turnId;
+      try {
+        turnId = db.prepare("INSERT INTO chat_turns (conversation, at, question, status) VALUES (?,?,?,?)")
+          .run(sign(`conversation:${visitor}:${conversationId}`), time, messages.at(-1).content, "pending").lastInsertRowid;
+      } catch {
+        return json(res, 503, { error: "Chat is unavailable. Try again later." });
+      }
       // A reservation is never refunded: ambiguous failures may still be billable.
       let response;
       try {
@@ -278,8 +293,10 @@ export function createSiteServer({
           .trim();
         if (result.status !== "completed" || !answer || answer.length > 12000)
           throw new Error("Incomplete response");
+        db.prepare("UPDATE chat_turns SET answer = ?, status = 'completed' WHERE id = ?").run(answer, turnId);
         json(res, 200, { answer, remaining: reservation.remaining });
       } catch {
+        db.prepare("UPDATE chat_turns SET status = 'failed' WHERE id = ?").run(turnId);
         json(res, 502, {
           error: "Couldn’t get an answer. Please try again later.",
         });
@@ -298,7 +315,9 @@ export function createSiteServer({
 function validateMessages(data) {
   if (
     !data ||
-    Object.keys(data).some((key) => key !== "messages") ||
+    Object.keys(data).some((key) => !["messages", "conversationId"].includes(key)) ||
+    (data.conversationId !== undefined &&
+      (typeof data.conversationId !== "string" || !/^[A-Za-z0-9_-]{16,64}$/.test(data.conversationId))) ||
     !Array.isArray(data.messages) ||
     data.messages.length < 1 ||
     data.messages.length > 7 ||

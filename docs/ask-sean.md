@@ -15,7 +15,7 @@ Open `http://localhost:4174`. Set `OPENAI_API_KEY` in the ignored `.env.local` f
 
 ## Model and context
 
-The server calls the [Responses API](https://developers.openai.com/api/docs/guides/text) using `gpt-5.4-mini-2026-03-17`, standard service tier, no tools, no reasoning, and `store: false`. Answers use `server/context.mjs`: a small, public professional biography with more detail than the homepage. No private knowledge-base directory is read or uploaded. Input conversation is untrusted and never becomes verified biographical context.
+The server calls the [Responses API](https://developers.openai.com/api/docs/guides/text) using `gpt-5.4-mini-2026-03-17`, standard service tier, no tools, no reasoning, and `store: false`. Answers use `server/context.mjs`: a small, public biography including professional experience and personal interests with more detail than the homepage. No private knowledge-base directory is read or uploaded. Input conversation is untrusted and never becomes verified biographical context.
 
 The assistant speaks about Sean, not as him, and is instructed to answer briefly and acknowledge missing information. Model instructions reduce mistakes; they are not a guarantee. Plain text output is rendered without executing HTML or accepting model-provided links as application actions.
 
@@ -34,9 +34,9 @@ Failed/timeout calls keep their reservation because they may still incur cost. R
 
 ## Retention and privacy
 
-Questions and responses are not logged or stored by this server. They are sent to OpenAI to answer the question; `store: false` disables Responses storage, but does not itself promise zero provider retention. Review [OpenAI's data controls](https://developers.openai.com/api/docs/guides/your-data) for the account's provider retention policy.
+Questions and replies are saved in the private `chat_turns` table in `usage.sqlite`, along with timestamps, status and a conversation identifier bound to the signed visitor cookie. Storage happens before inference; failed requests retain their question and a failed status, and interrupted processes may leave pending turns. Only the newest question and the actual provider reply are recorded for each turn, never client-supplied assistant history. Records persist until explicitly deleted; usage-record cleanup does not delete conversations. The authenticated admin page shows the latest 100 turns grouped by conversation. No public transcript endpoint exists. Clearing the chat view starts a new conversation and does not delete saved records. They are sent to OpenAI to answer the question; `store: false` disables Responses storage, but does not itself promise zero provider retention. Review [OpenAI's data controls](https://developers.openai.com/api/docs/guides/your-data) for the account's provider retention policy.
 
-SQLite stores request timestamps, week buckets, and HMAC-derived visitor/network identifiers only. No raw address is stored. Network hashes rotate weekly. At the next chat reservation, records older than the previous UTC week are deleted; an idle server can retain older records until the next request. The signed HTTP-only cookie lasts seven days. The frontend holds its conversation in component memory.
+For usage limits, SQLite also stores request timestamps, week buckets, and HMAC-derived visitor/network identifiers. No raw address is stored. Network hashes rotate weekly. At the next chat reservation, records older than the previous UTC week are deleted; an idle server can retain older records until the next request. The signed HTTP-only cookie lasts seven days. The frontend holds its conversation in component memory.
 
 ## Deployment
 
