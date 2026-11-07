@@ -68,7 +68,7 @@ export default function RootLayout({
         <AnalyticsEvents />
         <main
           id="main-content"
-          className="mx-auto max-w-[1120px] px-8 pt-12 pb-20 max-sm:px-5"
+          className="mx-auto max-w-[1120px] px-8 pt-6 pb-20 max-sm:px-5"
         >
           {children}
         </main>
