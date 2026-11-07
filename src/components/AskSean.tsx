@@ -43,7 +43,6 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
   const conversationId = useRef<string | null>(null);
   const request = useRef<AbortController | null>(null);
   const conversation = useRef<HTMLDivElement>(null);
-  const inputElement = useRef<HTMLInputElement>(null);
   useEffect(
     () => () => {
       request.current?.abort();
@@ -135,16 +134,6 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
       }
     }
   }
-  function clear() {
-    request.current?.abort();
-    request.current = null;
-    conversationId.current = null;
-    setMessages([]);
-    setPending("");
-    setInput("");
-    setError("");
-    inputElement.current?.focus();
-  }
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     void ask(input);
@@ -220,16 +209,11 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
           {error}
         </p>
       )}
-      <p className={styles.footer}>
-        Chats are saved for Sean to review. Don’t share sensitive information.{" "}
-        <a href="/privacy/#chat">Privacy</a>
-      </p>
       <form onSubmit={submit} className={styles.form}>
         <label htmlFor={inputId} className={styles.srOnly}>
           Your question about Sean
         </label>
         <input
-          ref={inputElement}
           id={inputId}
           value={input}
           onChange={(event) => setInput(event.target.value)}
@@ -246,11 +230,6 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
           ↑
         </button>
       </form>
-      {(messages.length > 0 || pending || error) && (
-        <div className={styles.footer}>
-          <button type="button" onClick={clear}>Clear this view</button>
-        </div>
-      )}
     </section>
   );
 }

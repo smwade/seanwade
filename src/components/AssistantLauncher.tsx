@@ -69,21 +69,36 @@ export default function AssistantLauncher() {
   const panel = useRef<HTMLDivElement>(null);
   function close() {
     setOpen(false);
-    launcher.current?.focus();
+    requestAnimationFrame(() => launcher.current?.focus({ preventScroll: true }));
   }
   useEffect(() => {
     if (!open) return;
-    panel.current
-      ?.querySelector<HTMLInputElement>("input")
+    // Opening on a phone should not summon the keyboard or scroll the page.
+    const mobile = window.matchMedia("(max-width: 600px), (max-height: 500px), (pointer: coarse)").matches;
+    panel.current?.querySelector<HTMLElement>(mobile ? "button" : "input")
       ?.focus({ preventScroll: true });
+    const viewport = window.visualViewport;
+    const updateViewport = () => {
+      panel.current?.style.setProperty("--chat-viewport-height", `${viewport?.height ?? window.innerHeight}px`);
+      panel.current?.style.setProperty("--chat-viewport-top", `${viewport?.offsetTop ?? 0}px`);
+    };
+    updateViewport();
+    viewport?.addEventListener("resize", updateViewport);
+    viewport?.addEventListener("scroll", updateViewport);
+    window.addEventListener("resize", updateViewport);
     const handleKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setOpen(false);
-        launcher.current?.focus();
+        requestAnimationFrame(() => launcher.current?.focus({ preventScroll: true }));
       }
     };
     document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      viewport?.removeEventListener("resize", updateViewport);
+      viewport?.removeEventListener("scroll", updateViewport);
+      window.removeEventListener("resize", updateViewport);
+    };
   }, [open]);
   return (
     <div className={styles.root}>

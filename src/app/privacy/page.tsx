@@ -53,8 +53,8 @@ export default function PrivacyPage() {
         <p>
           Chat uses an HTTP-only cookie and a hashed network address to enforce
           usage limits. Usage records older than the current and previous week
-          are deleted when chat is next used. Clearing the conversation removes
-          it from this browser session only; saved server records remain.
+          are deleted when chat is next used. Closing the chat removes
+          the conversation from this browser session only; saved server records remain.
         </p>
       </section>
       <p>
