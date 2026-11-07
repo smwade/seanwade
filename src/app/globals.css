@@ -37,7 +37,14 @@ body {
   font-size: var(--type-body);
   line-height: 1.7;
   color: var(--color-text-primary);
-  background: var(--color-bg-primary);
+  background-color: var(--color-bg-primary);
+  background-image:
+    radial-gradient(circle, rgb(142 181 255 / 9%) 0.7px, transparent 0.9px),
+    radial-gradient(ellipse at 8% 0%, rgb(53 91 151 / 24%), transparent 58%),
+    radial-gradient(ellipse at 100% 75%, rgb(44 91 106 / 16%), transparent 55%);
+  background-size: 24px 24px, 100% 100vh, 100% 100vh;
+  background-repeat: repeat, no-repeat, no-repeat;
+  background-attachment: fixed;
 }
 ::selection {
   background: #294a7b;
