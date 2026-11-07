@@ -45,7 +45,7 @@ function errorMessage(data: unknown, fallback: string) {
 
 export default function AdminPanel() {
   const [state, setState] = useState<AdminState | null>(null);
-  const [selected, setSelected] = useState<MascotName>("clip");
+  const [selected, setSelected] = useState<MascotName>("sean");
   const [locked, setLocked] = useState(false);
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(true);

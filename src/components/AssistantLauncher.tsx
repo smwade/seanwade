@@ -23,14 +23,14 @@ export default function AssistantLauncher() {
     const bubble = window.setTimeout(() => {
       if (greeted.current && !document.hidden) setIntro("bubble");
     }, 2800);
-    const settle = window.setTimeout(() => setIntro("done"), 6200);
+    const settle = window.setTimeout(() => setIntro("done"), 7200);
     return () => {
       window.clearTimeout(wave);
       window.clearTimeout(bubble);
       window.clearTimeout(settle);
     };
   }, [open]);
-  const [mascot, setMascot] = useState<MascotName>("clip");
+  const [mascot, setMascot] = useState<MascotName>("sean");
   useEffect(() => {
     let active = true;
     let revision = 0;
@@ -135,7 +135,7 @@ export default function AssistantLauncher() {
         aria-expanded={open}
         aria-controls={open ? "sean-assistant-panel" : undefined}
       >
-        <span className={styles.launcherLabel} aria-hidden="true">Ask Sean</span>
+        <span className={styles.launcherLabel} aria-hidden="true">Ask me!</span>
         <span className={`${styles.mascot} ${mascot === "sean" ? styles.sticker : ""}`}>
           <Mascot name={mascot} />
         </span>

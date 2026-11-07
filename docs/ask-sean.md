@@ -1,6 +1,6 @@
 # Ask Sean
 
-The paperclip opens a real OpenAI chat. No canned answers or browser-side API key.
+Sean’s photo opens a real OpenAI chat. No canned answers or browser-side API key.
 
 ## Run locally
 

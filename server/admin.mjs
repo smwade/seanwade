@@ -57,7 +57,7 @@ export function createAdminHandler({
   );
   const getMascot = () => {
     const value = setting.get()?.value;
-    return MASCOTS.includes(value) ? value : "clip";
+    return MASCOTS.includes(value) ? value : "sean";
   };
   const sessionSignature = (id) =>
     sign(`admin-session:${credentialVersion}:${id}`);

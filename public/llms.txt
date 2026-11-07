@@ -1,0 +1,51 @@
+# Sean Wade — Research scientist & engineer
+
+> Professional background, research, software projects, and engineering writing from seanwade.com.
+
+Sean Wade is a Senior Research Data Scientist at Google, previously a Senior Machine Learning Engineer / Data Scientist at Apple, and the founder and engineer behind PulsHealth. His work spans generative AI, LLM evaluation, recommender systems, and health technology.
+
+This file summarizes the public website. Follow the linked pages for details and updates. Public contact: hello@seanwade.com.
+
+## Professional background
+
+- [Home](https://seanwade.com/): Professional overview and full experience summary.
+- [Resume](https://seanwade.com/resume/): Experience, research, publications, internships, and skills.
+- [Resume PDF](https://seanwade.com/assets/sean_wade_resume_2025_updated.pdf): Downloadable resume.
+
+Google — Senior Research Data Scientist, July 2025–present: Python infrastructure for LLM quality evaluation and parallel prompt DAGs; meta prompts, agentic workflows, and AI rater validation; Google Discover recommender metrics; experiment design and analysis.
+
+Apple — Senior Machine Learning Engineer / Data Scientist, December 2019–July 2025: On-device ML for food image classification and nutrition feedback, personalized workout recommendations, walk detection, and contextual notifications. Work also covered model safety, robustness and privacy; data collection for LumiHealth, Heartline and Attain; health-data labeling; medical claims and sensor pipelines; and research on digital health interventions.
+
+Microsoft — AI Platform Engineer Intern, June–September 2019: ML deployment, evaluation, and retraining tools on Azure, including MLflow support in the Azure SDK.
+
+Disney — Machine Learning Resident, January–May 2018: Ride and attraction recommendations for the Disney World Park app, with real-time monitoring pipelines and dashboards.
+
+Loveland Innovations — Computer Vision Engineer, March 2017–August 2018: Drone imaging and photogrammetry for building models, and convolutional neural networks for roof damage classification.
+
+Education and research at Brigham Young University: MS in Computer Science and BS in Applied Mathematics; conditional adversarial networks for synthetic cancer cell imagery and vector embeddings for medical claims histories.
+
+Skills listed on the site include Python, Swift, SQL, C++, LLM post-training and RLHF, LLM evaluation, prompt engineering, agentic workflows, PyTorch, JAX, Spark, Hadoop, OpenCV, PCL, privacy-preserving ML, numerical methods, and mathematical modeling.
+
+## Research and publications
+
+- [Code2Vec: Embedding and Clustering Medical Diagnosis Data](https://ieeexplore.ieee.org/document/8031179): Medical diagnosis embeddings and clustering.
+- [Forward Thinking: Building and Training Neural Networks One Layer at a Time](https://arxiv.org/abs/1706.02480): Layer-by-layer neural network training.
+- [MediAug](https://github.com/smwade/MediAug): Toolkit for semi-supervised synthetic cancer cell image generation and medical image augmentation.
+
+## Products and projects
+
+- [Project library](https://seanwade.com/projects/): Apps, research, experiments, tools, and writing.
+- [PulsHealth](https://seanwade.com/pulshealth/): Independently designed and built open-source Apple Health platform. Includes a Swift app, sync protocol, PostgreSQL backend, web dashboard, and AI integrations. Explore and export CSV or JSON, sync to hosted or self-hosted storage, and connect compatible assistants through read-only MCP access. The site reports a milestone of over 1,000 users.
+- [PulsHealth source](https://github.com/PulsHealth/pulshealth): Open-source app and server.
+- [Watch Workout Pro](https://pulshealth.com/watch-workout-pro/): Create custom workouts for Apple Watch.
+- [Friend Flex](https://pulshealth.com/friend-flex/): Fitness challenges scored on personal improvement.
+- [Health data experiments](https://pulshealth.com/examples/): Visualizations and creative health-data projects.
+- [Living Window](https://seanwade.com/projects/living-window/): Programmable window with animated scenes and a camera-tracking eye.
+
+## Tools and writing
+
+- [Tools](https://seanwade.com/tools/): Standalone interactive calculators.
+- [Investment calculator](https://seanwade.com/tools/investment-calculator/): Model compound growth, contributions, and inflation.
+- [Domains vs. stocks](https://seanwade.com/tools/domain-investing/): Compare domain investing returns, commissions, renewal costs, and break-even points against stocks.
+- [Blog](https://seanwade.com/blog/): Engineering articles.
+- [Git worktrees + Claude Code](https://seanwade.com/blog/git-worktrees-claude-code/): Running parallel coding agents with Git worktrees.

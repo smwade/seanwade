@@ -14,7 +14,7 @@ export type MascotName = (typeof mascotOptions)[number];
 export function isMascot(value: unknown): value is MascotName {
   return mascotOptions.includes(value as MascotName);
 }
-export default function Mascot({ name = "clip" }: { name?: MascotName }) {
+export default function Mascot({ name = "sean" }: { name?: MascotName }) {
   if (name === "sean") return <Image src="/images/sean-sticker.png" alt="" width={96} height={100} className={styles.character} />;
   return (
     <svg

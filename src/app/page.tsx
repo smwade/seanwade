@@ -44,6 +44,12 @@ export default function Home() {
       </header>
 
       <ResumeContent />
+      <p className="mt-12 text-sm text-text-tertiary">
+        Agents can start here: {" "}
+        <a href="/llms.txt" className="text-accent hover:underline">
+          llms.txt
+        </a>
+      </p>
     </div>
   );
 }

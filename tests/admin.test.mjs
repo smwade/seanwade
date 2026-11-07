@@ -101,7 +101,7 @@ test("local access exposes exact safe diagnostics and persists allowed mascot se
   const text = await r.text();
   const body = JSON.parse(text);
   assert.deepEqual(Object.keys(body).sort(), ["diagnostics", "settings"]);
-  assert.equal(body.settings.mascot, "clip");
+  assert.equal(body.settings.mascot, "sean");
   assert.equal(body.diagnostics.model, MODEL);
   assert.equal(body.diagnostics.weeklyRequests, 0);
   assert.equal(body.diagnostics.weeklyLimit, 500);
@@ -175,7 +175,7 @@ test("production diagnostics/writes remain private including spoofed forwarding 
     401,
   );
   const config = await f.request("/api/site-config");
-  assert.deepEqual(await config.json(), { mascot: "clip" });
+  assert.deepEqual(await config.json(), { mascot: "sean" });
 });
 
 test("production cookie authentication, expiration, signature and logout revocation", async (t) => {
@@ -264,7 +264,7 @@ test("all writes reject cross-origin requests and settings reject invalid or unk
     413,
   );
   assert.deepEqual(await (await f.request("/api/site-config")).json(), {
-    mascot: "clip",
+    mascot: "sean",
   });
 });
 

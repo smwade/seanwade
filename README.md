@@ -32,7 +32,7 @@ Branch: `site/personal-redesign`.
 - `/pulshealth/`: product details and the actual animated data-flow component adapted from pulshealth.com, with reduced-motion support.
 - `/projects/`: project library; existing `/tools/`, `/misc/`, and `/blog/` remain available.
 - `/resume/`: detailed experience and publications; the existing PDF remains downloadable.
-- A bottom-corner paperclip opens live AI chat using a server-side OpenAI connection.
+- A bottom-corner photo of Sean opens live AI chat using a server-side OpenAI connection.
 
 See [chat setup](docs/ask-sean.md) for the server, background material, and durable usage limits. The 1,000+ user milestone
 is supplied by Sean for this redesign; it is not a live analytics counter.
