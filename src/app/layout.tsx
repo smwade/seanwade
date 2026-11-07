@@ -3,7 +3,6 @@ import { Manrope } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import AnalyticsEvents from "@/components/AnalyticsEvents";
 import AssistantLauncher from "@/components/AssistantLauncher";
-import Footer from "@/components/Footer";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -73,7 +72,6 @@ export default function RootLayout({
         >
           {children}
         </main>
-        <Footer />
         <AssistantLauncher />
         <script
           type="application/ld+json"

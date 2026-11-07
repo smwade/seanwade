@@ -6,6 +6,7 @@
   color: #edf2fa;
 }
 .launcher {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -18,13 +19,26 @@
   border-radius: 14px;
 }
 .launcherLabel {
-  background: #141a24;
-  border: 1px solid #303c50;
-  border-radius: 10px 10px 2px 10px;
-  padding: 8px 12px;
-  font-size: 11px;
-  box-shadow: 0 5px 20px #0004;
+  position: absolute;
+  right: calc(100% - 8px);
+  bottom: calc(100% - 18px);
+  width: 124px;
+  height: 60px;
+  display: block;
+  box-sizing: border-box;
+  background: url("/images/ask-sean-bubble.svg") center / 100% 100% no-repeat;
+  color: #172033;
+  border: 0;
+  padding: 13px 10px 22px;
+  font-size: var(--type-body);
+  font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
+  white-space: nowrap;
+  filter: drop-shadow(2px 4px 2px #0005);
+  transform-origin: right bottom;
 }
+
 .mascot {
   width: 52px;
   height: 62px;
@@ -73,14 +87,14 @@
   padding: 20px 18px 18px;
 }
 .heading h2 {
-  font-size: 17px;
+  font-size: var(--type-body);
   font-weight: 650;
   letter-spacing: -0.3px;
   margin: 0 0 5px;
   line-height: 1.3;
 }
 .heading p {
-  font-size: 11px;
+  font-size: var(--type-caption);
   color: #a5b1c4;
   margin: 0;
 }
@@ -93,7 +107,7 @@
   border: 1px solid #303c50;
   background: #0b0e14;
   border-radius: 8px;
-  font-size: 23px;
+  font-size: var(--type-heading);
   line-height: 1;
   color: #b9c7db;
   cursor: pointer;
@@ -117,8 +131,10 @@
     max-height: calc(100dvh - 104px);
   }
   .launcherLabel {
-    font-size: 10px;
-    padding: 7px 10px;
+    width: 112px;
+    height: 55px;
+    font-size: var(--type-caption);
+    padding: 12px 10px 20px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -133,12 +149,82 @@
   pointer-events: none;
   transition: opacity 150ms ease;
 }
-.launcher:hover .launcherLabel,
-.launcher:focus-visible .launcherLabel {
+.launcher:not([aria-expanded="true"]):hover .launcherLabel,
+.launcher:not([aria-expanded="true"]):focus-visible .launcherLabel {
   opacity: 1;
 }
 @media (hover: none) {
   .launcherLabel {
     display: none;
   }
+}
+
+.sticker {
+  width: 88px;
+  height: 94px;
+  transform: rotate(5deg);
+  filter: drop-shadow(0 5px 8px #0006);
+}
+.root:has(.sticker) .panel { bottom: 108px; }
+.sticker img { object-fit: contain; }
+@media (max-width: 600px) {
+  .sticker { width: 68px; height: 74px; }
+  .root:has(.sticker) .panel { bottom: 88px; }
+}
+
+.identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.headerSticker {
+  width: 58px;
+  height: 62px;
+  object-fit: contain;
+  transform: rotate(-5deg);
+  filter: drop-shadow(0 3px 4px #0004);
+}
+.identity h2 { margin: 0; }
+
+@keyframes helloWave {
+  0%, 100% { transform: rotate(8deg) translateY(0); }
+  25% { transform: rotate(-10deg) translateY(-6px); }
+  55% { transform: rotate(12deg) translateY(-3px); }
+  80% { transform: rotate(2deg) translateY(-1px); }
+}
+.launcher[data-intro="wave"] .mascot {
+  animation: helloWave 950ms ease-in-out 1;
+  transform-origin: 50% 85%;
+}
+.launcher[data-intro="bubble"] .launcherLabel {
+  display: block;
+  opacity: 1;
+  transform: rotate(-4deg) scale(1);
+}
+.launcherLabel {
+  transform: translateY(4px) rotate(-7deg) scale(0.92);
+  transition: opacity 220ms ease, transform 320ms cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+@media (hover: none) {
+  .launcherLabel { display: block; }
+  .launcher:not([data-intro="bubble"]) .launcherLabel { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .launcher[data-intro="wave"] .mascot { animation: none; }
+  .launcherLabel { transition: none; transform: none; }
+}
+
+.mascot svg {
+  filter: drop-shadow(1px 0 0 #fffdf6) drop-shadow(-1px 0 0 #fffdf6)
+    drop-shadow(0 1px 0 #fffdf6) drop-shadow(0 -1px 0 #fffdf6);
+}
+.launcher:not([aria-expanded="true"]):hover .launcherLabel,
+.launcher:not([aria-expanded="true"]):focus-visible .launcherLabel {
+  transform: rotate(-4deg) scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .launcherLabel,
+  .launcher[data-intro="bubble"] .launcherLabel,
+  .launcher:hover .launcherLabel,
+  .launcher:focus-visible .launcherLabel { transform: none; }
 }

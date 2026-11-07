@@ -7,7 +7,7 @@
   max-width: 720px;
 }
 .header h1 {
-  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  font-size: var(--type-title);
   line-height: 1.08;
   letter-spacing: -0.055em;
   font-weight: 600;
@@ -32,7 +32,7 @@
   color: #a3afc2;
   background: transparent;
   font: inherit;
-  font-size: 0.9rem;
+  font-size: var(--type-body);
 }
 .filters button:hover {
   background: #202c40;
@@ -64,7 +64,7 @@
   color: #edf2fa;
   background: transparent;
   font: inherit;
-  font-size: 0.9rem;
+  font-size: var(--type-body);
 }
 .search input:focus {
   outline: none;
@@ -75,7 +75,7 @@
 }
 .count {
   color: #8c9bb2;
-  font-size: 0.8rem;
+  font-size: var(--type-caption);
   margin: 24px 0 14px;
 }
 .grid {
@@ -99,11 +99,11 @@
 }
 .detail {
   color: #8c9bb2;
-  font-size: 0.73rem;
+  font-size: var(--type-caption);
 }
 .body h2 {
   margin: 10px 0 12px;
-  font-size: 1.25rem;
+  font-size: var(--type-heading);
   line-height: 1.25;
   letter-spacing: -0.025em;
   font-weight: 600;
@@ -117,13 +117,13 @@
 }
 .body p {
   color: #a3afc2;
-  font-size: 0.9rem;
+  font-size: var(--type-body);
   line-height: 1.65;
   margin: 0 0 24px;
 }
 .action {
   color: #8eb5ff;
-  font-size: 0.84rem;
+  font-size: var(--type-body);
   font-weight: 600;
   text-decoration: none;
   margin-top: auto;
@@ -171,12 +171,12 @@
 }
 .watchFace strong {
   display: block;
-  font-size: 27px;
+  font-size: var(--type-section);
   letter-spacing: -1px;
   color: #bcf3cc;
 }
 .watchFace span {
-  font-size: 10px;
+  font-size: var(--type-caption);
 }
 .watchFace div {
   height: 4px;
@@ -259,7 +259,7 @@
   gap: 13px;
 }
 .domainLabels span:first-child {
-  font-size: 23px;
+  font-size: var(--type-heading);
   background: #141a24;
   padding: 12px 22px;
   border: 1px solid #344157;
@@ -267,7 +267,7 @@
   letter-spacing: -0.03em;
 }
 .domainLabels span:last-child {
-  font-size: 10px;
+  font-size: var(--type-caption);
   color: #99abc5;
 }
 .branches {
@@ -289,19 +289,19 @@
   border-top: 1px solid #283140;
 }
 .archive h2 {
-  font-size: 1.2rem;
+  font-size: var(--type-heading);
   font-weight: 600;
   margin: 0 0 6px;
 }
 .archive p {
-  font-size: 0.9rem;
+  font-size: var(--type-body);
   color: #a3afc2;
 }
 .archive a {
   flex-shrink: 0;
   color: #8eb5ff;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: var(--type-body);
   text-decoration: none;
 }
 .empty {
@@ -311,7 +311,7 @@
   border-radius: 14px;
 }
 .empty h2 {
-  font-size: 1.4rem;
+  font-size: var(--type-heading);
   font-weight: 600;
 }
 .empty p {
@@ -432,4 +432,11 @@
 }
 .healthArt path:nth-child(3n + 1) {
   stroke: #8594c9;
+}
+
+.intro {
+  color: var(--color-text-secondary);
+  font-size: var(--type-body);
+  line-height: 1.7;
+  margin-top: -8px;
 }

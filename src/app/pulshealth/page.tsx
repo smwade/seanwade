@@ -26,8 +26,8 @@ export default function PulsHealth() {
           Beyond your phone.
         </h1>
         <p className="case-intro">
-          An open-source app and platform I built to make Apple Health data
-          useful beyond the phone.
+          An open-source platform that connects Apple Health data to AI tools
+          and personal projects.
         </p>
         <div className="actions">
           <a className="button light" href="https://pulshealth.com">

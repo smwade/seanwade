@@ -18,37 +18,38 @@ export default function LivingWindowPage() {
       <header className={styles.header}>
         <h1>Living Window</h1>
         <p>
-          A window display that looks back. A Raspberry Pi, a phone controller,
-          and an experiment in making a screen feel alive.
+          I turned the round window outside my house into a programmable display: animated scenes powered
+          by a Raspberry Pi, plus a camera-tracked eye that follows movement.
         </p>
       </header>
-      <WindowDemo />
       <section className={styles.details} aria-label="About the project">
         <div>
-          <h2>A screen made for a window.</h2>
+          <h2>From a window to a display</h2>
           <p>
-            I built a Raspberry Pi 4 video display with a phone-friendly
-            controller. Upload scenes, arrange playlists, and save each video’s
-            position, scale, and rotation to fit the window.
+            A Raspberry Pi drives a screen behind the window, turning it into a
+            canvas for images and looping animations. I built the player and a
+            web controller so I can change the scene from my phone.
           </p>
           <p>
-            Playback runs independently of the phone, with saved layouts
-            restored between scenes and restarts.
+            Each scene has its own saved position, zoom, and rotation to fit the
+            opening. Playlists keep running when the controller is closed and
+            restore their settings after a restart.
           </p>
         </div>
         <div>
-          <h2>An eye that follows movement.</h2>
+          <h2>Making it look back</h2>
           <p>
-            The tracking experiment connects camera-based person detection to an
-            animated eye. Temporary target coordinates steer its gaze; when a
-            target disappears, the eye returns to its idle animation.
+            I also built a camera-tracking experiment: person detection turns
+            movement into target coordinates that steer an animated eye.
+            When no target is available, it returns to an idle animation.
           </p>
           <p>
-            The demo above recreates the idea with your pointer. It uses no
-            camera and is separate from the hardware.
+            The project combines hardware, video playback, computer vision, and
+            a web interface to make a familiar part of the house feel alive.
           </p>
         </div>
       </section>
+      <WindowDemo />
       <div className={styles.tags} aria-label="Built with">
         <span>Raspberry Pi</span>
         <span>Python</span>

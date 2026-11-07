@@ -20,7 +20,7 @@ All responses use `Cache-Control: no-store`. Every write requires the exact conf
 - `POST /api/admin/login` accepts `{ "password": "…" }`, sets the session cookie, and returns `{ "ok": true }`.
 - `POST /api/admin/logout` accepts `{}`, clears/revokes the cookie, and returns `{ "ok": true }`.
 
-Allowed mascots: `clip`, `robot`, `terminal`, `orb`, `bird`, `astronaut`. Selection is persisted in the existing private SQLite database and survives server restart. The default is `clip`. Neither settings nor admin diagnostics alter chat quotas or accounting.
+Allowed mascots: `sean`, `clip`, `robot`, `terminal`, `orb`, `bird`, `astronaut`. Selection is persisted in the existing private SQLite database and survives server restart. The default is `clip`. Neither settings nor admin diagnostics alter chat quotas or accounting.
 
 A logout on the local preview clears any password session but does not disable the intentional loopback auto-access rule. Production logout removes access until another login.
 

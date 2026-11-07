@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
 import styles from "./ProjectLibrary.module.css";
 
@@ -24,6 +21,16 @@ const projects = [
     action: "Explore the app",
   },
   {
+    title: "MediAug",
+    category: "Research",
+    description:
+      "Medical image augmentation for histology and cytology slides.",
+    href: "https://github.com/smwade/MediAug",
+    type: "cells",
+    detail: "Python · Computer vision",
+    action: "View on GitHub",
+  },
+  {
     title: "Friend Flex",
     category: "Apps",
     description: "Fitness challenges scored on personal improvement.",
@@ -31,16 +38,6 @@ const projects = [
     type: "friends",
     detail: "iPhone · Fitness",
     action: "Explore the app",
-  },
-  {
-    title: "Living Window",
-    category: "Experiments",
-    description:
-      "A Raspberry Pi window display and an eye that follows movement.",
-    href: "/projects/living-window/",
-    type: "window",
-    detail: "Hardware · Computer vision",
-    action: "Try the demo",
   },
   {
     title: "Health data experiments",
@@ -53,14 +50,14 @@ const projects = [
     action: "Explore the collection",
   },
   {
-    title: "MediAug",
-    category: "Research",
+    title: "Living Window",
+    category: "Experiments",
     description:
-      "Medical image augmentation for histology and cytology slides.",
-    href: "https://github.com/smwade/MediAug",
-    type: "cells",
-    detail: "Python · Computer vision",
-    action: "View on GitHub",
+      "A programmable window with animated scenes and a camera-tracking eye.",
+    href: "/projects/living-window/",
+    type: "window",
+    detail: "Hardware · Computer vision",
+    action: "Explore the project",
   },
   {
     title: "Investment calculator",
@@ -90,14 +87,7 @@ const projects = [
     action: "Read the article",
   },
 ];
-const categories = [
-  "All",
-  "Apps",
-  "Research",
-  "Tools",
-  "Experiments",
-  "Writing",
-];
+
 
 function Illustration({ type }: { type: string }) {
   return (
@@ -173,52 +163,14 @@ function Illustration({ type }: { type: string }) {
 }
 
 export default function ProjectLibrary() {
-  const [category, setCategory] = useState("All");
-  const [query, setQuery] = useState("");
-  const filtered = projects.filter(
-    (project) =>
-      (category === "All" || project.category === category) &&
-      `${project.title} ${project.description} ${project.detail}`
-        .toLowerCase()
-        .includes(query.trim().toLowerCase()),
-  );
   return (
     <div className={styles.library}>
       <header className={styles.header}>
         <h1>Projects</h1>
+        <p className={styles.intro}>Things I build and explore in my free time.</p>
       </header>
-      <div className={styles.controls}>
-        <div className={styles.filters} aria-label="Filter projects">
-          {categories.map((item) => (
-            <button
-              type="button"
-              key={item}
-              onClick={() => setCategory(item)}
-              aria-pressed={category === item}
-            >
-              {item}
-            </button>
-          ))}
-        </div>
-        <label className={styles.search}>
-          <span className={styles.srOnly}>Search projects</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="10" cy="10" r="6" />
-            <path d="m15 15 5 5" />
-          </svg>
-          <input
-            type="search"
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Find a project…"
-          />
-        </label>
-      </div>
-      <p className={styles.count} role="status">
-        {filtered.length} {filtered.length === 1 ? "project" : "projects"}
-      </p>
       <div className={styles.grid}>
-        {filtered.map((project) => (
+        {projects.map((project) => (
           <article key={project.title} className={styles.card}>
             <Illustration type={project.type} />
             <div className={styles.body}>
@@ -235,30 +187,7 @@ export default function ProjectLibrary() {
           </article>
         ))}
       </div>
-      {filtered.length === 0 && (
-        <div className={styles.empty}>
-          <h2>No projects found</h2>
-          <p>Try another search or browse the full collection.</p>
-          <button
-            type="button"
-            onClick={() => {
-              setQuery("");
-              setCategory("All");
-            }}
-          >
-            Show all projects
-          </button>
-        </div>
-      )}
-      <aside className={styles.archive}>
-        <div>
-          <h2>More projects</h2>
-          <p>Small websites, guides, and experiments.</p>
-        </div>
-        <a href="/misc/">
-          Browse the archive <span aria-hidden="true">↗</span>
-        </a>
-      </aside>
+
     </div>
   );
 }

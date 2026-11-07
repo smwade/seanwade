@@ -28,9 +28,9 @@ are maintained separately from this site. Run `bun run lint`, `bunx tsc --noEmit
 
 Branch: `site/personal-redesign`.
 
-- `/`: full résumé alongside a compact profile, including Google, Apple, research, internships, and skills.
+- `/`: full résumé, including Google, Apple, research, internships, and skills.
 - `/pulshealth/`: product details and the actual animated data-flow component adapted from pulshealth.com, with reduced-motion support.
-- `/projects/`: searchable library; existing `/tools/`, `/misc/`, and `/blog/` remain available.
+- `/projects/`: project library; existing `/tools/`, `/misc/`, and `/blog/` remain available.
 - `/resume/`: detailed experience and publications; the existing PDF remains downloadable.
 - A bottom-corner paperclip opens live AI chat using a server-side OpenAI connection.
 
@@ -46,7 +46,7 @@ its existing unavailable state is expected in a standalone static preview.
 Visual direction: Manrope type; charcoal `#0b0e14`, slate `#141a24`, soft white
 `#edf2fa`, muted text `#a3afc2`, and blue `#8eb5ff`. The résumé leads with current
 Google work; interactive product storytelling lives in the PulsHealth tab.
-The project library keeps its filters and illustrations in a dark palette.
+The project library uses a simple ordered card grid.
 No private knowledge-base files are bundled with the site.
 
 ## Admin

@@ -5,8 +5,10 @@ export default function ResumeContent() {
   return (
     <>
       {/* Experience */}
-      <section className="resume-section" id="experience">
-        <h2 className="resume-section-title">Experience</h2>
+      <section className="resume-section">
+        <h2 className="resume-section-title">
+          Experience
+        </h2>
 
         <ExperienceCard
           logo="/images/Google_Favicon_2025.svg"
@@ -17,55 +19,54 @@ export default function ResumeContent() {
         >
           <BulletList
             items={[
-              "Architected and built a Python framework for LLM-based quality evaluation, enabling parallel execution of prompt DAGs and automated quality evaluation metrics",
-              "Researched novel techniques in meta-prompts and agentic workflows; built a testing and validation suite to evaluate AI rater quality at scale and measure outcome variability",
-              "Created metrics to improve the Google Discover recommender system, validating retrieval algorithm quality and performance",
+              "Architected and built a Python library for LLM-based quality evaluation framwork, enabling parallel execution of prompt DAGs and automated quality evaluation metrics",
+              "Researched novel techniques in meta prompts and agentic workflows; built testing and validation suite to evaluate AI rater quality at scale and measure outcome variability",
+              "Created metrics to improve Google Discover recommender system, validating retrieval algorithm quality and performance",
               "Provided technical guidance on experiment design and analysis, identifying meaningful lift across key user sub-cohorts",
             ]}
           />
         </ExperienceCard>
 
         <ExperienceCard
-          invertLogo
           logo="/images/Apple_logo_black.svg"
           logoAlt="Apple logo"
           title="Senior Machine Learning Engineer / Data Scientist"
           company="Apple"
           period="Dec 2019 - July 2025"
+          invertLogo
         >
           <ul className="list-none space-y-2 text-base text-text-secondary">
             <li className="flex gap-2">
               <span className="mt-0.5 text-text-tertiary">•</span>
               <span>
                 Led cross-functional teams in developing, shipping and
-                maintaining core on-device ML algorithms:
+                maintaining core on-device ML algorithms to users:
                 <ul className="mt-2 ml-4 list-none space-y-1">
-                  <li className="flex gap-2 text-[0.95rem]">
+                  <li className="flex gap-2 text-base">
                     <span className="text-text-tertiary">•</span>
                     <span>
                       Meal logging tool with food image classification and LLM
                       nutrition feedback
                     </span>
                   </li>
-                  <li className="flex gap-2 text-[0.95rem]">
+                  <li className="flex gap-2 text-base">
                     <span className="text-text-tertiary">•</span>
                     <span>
-                      Personalized workout recommender system using a
-                      multi-objective loss function and online learning
+                      Personalized workout recommender system using a multi
+                      objective loss function and online learning
                     </span>
                   </li>
-                  <li className="flex gap-2 text-[0.95rem]">
+                  <li className="flex gap-2 text-base">
                     <span className="text-text-tertiary">•</span>
                     <span>
                       Unsupervised walk detection algorithm from steps data
                     </span>
                   </li>
-                  <li className="flex gap-2 text-[0.95rem]">
+                  <li className="flex gap-2 text-base">
                     <span className="text-text-tertiary">•</span>
                     <span>
                       Contextual notifications engine using routine
-                      identification (commute to work, typical workout time,
-                      etc)
+                      identification (commute to work, typical workout time, etc)
                     </span>
                   </li>
                 </ul>
@@ -74,24 +75,24 @@ export default function ResumeContent() {
             <li className="flex gap-2">
               <span className="mt-0.5 text-text-tertiary">•</span>
               <span>
-                Evaluated performance of ML models with a focus on safety,
-                robustness, privacy, and efficacy; communicated tradeoffs to
+                Evaluated performance of ML models with focus on safety,
+                robustness and privacy and efficacy communicated tradeoffs to
                 partners
               </span>
             </li>
             <li className="flex gap-2">
               <span className="mt-0.5 text-text-tertiary">•</span>
               <span>
-                Architected data schema and privacy-preserving data collection
+                Architected data schema and privacy preserving data collection
                 framework for launch of multiple health related programs and
-                research studies (LumiHealth, Heartline, Attain)
+                research studies (Lumihealth, Heartline, Attain)
               </span>
             </li>
             <li className="flex gap-2">
               <span className="mt-0.5 text-text-tertiary">•</span>
               <span>
-                Created an application for labeling health data to create
-                datasets and provide human feedback for models
+                Created application for labeling health data to create datasets
+                and provide human feedback for models
               </span>
             </li>
             <li className="flex gap-2">
@@ -104,7 +105,7 @@ export default function ResumeContent() {
             <li className="flex gap-2">
               <span className="mt-0.5 text-text-tertiary">•</span>
               <span>
-                Designed research studies and experiments to study the impact of
+                Designed research studies and experiments to study impact of
                 digital interventions and models on hypertension, diabetes,
                 asthma, MCI and atrial fibrillation
               </span>
@@ -117,23 +118,26 @@ export default function ResumeContent() {
         <h2 className="resume-section-title">Independent work</h2>
         <ExperienceCard
           logo="/images/pulshealth-logo.png"
-          logoAlt=""
+          logoAlt="PulsHealth logo"
           title="Founder & engineer"
           company="PulsHealth"
-          period="2024–present"
+          period="2025–present"
         >
-          <p className="text-sm text-text-secondary leading-relaxed">
-            Built an open-source iPhone app, sync backend, dashboard, and AI
-            integrations for Apple Health data. Used by over 1,000 people.
+          <p className="text-text-secondary">
+            An open-source platform that connects Apple Health data to AI tools
+            and personal projects. Used by over 1,000 people.
           </p>
           <a href="/pulshealth/" className="text-link mt-4">
-            PulsHealth ↗
+            Explore PulsHealth <span aria-hidden="true">↗</span>
           </a>
         </ExperienceCard>
       </section>
+
       {/* Research */}
       <section className="resume-section">
-        <h2 className="resume-section-title">Research</h2>
+        <h2 className="resume-section-title">
+          Research
+        </h2>
 
         <ExperienceCard
           logo="/images/BYU_Cougars_logo.svg"
@@ -141,15 +145,15 @@ export default function ResumeContent() {
           title="Brigham Young University"
           company="Master of Science, Computer Science"
           subtitle="Bachelor of Science, Applied Mathematics"
-          period="BS 2017 · MS 2019"
+          period="December 2017"
         >
           <p className="mt-2 text-base text-text-secondary">
             Researched synthetic cancer cell image generation using conditional
-            adversarial neural networks and wrote a Python library to distribute
+            adversarial neural networks and wrote a python library to distribute
             it. Created novel methods for representing medical claims history
             with vector embeddings.
           </p>
-          <div className="mt-4 text-xs font-semibold uppercase tracking-widest text-text-tertiary">
+          <div className="mt-6 text-sm font-semibold text-text-tertiary">
             Publications
           </div>
           <div className="mt-2 flex flex-col gap-2">
@@ -170,7 +174,9 @@ export default function ResumeContent() {
 
       {/* Internships */}
       <section className="resume-section">
-        <h2 className="resume-section-title">Internships</h2>
+        <h2 className="resume-section-title">
+          Internships
+        </h2>
 
         <ExperienceCard
           logo="/images/Microsoft_icon.svg"
@@ -188,17 +194,17 @@ export default function ResumeContent() {
         </ExperienceCard>
 
         <ExperienceCard
-          invertLogo
           logo="/images/Disney_wordmark.svg"
           logoAlt="Disney logo"
           title="Machine Learning Resident"
           company="Disney"
           period="Jan 2018 - May 2018"
+          invertLogo
         >
           <BulletList
             items={[
               "Developed recommender system for rides/attractions in Disney World Park app",
-              "Created real-time pipelines and dashboards to monitor performance",
+              "Created realtime pipelines and dashboards to monitor performance",
             ]}
           />
         </ExperienceCard>
@@ -221,7 +227,9 @@ export default function ResumeContent() {
 
       {/* Skills */}
       <section className="resume-section">
-        <h2 className="resume-section-title">Skills</h2>
+        <h2 className="resume-section-title">
+          Skills
+        </h2>
         <div className="flex flex-wrap gap-3 max-sm:gap-2">
           <SkillBadge>Python, Swift, SQL, C++</SkillBadge>
           <SkillBadge>LLM post training, fine tuning and RLHF</SkillBadge>
@@ -264,7 +272,7 @@ function PublicationLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2 text-base text-accent no-underline transition-all duration-200 hover:text-accent"
+      className="inline-flex items-center gap-2 text-base text-accent no-underline transition-all duration-200 hover:text-white"
     >
       <span className="text-sm">↗</span>
       {children}

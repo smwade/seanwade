@@ -1,0 +1,13 @@
+version: 1
+app: seanwade-api
+repo: https://github.com/smwade/seanwade.git
+branch: main
+compose: docker-compose.yml
+access: public
+env:
+  file: seanwade-api.env
+public:
+  api:
+    domain: api.seanwade.com
+    port: 4174
+    health: /healthz

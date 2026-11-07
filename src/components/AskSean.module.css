@@ -8,7 +8,7 @@
   overflow: hidden;
 }
 .title {
-  font-size: 20px;
+  font-size: var(--type-heading);
   padding: 24px 24px 10px;
   font-weight: 600;
 }
@@ -25,35 +25,40 @@
   width: fit-content;
   max-width: 90%;
   margin: 0 0 18px auto;
-  font-size: 13px;
+  font-size: var(--type-body);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 .answer {
   line-height: 1.8;
-  font-size: 13px;
+  font-size: var(--type-body);
   margin: 0 0 24px;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 .loading {
   color: #a5b1c4;
-  font-size: 12px;
+  font-size: var(--type-caption);
   padding-bottom: 18px;
 }
 .suggestions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr;
+  opacity: 1;
+  transition: opacity 220ms ease;
   gap: 8px;
   padding: 12px 18px 18px;
 }
 .suggestions button {
   font: inherit;
-  font-size: 12px;
+  font-size: var(--type-body);
   border: 1px solid #354258;
   background: transparent;
-  border-radius: 20px;
-  padding: 6px 14px;
+  border-radius: 12px;
+  padding: 10px 14px;
+  min-height: 72px;
+  text-align: left;
+  line-height: 1.5;
   color: #c5d3e8;
   cursor: pointer;
 }
@@ -81,8 +86,12 @@
   outline: 0;
   background: transparent;
   font: inherit;
-  font-size: 16px;
+  font-size: var(--type-body);
   color: #edf2fa;
+}
+.form input:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 .form input::placeholder {
   color: #a5b1c4;
@@ -96,7 +105,7 @@
   height: 36px;
   flex-shrink: 0;
   cursor: pointer;
-  font-size: 23px;
+  font-size: var(--type-heading);
 }
 .form button:disabled {
   opacity: 0.4;
@@ -104,7 +113,7 @@
 }
 .error {
   color: #f5bdac;
-  font-size: 12px;
+  font-size: var(--type-body);
   line-height: 1.6;
   padding: 0 18px 14px;
   overflow-wrap: anywhere;
@@ -115,7 +124,7 @@
   align-items: center;
   padding: 0 18px 14px;
   color: #9baac0;
-  font-size: 10px;
+  font-size: var(--type-caption);
 }
 .footer a,
 .footer button {
@@ -147,4 +156,9 @@
   border: 0;
   border-radius: 0;
   margin: 0;
+}
+
+.suggestions[data-fading="true"] { opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .suggestions { transition: none; }
 }

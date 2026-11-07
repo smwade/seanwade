@@ -1,6 +1,7 @@
 import { randomBytes, timingSafeEqual } from "node:crypto";
 
 export const MASCOTS = Object.freeze([
+  "sean",
   "clip",
   "robot",
   "terminal",

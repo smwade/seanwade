@@ -50,7 +50,7 @@ export default function ToolsPage() {
                 </span>
                 <span className="text-sm text-accent">Open Tool →</span>
               </div>
-              <p className="text-sm text-text-secondary">{tool.description}</p>
+              <p className="text-base text-text-secondary">{tool.description}</p>
             </a>
           ))}
         </div>

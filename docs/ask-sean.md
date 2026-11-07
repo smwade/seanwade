@@ -40,7 +40,7 @@ SQLite stores request timestamps, week buckets, and HMAC-derived visitor/network
 
 ## Deployment
 
-This is a single Node service with a persistent local SQLite volume. The existing S3 static deployment alone cannot run it. To launch live, either serve `out/` through this service, or route same-origin `/api/ask` to the service while continuing to serve static files through S3/CloudFront. No production infrastructure or DNS is changed by this branch.
+This is a single Node service with a persistent local SQLite volume. The existing S3 static deployment alone cannot run it. To launch live, either serve `out/` through this service, or route same-origin `/api/ask` to the service while continuing to serve static files through S3/CloudFront. Production routing is described below.
 
 Production requires:
 
@@ -51,10 +51,30 @@ Production requires:
 - `CHAT_DATA_DIR` on a persistent, private volume; never under `out/`.
 - A TLS proxy that preserves the public `Host`. `HOST` defaults to `127.0.0.1`; set a network bind only when required by your runtime.
 
-The service deliberately ignores forwarded-address headers. Behind a proxy, the network quota applies to that proxy's socket address, potentially limiting all visitors to ten requests weekly. Before production, either use a deployment that preserves verified client addresses, or implement explicit trusted-proxy handling with tests. Never blindly trust caller-supplied `X-Forwarded-For`. Keep one service/volume for the global budget; separate replicas with separate databases would each grant their own budget.
+The service deliberately ignores forwarded-address headers. Behind a proxy, the network quota applies to that proxy's socket address, potentially limiting all visitors to ten requests weekly. The production CloudFront configuration below uses authenticated trusted-proxy handling with tests. Never blindly trust caller-supplied `X-Forwarded-For`. Keep one service/volume for the global budget; separate replicas with separate databases would each grant their own budget.
 
 Static requests are restricted to files under `out/`, with traversal, dotfiles, and escaping symlinks blocked. API requests must carry the configured Host, exact same Origin, and JSON content type. Origin checks prevent browser cross-origin use, but are not identity/authentication; the durable global budget is the spending backstop.
 
 ## Verification
 
 `node --test tests/chat.test.mjs` uses a mock provider, never paid calls. It covers durable quotas/restart, weekly reset, concurrent burst/global admission, failed-provider accounting, request validation/origin checks, missing credentials, and static isolation. A real model smoke test passed locally on November 6, 2026 using the runtime key from the existing home env file. The key was not copied into this project.
+
+## Production topology
+
+The site remains on S3/CloudFront. The `/api/*` behavior uses an uncached HTTPS
+origin at `api.seanwade.com`, hosted by Shipyard as `seanwade-api` on grey.
+Its named `chat-data` volume preserves quotas and settings. Runtime credentials
+are in `~/.shipyard/env/seanwade-api.env` on grey, never the repository.
+`/healthz` exposes only health status; every other origin request requires the
+CloudFront custom origin secret. Only after authenticating that secret does the
+server accept CloudFront's generated viewer address for network quotas. Viewer
+Host is not forwarded; the configured proxy hostname is checked instead.
+
+`infra/cloudfront/configure-api.py` adds this origin/behavior and preserves all
+existing S3, Misc-router, alias and certificate configuration. It reads
+`CHAT_PROXY_SECRET` from the environment and keeps rollback snapshots outside Git.
+Main's deploy workflow tests the code, deploys the backend through Shipyard's
+signed webhook, then updates S3 and invalidates CloudFront.
+
+Redeploy backend: `ssh seanwade@grey 'shipyard deploy seanwade-api'`.
+Logs: `ssh seanwade@grey 'shipyard logs seanwade-api --lines 120'`.

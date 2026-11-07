@@ -1,5 +1,5 @@
 .entry {
-  padding: 28px 0;
+  padding: 32px 0;
   border-bottom: 1px solid #252e3b;
 }
 .entry:first-of-type {
@@ -10,7 +10,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 16px;
-  margin-bottom: 13px;
+  margin-bottom: 8px;
 }
 .company {
   display: flex;
@@ -23,30 +23,30 @@
   object-fit: contain;
 }
 .company h3 {
-  font-size: 22px;
+  font-size: var(--type-heading);
   font-weight: 600;
-  letter-spacing: -0.6px;
+  letter-spacing: -0.3px;
 }
 .invert {
   filter: invert(1);
 }
 .date {
-  font-size: 10px;
+  font-size: var(--type-body);
   color: #8c9bb2;
   white-space: nowrap;
 }
 .entry .role {
-  font-size: 15px;
+  font-size: var(--type-body);
   font-weight: 500;
   color: #dce5f3;
   line-height: 1.6;
 }
 .subtitle {
   color: #9caac0;
-  font-size: 12px;
+  font-size: var(--type-body);
 }
 .details {
-  margin-top: 20px;
+  margin-top: 16px;
 }
 .details > div[class*="uppercase"] {
   text-transform: none;
@@ -59,16 +59,13 @@
     gap: 8px;
   }
   .company h3 {
-    font-size: 21px;
+    font-size: var(--type-heading);
   }
   .date {
     margin-left: 40px;
     width: 100%;
   }
-  .entry .role {
-    font-size: 14px;
-  }
   .details {
-    margin-top: 15px;
+    margin-top: 16px;
   }
 }

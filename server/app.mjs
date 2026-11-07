@@ -1,6 +1,7 @@
 import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 import { DatabaseSync } from "node:sqlite";
 import { createServer } from "node:http";
+import { isIP } from "node:net";
 import {
   mkdirSync,
   readFileSync,
@@ -24,8 +25,22 @@ export function weekStart(time) {
   date.setUTCDate(date.getUTCDate() - ((date.getUTCDay() + 6) % 7));
   return date.getTime();
 }
+// CloudFront adds this header at the origin boundary; never accept forwarding
+// headers unless the request also authenticates with the origin-only secret.
+export function cloudFrontViewerIp(value) {
+  if (typeof value !== "string") return null;
+  const match = /^(?:\[([0-9a-fA-F:.]+)\]|([0-9.]+)):(\d{1,5})$/.exec(value);
+  if (!match || Number(match[3]) < 1 || Number(match[3]) > 65535) return null;
+  const ip = match[1] || match[2];
+  const version = isIP(ip);
+  if ((match[1] && version !== 6) || (match[2] && version !== 4)) return null;
+  // Canonicalize IPv6 spellings so equivalent addresses share one quota.
+  return version === 6 ? new URL(`http://[${ip}]/`).hostname.slice(1, -1) : ip;
+}
 export function createSiteServer({
   apiKey = process.env.OPENAI_API_KEY,
+  proxySecret = process.env.CHAT_PROXY_SECRET,
+  proxyHost = process.env.CHAT_PROXY_HOST,
   adminPassword = process.env.ADMIN_PASSWORD,
   secret = process.env.CHAT_COOKIE_SECRET,
   production = process.env.NODE_ENV === "production",
@@ -36,6 +51,13 @@ export function createSiteServer({
   now = Date.now,
 } = {}) {
   const allowed = new URL(origin);
+  const proxyMode = proxySecret !== undefined || proxyHost !== undefined;
+  if (proxyMode && (
+    typeof proxySecret !== "string" || proxySecret.length < 32 ||
+    typeof proxyHost !== "string" ||
+    !/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i.test(proxyHost)
+  )) throw new Error("Proxy mode requires CHAT_PROXY_SECRET (32+ characters) and an exact CHAT_PROXY_HOST hostname.");
+  const proxyToken = proxyMode ? Buffer.from(proxySecret) : null;
   if (
     !["http:", "https:"].includes(allowed.protocol) ||
     allowed.origin !== origin
@@ -132,9 +154,22 @@ export function createSiteServer({
   });
   const server = createServer(async (req, res) => {
     try {
-      if (req.headers.host !== allowed.host)
+      if (req.headers.host !== (proxyMode ? proxyHost : allowed.host))
         return json(res, 403, { error: "Request not allowed." });
       const rawPath = (req.url || "/").split("?")[0];
+      if (rawPath === "/healthz" && ["GET", "HEAD"].includes(req.method)) {
+        res.writeHead(200, { "Content-Type": "text/plain", "Cache-Control": "no-store" });
+        return res.end(req.method === "HEAD" ? undefined : "ok");
+      }
+      let clientIp = req.socket.remoteAddress || "unknown";
+      if (proxyMode) {
+        const token = req.headers["x-chat-proxy-secret"];
+        const supplied = Buffer.from(typeof token === "string" ? token : "");
+        if (supplied.length !== proxyToken.length || !timingSafeEqual(supplied, proxyToken))
+          return json(res, 403, { error: "Request not allowed." });
+        clientIp = cloudFrontViewerIp(req.headers["cloudfront-viewer-address"]);
+        if (!clientIp) return json(res, 403, { error: "Request not allowed." });
+      }
       if (await admin(req, res, rawPath)) return;
       if (rawPath !== "/api/ask")
         return serveStatic(req, res, rawPath, staticDir);
@@ -201,10 +236,10 @@ export function createSiteServer({
           `sean_visitor=${visitor}.${sign(`visitor:${visitor}`)}; HttpOnly; SameSite=Strict; Path=/api/ask; Max-Age=604800${allowed.protocol === "https:" ? "; Secure" : ""}`,
         );
       }
-      // Network is the socket peer. Forwarded headers are deliberately not trusted.
+      // Direct mode uses the socket peer; proxy mode uses the authenticated edge address.
       const time = now();
       const network = sign(
-        `network:${weekStart(time)}:${req.socket.remoteAddress || "unknown"}`,
+        `network:${weekStart(time)}:${clientIp}`,
       );
       let reservation;
       try {

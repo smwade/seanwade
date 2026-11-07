@@ -1,0 +1,23 @@
+services:
+  api:
+    build: .
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 4174
+      CHAT_ORIGIN: https://seanwade.com
+      CHAT_DATA_DIR: /app/data
+      CHAT_PROXY_HOST: api.seanwade.com
+      CHAT_PROXY_SECRET: ${CHAT_PROXY_SECRET:?required}
+      CHAT_COOKIE_SECRET: ${CHAT_COOKIE_SECRET:?required}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?required}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?required}
+    expose: ["4174"]
+    volumes:
+      - chat-data:/app/data
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+volumes:
+  chat-data:

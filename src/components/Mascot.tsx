@@ -1,6 +1,8 @@
+import Image from "next/image";
 import styles from "./Mascot.module.css";
 
 export const mascotOptions = [
+  "sean",
   "clip",
   "robot",
   "terminal",
@@ -13,6 +15,7 @@ export function isMascot(value: unknown): value is MascotName {
   return mascotOptions.includes(value as MascotName);
 }
 export default function Mascot({ name = "clip" }: { name?: MascotName }) {
+  if (name === "sean") return <Image src="/images/sean-sticker.png" alt="" width={96} height={100} className={styles.character} />;
   return (
     <svg
       className={styles.character}

@@ -5,8 +5,12 @@ import styles from "./AskSean.module.css";
 
 type Message = { role: "user" | "assistant"; content: string };
 const suggestions = [
-  { label: "Google", question: "What does Sean work on at Google?" },
-  { label: "PulsHealth", question: "Why did Sean build PulsHealth?" },
+  "Has Sean ever worked on health AI?",
+  "What tools does Sean use for LLM evaluation?",
+  "What does Sean work on at Google?",
+  "How did Sean build PulsHealth?",
+  "Has Sean taken ML models from research to production?",
+  "What does Sean build outside of work?",
 ];
 
 export default function AskSean({ compact = false }: { compact?: boolean }) {
@@ -15,6 +19,27 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [pending, setPending] = useState("");
   const [error, setError] = useState("");
+  const [suggestionIndex, setSuggestionIndex] = useState(0);
+  const [suggestionsFading, setSuggestionsFading] = useState(false);
+  const [suggestionsPaused, setSuggestionsPaused] = useState(false);
+  useEffect(() => {
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (suggestionsPaused || input || pending || messages.length) return;
+    let fadeTimer: ReturnType<typeof setTimeout> | undefined;
+    const timer = window.setInterval(() => {
+      if (motion.matches || document.hidden) return;
+      setSuggestionsFading(true);
+      fadeTimer = setTimeout(() => {
+        setSuggestionIndex((index) => (index + 2) % suggestions.length);
+        setSuggestionsFading(false);
+      }, 220);
+    }, 6000);
+    return () => {
+      window.clearInterval(timer);
+      clearTimeout(fadeTimer);
+      setSuggestionsFading(false);
+    };
+  }, [suggestionsPaused, input, pending, messages.length]);
   const request = useRef<AbortController | null>(null);
   const conversation = useRef<HTMLDivElement>(null);
   const inputElement = useRef<HTMLInputElement>(null);
@@ -160,16 +185,30 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
         </div>
       )}
       {messages.length === 0 && !pending && (
-        <div className={styles.suggestions} aria-label="Suggested questions">
-          {suggestions.map((suggestion) => (
-            <button
-              type="button"
-              key={suggestion.label}
-              onClick={() => void ask(suggestion.question)}
-            >
-              {suggestion.label}
-            </button>
-          ))}
+        <div
+          className={styles.suggestions}
+          aria-label="Suggested questions"
+          data-fading={suggestionsFading}
+          onMouseEnter={() => setSuggestionsPaused(true)}
+          onMouseLeave={(event) => {
+            if (!event.currentTarget.contains(document.activeElement))
+              setSuggestionsPaused(false);
+          }}
+          onFocus={() => setSuggestionsPaused(true)}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget) &&
+                !event.currentTarget.matches(":hover"))
+              setSuggestionsPaused(false);
+          }}
+        >
+          {[0, 1].map((offset) => {
+            const question = suggestions[(suggestionIndex + offset) % suggestions.length];
+            return (
+              <button type="button" key={offset} onClick={() => void ask(question)}>
+                {question}
+              </button>
+            );
+          })}
         </div>
       )}
       {error && (
@@ -199,16 +238,11 @@ export default function AskSean({ compact = false }: { compact?: boolean }) {
           ↑
         </button>
       </form>
-      <div className={styles.footer}>
-        <span>
-          AI · <a href="/privacy/#chat">Privacy</a>
-        </span>
-        {(messages.length > 0 || pending || error) && (
-          <button type="button" onClick={clear}>
-            Clear
-          </button>
-        )}
-      </div>
+      {(messages.length > 0 || pending || error) && (
+        <div className={styles.footer}>
+          <button type="button" onClick={clear}>Clear</button>
+        </div>
+      )}
     </section>
   );
 }
