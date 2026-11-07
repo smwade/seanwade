@@ -14,7 +14,7 @@ const projects = [
   {
     title: "Watch Workout Pro",
     category: "Apps",
-    description: "Create custom workouts for Apple Watch.",
+    description: "Create custom workout plans to use on Apple Watch.",
     href: "https://pulshealth.com/watch-workout-pro/",
     type: "watch",
     detail: "iPhone · Apple Watch",
@@ -33,7 +33,7 @@ const projects = [
   {
     title: "Friend Flex",
     category: "Apps",
-    description: "Fitness challenges scored on personal improvement.",
+    description: "Social fitness challenges.",
     href: "https://pulshealth.com/friend-flex/",
     type: "friends",
     detail: "iPhone · Fitness",
