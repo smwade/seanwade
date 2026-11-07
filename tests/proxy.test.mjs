@@ -45,7 +45,10 @@ const authenticated = (address = '203.0.113.1:12345') => ({'x-chat-proxy-secret'
 test('viewer address accepts IPv4/IPv6 with valid ports and canonicalizes IPv6', () => {
   assert.equal(cloudFrontViewerIp('203.0.113.9:443'), '203.0.113.9');
   assert.equal(cloudFrontViewerIp('[2001:0db8:0:0:0:0:0:1]:65535'), '2001:db8::1');
-  for (const value of [undefined, '', '203.0.113.1', '203.0.113.1:0', '203.0.113.1:65536', '999.1.2.3:44', '[127.0.0.1]:44', '2001:db8::1:44', '203.0.113.1:44, 1.2.3.4:55', '[fe80::1%eth0]:44'])
+  assert.equal(cloudFrontViewerIp('2001:db8::1:443'), '2001:db8::1');
+  assert.equal(cloudFrontViewerIp('2001:0db8:0:0:0:0:0:1:65535'), '2001:db8::1');
+  assert.equal(cloudFrontViewerIp('::ffff:192.0.2.1:443'), '::ffff:c000:201');
+  for (const value of [undefined, '', '203.0.113.1', '203.0.113.1:0', '203.0.113.1:65536', '999.1.2.3:44', '[127.0.0.1]:44', '2001:db8::1:0', '2001:db8::1:65536', '2001:db8::1:abc', '2001:db8::1:44,1.2.3.4:55', '2001:gggg::1:443', '2001:db8:::1:443', '2001:db8::1:', '203.0.113.1:44, 1.2.3.4:55', '[fe80::1%eth0]:44'])
     assert.equal(cloudFrontViewerIp(value), null, String(value));
 });
 
@@ -82,7 +85,9 @@ test('authenticated viewer addresses have separate network quotas; cookies or fo
   assert.equal((await f.send(authenticated('203.0.113.2:12345'))).status, 200);
   for (let i = 0; i < 3; i++) assert.equal((await f.send(authenticated('[2001:db8::1]:12345'))).status, 200);
   assert.equal((await f.send(authenticated('[2001:0db8:0:0:0:0:0:1]:5555'))).status, 429);
-  assert.equal(f.calls(), 7);
+  assert.equal((await f.send(authenticated('2001:db8::1:5555'))).status, 429);
+  assert.equal((await f.send(authenticated('2001:db8::2:5555'))).status, 200);
+  assert.equal(f.calls(), 8);
 });
 
 test('partial or weak proxy configuration fails before opening data storage', () => {

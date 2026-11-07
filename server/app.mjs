@@ -29,11 +29,13 @@ export function weekStart(time) {
 // headers unless the request also authenticates with the origin-only secret.
 export function cloudFrontViewerIp(value) {
   if (typeof value !== "string") return null;
-  const match = /^(?:\[([0-9a-fA-F:.]+)\]|([0-9.]+)):(\d{1,5})$/.exec(value);
+  // Some CloudFront edges emit IPv6 without brackets. The final colon is
+  // always the source-port delimiter in this authenticated header.
+  const match = /^(?:\[([0-9a-fA-F:.]+)\]|([0-9a-fA-F:.]+)):(\d{1,5})$/.exec(value);
   if (!match || Number(match[3]) < 1 || Number(match[3]) > 65535) return null;
   const ip = match[1] || match[2];
   const version = isIP(ip);
-  if ((match[1] && version !== 6) || (match[2] && version !== 4)) return null;
+  if (!version || (match[1] && version !== 6)) return null;
   // Canonicalize IPv6 spellings so equivalent addresses share one quota.
   return version === 6 ? new URL(`http://[${ip}]/`).hostname.slice(1, -1) : ip;
 }
