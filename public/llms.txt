@@ -37,7 +37,7 @@ Skills listed on the site include Python, Swift, SQL, C++, LLM post-training and
 - [Project library](https://seanwade.com/projects/): Apps, research, experiments, tools, and writing.
 - [PulsHealth](https://seanwade.com/pulshealth/): Independently designed and built open-source Apple Health platform. Includes a Swift app, sync protocol, PostgreSQL backend, web dashboard, and AI integrations. Explore and export CSV or JSON, sync to hosted or self-hosted storage, and connect compatible assistants through read-only MCP access. The site reports a milestone of over 1,000 users.
 - [PulsHealth source](https://github.com/PulsHealth/pulshealth): Open-source app and server.
-- [Watch Workout Pro](https://pulshealth.com/watch-workout-pro/): Create custom workout plans to use on Apple Watch.
+- [Watch Workout Pro](https://apps.apple.com/us/app/watch-workout-pro/id6822902745): Available on the App Store. Build custom workouts on iPhone and schedule them in Apple’s Workout app on Apple Watch. [Features and support](https://pulshealth.com/watch-workout-pro/).
 - [Friend Flex](https://pulshealth.com/friend-flex/): Social fitness challenges.
 - [Health data experiments](https://pulshealth.com/examples/): Visualizations and creative health-data projects.
 - [Living Window](https://seanwade.com/projects/living-window/): Programmable window with animated scenes and a camera-tracking eye.

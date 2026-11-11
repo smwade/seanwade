@@ -14,11 +14,11 @@ const projects = [
   {
     title: "Watch Workout Pro",
     category: "Apps",
-    description: "Create custom workout plans to use on Apple Watch.",
-    href: "https://pulshealth.com/watch-workout-pro/",
+    description: "Build custom workouts on iPhone and schedule them in Apple’s Workout app on Apple Watch.",
+    href: "https://apps.apple.com/us/app/watch-workout-pro/id6822902745",
     type: "watch",
-    detail: "iPhone · Apple Watch",
-    action: "Explore the app",
+    detail: "iPhone · Apple Watch · Available now",
+    action: "Download on the App Store",
   },
   {
     title: "MediAug",
